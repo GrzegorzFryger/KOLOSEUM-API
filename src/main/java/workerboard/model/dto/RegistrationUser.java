@@ -6,6 +6,7 @@ import workerboard.model.UserRole;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Objects;
 
 public class RegistrationUser implements Serializable
 {
@@ -58,5 +59,33 @@ public class RegistrationUser implements Serializable
 
     public UserRole getUserRole() {
         return userRole;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof RegistrationUser)) return false;
+        RegistrationUser that = (RegistrationUser) o;
+        return Objects.equals(registrationName, that.registrationName) &&
+                Objects.equals(registrationSurname, that.registrationSurname) &&
+                Objects.equals(registrationEmail, that.registrationEmail) &&
+                Objects.equals(registrationPassword, that.registrationPassword) &&
+                userRole == that.userRole;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(registrationName, registrationSurname, registrationEmail, registrationPassword, userRole);
+    }
+
+    @Override
+    public String toString() {
+        return "RegistrationUser{" +
+                "registrationName='" + registrationName + '\'' +
+                ", registrationSurname='" + registrationSurname + '\'' +
+                ", registrationEmail='" + registrationEmail + '\'' +
+                ", registrationPassword='" + registrationPassword + '\'' +
+                ", userRole=" + userRole +
+                '}';
     }
 }
