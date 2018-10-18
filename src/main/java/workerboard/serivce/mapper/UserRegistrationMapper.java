@@ -24,6 +24,6 @@ public interface UserRegistrationMapper {
             }
     )
 
-    ApplicationUser reogistrationUserToApplicationUser(RegistrationUser registrationUser);
+    ApplicationUser registrationUserToApplicationUser(RegistrationUser registrationUser);
 
 }

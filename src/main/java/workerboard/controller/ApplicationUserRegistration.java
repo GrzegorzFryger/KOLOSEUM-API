@@ -1,10 +1,9 @@
 package workerboard.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import workerboard.model.dto.RegistrationUser;
 import workerboard.serivce.RegistrationUserService;
 
 @RestController
@@ -21,9 +20,15 @@ public class ApplicationUserRegistration {
     }
 
     @PostMapping
-    public String addNewUSer()
+    public ResponseEntity<Void> registerNewUser(@RequestAttribute RegistrationUser registrationUser)
     {
-        //ToDo
-        return null;
+
+
+
+        return registrationUserService.registrationNewUser(registrationUser) ?
+                ResponseEntity.accepted().build() : ResponseEntity.badRequest().build();
+
+
+
     }
 }

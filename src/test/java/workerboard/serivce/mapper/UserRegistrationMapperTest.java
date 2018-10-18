@@ -35,7 +35,7 @@ public class UserRegistrationMapperTest {
         user.setUserRole(UserRole.UNSPECIFED);
 
 
-       ApplicationUser returnedUser = registrationMapper.reogistrationUserToApplicationUser(regUser);
+       ApplicationUser returnedUser = registrationMapper.registrationUserToApplicationUser(regUser);
 
 
         //then

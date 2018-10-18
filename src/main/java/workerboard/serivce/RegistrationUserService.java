@@ -35,7 +35,7 @@ public class RegistrationUserService {
     {
 
         Optional<ApplicationUser> optUser =
-                Optional.ofNullable(registrationMapper.reogistrationUserToApplicationUser(registrationUser));
+                Optional.ofNullable(registrationMapper.registrationUserToApplicationUser(registrationUser));
 
         if(optUser.isPresent())
         {

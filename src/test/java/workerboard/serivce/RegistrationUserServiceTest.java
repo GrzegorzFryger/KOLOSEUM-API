@@ -73,7 +73,7 @@ public class RegistrationUserServiceTest {
     }
 
     @Test
-    public void registrationNewUser_with_null() {
+    public void givenFalse_whenRegistrationNewUserReceiveNull() {
 
         //when
         boolean returnValue = registrationUserService.registrationNewUser(null);
