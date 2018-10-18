@@ -3,7 +3,6 @@ package workerboard.model.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import workerboard.model.UserRole;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
@@ -17,7 +16,6 @@ public class RegistrationUser implements Serializable
     @NotNull
     private String registrationEmail;
     @NotNull
-    @Min(8)
     private String registrationPassword;
     @JsonIgnore
     private final UserRole userRole = UserRole.UNSPECIFED;

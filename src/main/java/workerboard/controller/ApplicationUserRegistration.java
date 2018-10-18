@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import workerboard.model.dto.RegistrationUser;
 import workerboard.serivce.RegistrationUserService;
 
+import javax.validation.Valid;
+
 @RestController
 @CrossOrigin
 @RequestMapping("/api/registration")
@@ -20,7 +22,7 @@ public class ApplicationUserRegistration {
     }
 
     @PostMapping
-    public ResponseEntity<Void> registerNewUser(@RequestAttribute RegistrationUser registrationUser)
+    public ResponseEntity<Void> registerNewUser(@RequestBody @Valid RegistrationUser registrationUser)
     {
 
 
