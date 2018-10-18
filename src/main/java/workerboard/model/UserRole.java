@@ -4,5 +4,7 @@ public enum UserRole {
     SELLER,
     ADMIN,
     MANAGER,
-    ANALYST;
+    ANALYST,
+    UNSPECIFED
+
 }
