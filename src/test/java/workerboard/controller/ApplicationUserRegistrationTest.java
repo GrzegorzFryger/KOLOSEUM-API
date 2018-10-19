@@ -64,7 +64,7 @@ public class ApplicationUserRegistrationTest {
     }
 
     @Test
-    public void givenCode400_whenApplicationUserRegistrationReceiveWrongData() throws Exception {
+    public void givenCode406_whenApplicationUserRegistrationReceiveWrongData() throws Exception {
 
         //when
         Mockito.when(userService.registrationNewUser(any())).thenReturn(false);
