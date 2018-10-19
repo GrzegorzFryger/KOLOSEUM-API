@@ -3,6 +3,7 @@ package workerboard.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import workerboard.exception.RegistrationNotAddException;
 import workerboard.model.dto.RegistrationUser;
 import workerboard.serivce.RegistrationUserService;
 
@@ -22,15 +23,16 @@ public class ApplicationUserRegistration {
     }
 
     @PostMapping
-    public ResponseEntity<Void> registerNewUser(@RequestBody @Valid RegistrationUser registrationUser)
-    {
+    public ResponseEntity<Void> registerNewUser(@Valid @RequestBody RegistrationUser registrationUser)
+            throws RegistrationNotAddException {
 
 
+        if (registrationUserService.registrationNewUser(registrationUser)) {
+            return ResponseEntity.accepted().build();
+        }
 
-        return registrationUserService.registrationNewUser(registrationUser) ?
-                ResponseEntity.accepted().build() : ResponseEntity.badRequest().build();
 
-
+        throw new RegistrationNotAddException("Not added user");
 
     }
 }

@@ -80,7 +80,7 @@ public class ApplicationUserRegistrationTest {
         MockHttpServletResponse response = result.getResponse();
 
         //then
-        assertEquals(400, response.getStatus());
+        assertEquals(406, response.getStatus());
 
     }
 
