@@ -43,6 +43,7 @@ public class VehicleService {
                 predicates.add(criteriaBuilder.equal(root.get("engineCapacity"), vehicle.getEngineCapacity()));
             }
 
+
             if(vehicle.getLoadWeight() != null){
                 predicates.add(criteriaBuilder.equal(root.get("loadWeight"), vehicle.getLoadWeight()));
             }
