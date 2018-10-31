@@ -1,5 +1,7 @@
 package workerboard.model;
 
+import workerboard.model.enums.UserRole;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
