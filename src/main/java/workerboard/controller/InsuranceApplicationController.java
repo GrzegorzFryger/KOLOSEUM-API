@@ -1,9 +1,9 @@
 package workerboard.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import workerboard.model.InsuranceApplication;
 import workerboard.serivce.InsuranceApplicationService;
 
 @RestController
@@ -16,5 +16,10 @@ public class InsuranceApplicationController {
     @Autowired
     public InsuranceApplicationController(InsuranceApplicationService insuranceApplicationService) {
         this.insuranceApplicationService = insuranceApplicationService;
+    }
+
+    @PostMapping
+    ResponseEntity<InsuranceApplication> registerInsuranceApplication(@RequestBody InsuranceApplication insuranceApplication){
+        return ResponseEntity.ok(insuranceApplicationService.registerInsuranceApplication(insuranceApplication));
     }
 }

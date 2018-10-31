@@ -3,8 +3,15 @@ package workerboard.model;
 
 import workerboard.model.enums.ServiceMessageType;
 
+import javax.persistence.*;
+
+@Entity
 public class ServiceMessage {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Enumerated(EnumType.STRING)
     private ServiceMessageType type;
     private String text;
 

@@ -1,9 +1,6 @@
 package workerboard.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
@@ -14,10 +11,14 @@ public class Person {
     private Long id;
     private String firstName;
     private String lastName;
+    @OneToOne
+    @JoinColumn(name = "adress_id")
     private Adress adress;
     private LocalDate dayOfBirth;
     private String pesel;
     private LocalDate drivingLicenseIssueDate;
+    @OneToOne
+    @JoinColumn(name = "insuranceHistory_id")
     private InsuranceHistory insuranceHistory;
 
     public Person() {
