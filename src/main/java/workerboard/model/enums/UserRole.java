@@ -1,4 +1,4 @@
-package workerboard.model;
+package workerboard.model.enums;
 
 public enum UserRole {
     SELLER,
@@ -6,5 +6,4 @@ public enum UserRole {
     MANAGER,
     ANALYST,
     UNSPECIFED
-
 }
