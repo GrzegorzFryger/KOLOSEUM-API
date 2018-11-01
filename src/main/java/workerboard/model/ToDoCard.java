@@ -1,9 +1,12 @@
 package workerboard.model;
 
+import workerboard.model.dto.ToDoCardCreateDto;
 import workerboard.model.enums.ToDoCardState;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class ToDoCard {
@@ -13,20 +16,28 @@ public class ToDoCard {
     private Long id;
     private String title;
     private String text;
+    @OneToOne
+    @JoinColumn(name = "user_id")
     private ApplicationUser user;
     @Enumerated(EnumType.STRING)
     private ToDoCardState state;
     private LocalDate createdDate;
+    @Transient
+    private List<ServiceMessage> messages = new ArrayList<>();
 
     public ToDoCard() {
     }
 
-    public ToDoCard(String title, String text, ApplicationUser user, ToDoCardState state, LocalDate createdDate) {
+    private ToDoCard(String title, String text, ApplicationUser user, ToDoCardState state, LocalDate createdDate) {
         this.title = title;
         this.text = text;
         this.user = user;
         this.state = state;
         this.createdDate = createdDate;
+    }
+
+    public static ToDoCard createToDoCard(ToDoCardCreateDto toDoCardCreateDto, ApplicationUser user){
+        return new ToDoCard(toDoCardCreateDto.getTitle(),toDoCardCreateDto.getText(), user, ToDoCardState.NEW, LocalDate.now());
     }
 
     public Long getId() {
@@ -51,5 +62,29 @@ public class ToDoCard {
 
     public LocalDate getCreatedDate() {
         return createdDate;
+    }
+
+    public List<ServiceMessage> getMessages() {
+        return messages;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public void setUser(ApplicationUser user) {
+        this.user = user;
+    }
+
+    public void setState(ToDoCardState state) {
+        this.state = state;
+    }
+
+    public void addMessage(ServiceMessage message){
+        messages.add(message);
     }
 }
