@@ -11,6 +11,7 @@ import workerboard.model.enums.ServiceMessageType;
 import workerboard.repository.ApplicationUserRepository;
 import workerboard.repository.ToDoRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -84,7 +85,7 @@ public class ToDoService {
             if(toDoCardUpdateDto.getState() != null) {
                 toDoCard.setState(toDoCardUpdateDto.getState());
             }
-
+            toDoCard.setLastModification(LocalDateTime.now());
             toDoRepository.save(toDoCard);
         }else {
             toDoCard.addMessage(new ServiceMessage(ServiceMessageType.ERROR, "Card doesn't exist"));
