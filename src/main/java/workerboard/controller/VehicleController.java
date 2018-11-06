@@ -26,4 +26,9 @@ public class VehicleController {
         return ResponseEntity.ok(vehicleService.findVehicleProperty(vehicle));
     }
 
+    @PostMapping("/{attribute}")
+    public ResponseEntity<List<String>> findVehicleProperty(@RequestBody Vehicle vehicle, @PathVariable("attribute") String attribute ){
+        return ResponseEntity.ok(vehicleService.findVehiclePropertyByAttribute(vehicle, attribute));
+    }
+
 }

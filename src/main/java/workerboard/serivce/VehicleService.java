@@ -7,8 +7,7 @@ import workerboard.model.Vehicle;
 import workerboard.repository.VehicleRepository;
 
 import javax.persistence.criteria.Predicate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class VehicleService {
@@ -26,6 +25,7 @@ public class VehicleService {
         return vehicleRepository.findAll((Specification<Vehicle>) (root, criteriaQuery, criteriaBuilder) -> {
 
             List<Predicate> predicates = new ArrayList<>();
+
 
             if(vehicle.getId() != null){
                 predicates.add(criteriaBuilder.equal(root.get("id"), vehicle.getId()));
@@ -97,9 +97,64 @@ public class VehicleService {
             }
 
 
+
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
     }
 
 
+    public List<String> findVehiclePropertyByAttribute(Vehicle vehicle, String attribute) {
+
+        List<Vehicle> vehicles = findVehicleProperty(vehicle);
+        Set<String> attributes = new TreeSet<>();
+
+        for(Vehicle v : vehicles) {
+            if(attribute.equals("model")){
+                attributes.add(v.getModel());
+            }
+            if(attribute.equals("mark")){
+                attributes.add(v.getMark());
+            }
+            if(attribute.equals("engineCapacity")){
+                attributes.add(v.getEngineCapacity());
+            }
+            if(attribute.equals("loadWeight")){
+                attributes.add(v.getLoadWeight());
+            }
+            if(attribute.equals("productionYear")){
+                attributes.add(v.getProductionYear());
+            }
+            if(attribute.equals("cylindersCount")){
+                attributes.add(v.getCylindersCount());
+            }
+            if(attribute.equals("seatCount")){
+                attributes.add(v.getSeatCount());
+            }
+            if(attribute.equals("doorsCount")){
+                attributes.add(v.getDoorsCount());
+            }
+            if(attribute.equals("gearboxCount")){
+                attributes.add(v.getGearboxCount());
+            }
+            if(attribute.equals("gearboxType")){
+                attributes.add(v.getGearboxType());
+            }
+            if(attribute.equals("name")){
+                attributes.add(v.getName());
+            }
+            if(attribute.equals("type")){
+                attributes.add(v.getType());
+            }
+            if(attribute.equals("engineHPower")){
+                attributes.add(v.getEngineHPower());
+            }
+            if(attribute.equals("fuelType")){
+                attributes.add(v.getFuelType());
+            }
+            if(attribute.equals("bodyType")){
+                attributes.add(v.getBodyType());
+            }
+        }
+        return new ArrayList<>(attributes);
+    }
 }
