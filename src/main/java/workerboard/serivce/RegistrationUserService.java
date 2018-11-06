@@ -15,7 +15,7 @@ public class RegistrationUserService {
 
     private UserRegistrationMapper registrationMapper;
     private ApplicationUserRepository applicationUserRepository;
-    private BCryptPasswordEncoder  passwordEncoder;
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
     public RegistrationUserService(UserRegistrationMapper registrationMapper,

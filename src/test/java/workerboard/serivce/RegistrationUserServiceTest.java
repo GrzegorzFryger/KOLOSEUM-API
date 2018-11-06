@@ -6,7 +6,6 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import workerboard.model.ApplicationUser;
 import workerboard.model.dto.RegistrationUser;
 import workerboard.repository.ApplicationUserRepository;
@@ -19,8 +18,8 @@ public class RegistrationUserServiceTest {
 
     @Mock
     ApplicationUserRepository applicationUserRepository;
-    @Mock
-    BCryptPasswordEncoder passwordEncoder;
+//    @Mock
+//    BCryptPasswordEncoder passwordEncoder;
 
     UserRegistrationMapper userRegistrationMapper;
     RegistrationUserService registrationUserService;
@@ -32,9 +31,9 @@ public class RegistrationUserServiceTest {
         userRegistrationMapper = UserRegistrationMapper.INSTANCE;
 
 
-        this.registrationUserService = new RegistrationUserService(userRegistrationMapper,
-                applicationUserRepository,passwordEncoder);
-
+//        this.registrationUserService = new RegistrationUserService(userRegistrationMapper,
+//                applicationUserRepository,passwordEncoder);
+//
 
     }
 
