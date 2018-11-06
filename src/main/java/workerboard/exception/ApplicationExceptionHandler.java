@@ -13,7 +13,7 @@ import java.util.List;
 
 @ControllerAdvice
 public class ApplicationExceptionHandler {
-    @ExceptionHandler({RegistrationNotAddException.class})
+    @ExceptionHandler({RegistrationNotAddException.class,ApplicationNotFound.class})
     public final ResponseEntity<ApiError> handleException(Exception ex, WebRequest request) {
         HttpHeaders headers = new HttpHeaders();
 
@@ -25,6 +25,14 @@ public class ApplicationExceptionHandler {
             return handleRegistrationNotAddException(registrationNotAddException, headers, status, request);
 
         }
+        if (ex instanceof ApplicationNotFound) {
+            HttpStatus status = HttpStatus.NOT_FOUND;
+            ApplicationNotFound applicationNotFound = (ApplicationNotFound) ex;
+
+            return handleNotFoundException(applicationNotFound, headers, status, request);
+
+        }
+
         /* "There you should add new type of exception, coming from yours controller */
         else {
 
@@ -38,6 +46,12 @@ public class ApplicationExceptionHandler {
     /* "There you should add new handle method of exception, coming from yours controller */
 
     protected ResponseEntity<ApiError> handleRegistrationNotAddException(RegistrationNotAddException ex,
+                                                                         HttpHeaders headers, HttpStatus status, WebRequest request) {
+        List<String> errors = Collections.singletonList(ex.getMessage());
+        return handleExceptionOther(ex, new ApiError(errors), headers, status, request);
+    }
+
+    protected ResponseEntity<ApiError> handleNotFoundException(ApplicationNotFound ex,
                                                                          HttpHeaders headers, HttpStatus status, WebRequest request) {
         List<String> errors = Collections.singletonList(ex.getMessage());
         return handleExceptionOther(ex, new ApiError(errors), headers, status, request);

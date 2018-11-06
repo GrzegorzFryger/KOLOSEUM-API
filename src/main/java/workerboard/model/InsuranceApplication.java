@@ -1,6 +1,6 @@
 package workerboard.model;
 
-import workerboard.model.dto.RiskDto;
+import workerboard.model.dto.RiskDtoDto;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -27,7 +27,7 @@ public class InsuranceApplication {
     @JoinColumn(name = "message_id")
     private List<ServiceMessage> messages = new ArrayList<>();
     @Transient
-    private List<RiskDto> riskVariants = new ArrayList<>();
+    private List<RiskDtoDto> riskVariants = new ArrayList<>();
     private LocalDate registerDate = LocalDate.now();
 
     public InsuranceApplication() {
@@ -69,11 +69,11 @@ public class InsuranceApplication {
         this.risks = risks;
     }
 
-    public List<RiskDto> getRiskVariants() {
+    public List<RiskDtoDto> getRiskVariants() {
         return riskVariants;
     }
 
-    public void setRiskVariants(List<RiskDto> riskVariants) {
+    public void setRiskVariants(List<RiskDtoDto> riskVariants) {
         this.riskVariants = riskVariants;
     }
 

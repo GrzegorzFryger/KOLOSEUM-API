@@ -3,7 +3,7 @@ package workerboard.serivce.mapper;
 import org.junit.Before;
 import org.junit.Test;
 import workerboard.model.ApplicationUser;
-import workerboard.model.UserRole;
+import workerboard.model.enums.*;
 import workerboard.model.dto.RegistrationUser;
 
 import static org.junit.Assert.assertEquals;

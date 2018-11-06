@@ -1,7 +1,7 @@
 package workerboard.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import workerboard.model.UserRole;
+import workerboard.model.enums.UserRole;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
