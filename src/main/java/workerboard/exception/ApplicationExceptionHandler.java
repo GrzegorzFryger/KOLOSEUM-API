@@ -14,7 +14,7 @@ import java.util.List;
 @ControllerAdvice
 public class ApplicationExceptionHandler {
     @ExceptionHandler({RegistrationNotAddException.class,ApplicationNotFound.class,
-    ApplicationWrongPassword.class})
+    ApplicationWrongPassword.class, ApplicationToMuchArguments.class})
 
     public final ResponseEntity<ApiError> handleException(Exception ex, WebRequest request) {
         HttpHeaders headers = new HttpHeaders();
@@ -41,6 +41,14 @@ public class ApplicationExceptionHandler {
             return handleWrongPasswordException(applicationNotFound,headers, status, request);
         }
 
+        if (ex instanceof ApplicationToMuchArguments) {
+            HttpStatus status = HttpStatus.NOT_ACCEPTABLE;
+            ApplicationToMuchArguments appex = (ApplicationToMuchArguments) ex;
+
+            return handleApplicationToMuchArgument(appex,headers, status, request);
+        }
+
+
         /* "There you should add new type of exception, coming from yours controller */
         else {
 
@@ -54,6 +62,11 @@ public class ApplicationExceptionHandler {
     /* "There you should add new handle method of exception, coming from yours controller */
 
     protected ResponseEntity<ApiError> handleRegistrationNotAddException(RegistrationNotAddException ex,
+                                                                         HttpHeaders headers, HttpStatus status, WebRequest request) {
+        List<String> errors = Collections.singletonList(ex.getMessage());
+        return handleExceptionOther(ex, new ApiError(errors), headers, status, request);
+    }
+    protected ResponseEntity<ApiError> handleApplicationToMuchArgument(ApplicationToMuchArguments ex,
                                                                          HttpHeaders headers, HttpStatus status, WebRequest request) {
         List<String> errors = Collections.singletonList(ex.getMessage());
         return handleExceptionOther(ex, new ApiError(errors), headers, status, request);

@@ -1,24 +1,21 @@
 package workerboard.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import sun.security.krb5.internal.APOptions;
 import workerboard.exception.ApplicationNotFound;
+import workerboard.exception.ApplicationToMuchArguments;
 import workerboard.exception.ApplicationWrongPassword;
-import workerboard.exception.RegistrationNotAddException;
 import workerboard.model.ApplicationUser;
 import workerboard.model.VievsForApplicationUser;
-import workerboard.model.dto.ApplicationUserDto;
 import workerboard.model.dto.UserPasswordDto;
+import workerboard.model.enums.UserRole;
 import workerboard.serivce.ApplicationUserService;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @CrossOrigin
@@ -33,31 +30,18 @@ public class ApplicationUserController {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    //    @GetMapping("/{userEmail}")
-//    public ResponseEntity<ApplicationUser> getUserByEmail(@PathVariable @NotNull String userEmail) throws ApplicationNotFound {
-//
-//        if (userService.findUserByEmail(userEmail).isPresent()) {
-//            return ResponseEntity.ok(userService.findUserByEmail(userEmail).get());
-//        }
-//
-//        throw new ApplicationNotFound("Not added user");
-//    }
-
 
     @JsonView(VievsForApplicationUser.Public.class)
     @GetMapping("/{id}")
     public ResponseEntity<ApplicationUser> getUserById(@PathVariable @NotNull Long id) throws ApplicationNotFound {
 
-        System.out.print("Password : "+ bCryptPasswordEncoder.encode("testowe")+ " :koniec");
         return ResponseEntity.ok(userService.findUserById(id));
-
-
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ApplicationUser> updateUser(@RequestBody ApplicationUser newApplicationUser, @PathVariable @NotNull Long id) throws ApplicationNotFound {
 
-        return ResponseEntity.ok(userService.update(id, newApplicationUser));
+        return ResponseEntity.ok(userService.updateUser(id, newApplicationUser));
     }
 
     @PutMapping("/{id}/password")
@@ -72,7 +56,18 @@ public class ApplicationUserController {
         return  ResponseEntity.ok(userService.deleteUserById(id));
     }
 
+    @GetMapping("/email/{email}")
+    @JsonView(VievsForApplicationUser.Public.class)
+    public ResponseEntity<ApplicationUser> getUserByEmail(@PathVariable @NotNull String email) throws ApplicationNotFound{
+        return ResponseEntity.ok(userService.findUserByEmail(email));
+    }
 
+    @GetMapping("/parameters")
+    @JsonView(VievsForApplicationUser.Public.class)
+    public ResponseEntity<List> getUserByParameters( @RequestParam Map<String,String> allRequestParams, ModelMap model) throws ApplicationNotFound, ApplicationToMuchArguments {
+
+       return ResponseEntity.ok(userService.getUserByParameters(allRequestParams));
+    }
     @GetMapping("/users")
     @JsonView(VievsForApplicationUser.Public.class)
     public ResponseEntity<List<ApplicationUser>> getAllUsers() throws ApplicationNotFound {
