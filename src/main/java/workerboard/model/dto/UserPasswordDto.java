@@ -1,13 +1,19 @@
 package workerboard.model.dto;
 
+import javax.validation.constraints.NotNull;
+
 public class UserPasswordDto {
 
     private String oldPassword;
+
     private String newPassword;
 
     public UserPasswordDto(String oldPassword, String newPassword) {
         this.oldPassword = oldPassword;
         this.newPassword = newPassword;
+    }
+
+    public UserPasswordDto() {
     }
 
     public String getOldPassword() {

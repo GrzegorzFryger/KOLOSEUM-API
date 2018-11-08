@@ -1,5 +1,6 @@
 package workerboard.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import workerboard.model.enums.UserRole;
 
 import javax.persistence.Entity;
@@ -13,11 +14,17 @@ public class ApplicationUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView(VievsForApplicationUser.Public.class)
     private Long id;
+    @JsonView(VievsForApplicationUser.Public.class)
     private String firstName;
+    @JsonView(VievsForApplicationUser.Public.class)
     private String lastName;
+    @JsonView(VievsForApplicationUser.Public.class)
     private String email;
+
     private String password;
+    @JsonView(VievsForApplicationUser.Public.class)
     private UserRole userRole;
 
     public ApplicationUser() {

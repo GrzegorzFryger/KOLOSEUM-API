@@ -13,7 +13,9 @@ import java.util.List;
 
 @ControllerAdvice
 public class ApplicationExceptionHandler {
-    @ExceptionHandler({RegistrationNotAddException.class,ApplicationNotFound.class})
+    @ExceptionHandler({RegistrationNotAddException.class,ApplicationNotFound.class,
+    ApplicationWrongPassword.class})
+
     public final ResponseEntity<ApiError> handleException(Exception ex, WebRequest request) {
         HttpHeaders headers = new HttpHeaders();
 
@@ -31,6 +33,12 @@ public class ApplicationExceptionHandler {
 
             return handleNotFoundException(applicationNotFound, headers, status, request);
 
+        }
+        if (ex instanceof ApplicationWrongPassword) {
+            HttpStatus status = HttpStatus.NOT_MODIFIED;
+            ApplicationWrongPassword applicationNotFound = (ApplicationWrongPassword) ex;
+
+            return handleWrongPasswordException(applicationNotFound,headers, status, request);
         }
 
         /* "There you should add new type of exception, coming from yours controller */
@@ -53,6 +61,11 @@ public class ApplicationExceptionHandler {
 
     protected ResponseEntity<ApiError> handleNotFoundException(ApplicationNotFound ex,
                                                                          HttpHeaders headers, HttpStatus status, WebRequest request) {
+        List<String> errors = Collections.singletonList(ex.getMessage());
+        return handleExceptionOther(ex, new ApiError(errors), headers, status, request);
+    }
+    protected ResponseEntity<ApiError> handleWrongPasswordException(ApplicationWrongPassword ex,
+                                                               HttpHeaders headers, HttpStatus status, WebRequest request) {
         List<String> errors = Collections.singletonList(ex.getMessage());
         return handleExceptionOther(ex, new ApiError(errors), headers, status, request);
     }

@@ -29,6 +29,7 @@ public class WorkerBoardApplication {
         protected void configure(HttpSecurity http) throws Exception {
             // @formatter:off
             http.httpBasic().disable();
+            http.csrf().disable();
             // @formatter:on
         }
 
