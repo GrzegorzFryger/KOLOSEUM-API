@@ -25,6 +25,7 @@ public class ApplicationUserService {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
+
     protected ApplicationUser userGetOneLazy(Long id) throws ApplicationNotFound {
 
         ApplicationUser user = null;
@@ -72,6 +73,7 @@ public class ApplicationUserService {
     }
 
     public boolean deleteUserById(Long id) throws ApplicationNotFound {
+
         userRepository.deleteById(id);
 
         return (this.findUserById(id) != null) ? false : true;
