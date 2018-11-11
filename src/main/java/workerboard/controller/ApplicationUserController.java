@@ -15,6 +15,7 @@ import workerboard.model.enums.UserRole;
 import workerboard.serivce.ApplicationUserService;
 
 import javax.validation.constraints.NotNull;
+import java.lang.reflect.Field;
 import java.util.*;
 
 @RestController
@@ -74,12 +75,5 @@ public class ApplicationUserController {
 
         return ResponseEntity.ok(userService.findAllUsers());
     }
-
-    @GetMapping("/password")
-    public ResponseEntity<UserPasswordDto> getPass()
-    {
-        return ResponseEntity.ok(new UserPasswordDto("testowe","$2a$10$Bb4xCH6nT9QrAKLSTLc7suMyPzRW9mog7eIMfEPGQIEbuAjYvFcmC"));
-    }
-
-
+    
 }
