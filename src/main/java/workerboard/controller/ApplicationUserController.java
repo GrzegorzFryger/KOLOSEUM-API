@@ -9,13 +9,11 @@ import workerboard.exception.ApplicationNotFound;
 import workerboard.exception.ApplicationToMuchArguments;
 import workerboard.exception.ApplicationWrongPassword;
 import workerboard.model.ApplicationUser;
-import workerboard.model.VievsForApplicationUser;
+import workerboard.model.dto.ViewsForApplicationUser;
 import workerboard.model.dto.UserPasswordDto;
-import workerboard.model.enums.UserRole;
 import workerboard.serivce.ApplicationUserService;
 
 import javax.validation.constraints.NotNull;
-import java.lang.reflect.Field;
 import java.util.*;
 
 @RestController
@@ -32,7 +30,7 @@ public class ApplicationUserController {
     }
 
 
-    @JsonView(VievsForApplicationUser.Public.class)
+    @JsonView(ViewsForApplicationUser.Public.class)
     @GetMapping("/{id}")
     public ResponseEntity<ApplicationUser> getUserById(@PathVariable @NotNull Long id) throws ApplicationNotFound {
 
@@ -58,22 +56,24 @@ public class ApplicationUserController {
     }
 
     @GetMapping("/email/{email}")
-    @JsonView(VievsForApplicationUser.Public.class)
+    @JsonView(ViewsForApplicationUser.Public.class)
     public ResponseEntity<ApplicationUser> getUserByEmail(@PathVariable @NotNull String email) throws ApplicationNotFound{
         return ResponseEntity.ok(userService.findUserByEmail(email));
     }
 
     @GetMapping("/parameters")
-    @JsonView(VievsForApplicationUser.Public.class)
+    @JsonView(ViewsForApplicationUser.Public.class)
     public ResponseEntity<List> getUserByParameters( @RequestParam Map<String,String> allRequestParams, ModelMap model) throws ApplicationNotFound, ApplicationToMuchArguments {
 
        return ResponseEntity.ok(userService.getUserByParameters(allRequestParams));
     }
     @GetMapping("/users")
-    @JsonView(VievsForApplicationUser.Public.class)
+    @JsonView(ViewsForApplicationUser.Public.class)
     public ResponseEntity<List<ApplicationUser>> getAllUsers() throws ApplicationNotFound {
 
         return ResponseEntity.ok(userService.findAllUsers());
     }
-    
+
+
+
 }
