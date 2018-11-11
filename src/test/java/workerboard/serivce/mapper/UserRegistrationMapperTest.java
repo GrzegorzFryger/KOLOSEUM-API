@@ -3,8 +3,8 @@ package workerboard.serivce.mapper;
 import org.junit.Before;
 import org.junit.Test;
 import workerboard.model.ApplicationUser;
-import workerboard.model.enums.*;
-import workerboard.model.dto.RegistrationUser;
+import workerboard.model.dto.RegistrationUserDto;
+import workerboard.model.enums.UserRole;
 
 import static org.junit.Assert.assertEquals;
 
@@ -21,7 +21,7 @@ public class UserRegistrationMapperTest {
     @Test
     public void reogistrationUserToApplicationUser() {
 
-        RegistrationUser regUser= new RegistrationUser();
+        RegistrationUserDto regUser = new RegistrationUserDto();
         regUser.setRegistrationName("Greg");
         regUser.setRegistrationSurname("testSurname");
         regUser.setRegistrationEmail("testEmail");

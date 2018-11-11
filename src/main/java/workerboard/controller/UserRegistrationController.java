@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import workerboard.exception.ApplicationNotFound;
 import workerboard.exception.RegistrationNotAddException;
 import workerboard.model.ApplicationUser;
-import workerboard.model.dto.RegistrationUser;
+import workerboard.model.dto.RegistrationUserDto;
 import workerboard.model.dto.ViewsForApplicationUser;
 import workerboard.serivce.RegistrationUserService;
 import workerboard.serivce.mapper.UserRegistrationMapper;
@@ -29,11 +29,11 @@ public class UserRegistrationController {
 
     @PostMapping
     @JsonView(ViewsForApplicationUser.Basic.class)
-    public ResponseEntity<ApplicationUser> registerNewUser(@RequestBody @Valid RegistrationUser registrationUser)
+    public ResponseEntity<ApplicationUser> registerNewUser(@RequestBody @Valid RegistrationUserDto registrationUserDto)
             throws RegistrationNotAddException, ApplicationNotFound {
 
         return ResponseEntity.ok(this.registrationUserService.registrationNewUser(Optional
-                .of(registrationMapper.registrationUserToApplicationUser(registrationUser))
+                .of(registrationMapper.registrationUserToApplicationUser(registrationUserDto))
                 .orElseThrow(() -> new RegistrationNotAddException("Not add new user"))));
 
     }

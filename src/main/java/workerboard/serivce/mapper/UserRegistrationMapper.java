@@ -5,7 +5,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 import workerboard.model.ApplicationUser;
-import workerboard.model.dto.RegistrationUser;
+import workerboard.model.dto.RegistrationUserDto;
 
 
 @Mapper(componentModel = "spring")
@@ -15,6 +15,7 @@ public interface UserRegistrationMapper {
 
     @Mappings(
             {
+                    @Mapping(ignore = true, target = "id"),
                     @Mapping(source = "registrationName", target = "firstName"),
                     @Mapping(source = "registrationSurname", target = "lastName"),
                     @Mapping(source = "registrationEmail", target = "email"),
@@ -22,7 +23,6 @@ public interface UserRegistrationMapper {
                     @Mapping(source = "userRole", target = "userRole")
             }
     )
-
-    ApplicationUser registrationUserToApplicationUser(RegistrationUser registrationUser);
+    ApplicationUser registrationUserToApplicationUser(RegistrationUserDto registrationUserDto);
 
 }

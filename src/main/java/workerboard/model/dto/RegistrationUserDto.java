@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class RegistrationUser implements Serializable
+public class RegistrationUserDto implements Serializable
 {
     @NotNull
     @NotBlank(message = "Name not be null")
@@ -31,7 +31,7 @@ public class RegistrationUser implements Serializable
     @JsonIgnore
     private final UserRole userRole = UserRole.UNSPECIFED;
 
-    public RegistrationUser() {
+    public RegistrationUserDto() {
     }
 
     public String getRegistrationName() {
@@ -73,8 +73,8 @@ public class RegistrationUser implements Serializable
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof RegistrationUser)) return false;
-        RegistrationUser that = (RegistrationUser) o;
+        if (!(o instanceof RegistrationUserDto)) return false;
+        RegistrationUserDto that = (RegistrationUserDto) o;
         return Objects.equals(registrationName, that.registrationName) &&
                 Objects.equals(registrationSurname, that.registrationSurname) &&
                 Objects.equals(registrationEmail, that.registrationEmail) &&
@@ -89,7 +89,7 @@ public class RegistrationUser implements Serializable
 
     @Override
     public String toString() {
-        return "RegistrationUser{" +
+        return "RegistrationUserDto{" +
                 "registrationName='" + registrationName + '\'' +
                 ", registrationSurname='" + registrationSurname + '\'' +
                 ", registrationEmail='" + registrationEmail + '\'' +
