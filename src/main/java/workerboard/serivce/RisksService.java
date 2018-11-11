@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import workerboard.model.InsuranceApplication;
 import workerboard.model.InsuranceHistory;
 import workerboard.model.dto.PremiumDto;
-import workerboard.model.dto.RiskDtoDto;
+import workerboard.model.dto.RiskDto;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -15,15 +15,15 @@ import java.util.List;
 public class RisksService {
 
 
-    List<RiskDtoDto> getAvailableRisks(InsuranceApplication insuranceApplication) {
-        List<RiskDtoDto> risks = new ArrayList<>();
-        risks.add(new RiskDtoDto("NNW Basic", 30000, getPremiumByPrice(150)));
-        risks.add(new RiskDtoDto("NNW Premium", 50000, getPremiumByPrice(240)));
-        risks.add(new RiskDtoDto("Assistance Basic", 15000, getPremiumByPrice(160)));
-        risks.add(new RiskDtoDto("Assistance Premium", 15000, getPremiumByPrice(220)));
-        risks.add(new RiskDtoDto("Szyby", 5000, getPremiumByPrice(120)));
-        risks.add(new RiskDtoDto("AC", Double.valueOf(insuranceApplication.getVehicle().getVehicleValue()), getPremiumByPrice(getACPrice(insuranceApplication))));
-        risks.add(new RiskDtoDto("OC", Double.valueOf(insuranceApplication.getVehicle().getVehicleValue()), getPremiumByPrice(getOCPrice(insuranceApplication))));
+    List<RiskDto> getAvailableRisks(InsuranceApplication insuranceApplication) {
+        List<RiskDto> risks = new ArrayList<>();
+        risks.add(new RiskDto("NNW Basic", 30000, getPremiumByPrice(150)));
+        risks.add(new RiskDto("NNW Premium", 50000, getPremiumByPrice(240)));
+        risks.add(new RiskDto("Assistance Basic", 15000, getPremiumByPrice(160)));
+        risks.add(new RiskDto("Assistance Premium", 15000, getPremiumByPrice(220)));
+        risks.add(new RiskDto("Szyby", 5000, getPremiumByPrice(120)));
+        risks.add(new RiskDto("AC", Double.valueOf(insuranceApplication.getVehicle().getVehicleValue()), getPremiumByPrice(getACPrice(insuranceApplication))));
+        risks.add(new RiskDto("OC", Double.valueOf(insuranceApplication.getVehicle().getVehicleValue()), getPremiumByPrice(getOCPrice(insuranceApplication))));
 
 
         return risks;

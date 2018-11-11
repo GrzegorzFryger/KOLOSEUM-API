@@ -12,13 +12,13 @@ import javax.validation.Valid;
 @RestController
 @CrossOrigin
 @RequestMapping("/api/registration")
-public class ApplicationUserRegistration {
+public class UserRegistrationController {
 
 
     private RegistrationUserService registrationUserService;
 
     @Autowired
-    public ApplicationUserRegistration(RegistrationUserService registrationUserService) {
+    public UserRegistrationController(RegistrationUserService registrationUserService) {
         this.registrationUserService = registrationUserService;
     }
 

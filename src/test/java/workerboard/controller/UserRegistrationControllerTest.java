@@ -20,8 +20,8 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(value = ApplicationUserRegistration.class, secure = false)
-public class ApplicationUserRegistrationTest {
+@WebMvcTest(value = UserRegistrationController.class, secure = false)
+public class UserRegistrationControllerTest {
 
 
     @Autowired

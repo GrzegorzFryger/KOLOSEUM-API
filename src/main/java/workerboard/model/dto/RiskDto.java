@@ -1,14 +1,14 @@
 package workerboard.model.dto;
 
-public class RiskDtoDto {
+public class RiskDto {
     private String name;
     private double sum;
     private PremiumDto premiumList;
 
-    public RiskDtoDto() {
+    public RiskDto() {
     }
 
-    public RiskDtoDto(String name, double sum, PremiumDto premiumList) {
+    public RiskDto(String name, double sum, PremiumDto premiumList) {
         this.name = name;
         this.sum = sum;
         this.premiumList = premiumList;

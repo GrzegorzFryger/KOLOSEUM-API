@@ -9,22 +9,23 @@ import workerboard.exception.ApplicationNotFound;
 import workerboard.exception.ApplicationToMuchArguments;
 import workerboard.exception.ApplicationWrongPassword;
 import workerboard.model.ApplicationUser;
-import workerboard.model.dto.ViewsForApplicationUser;
 import workerboard.model.dto.UserPasswordDto;
-import workerboard.serivce.ApplicationUserService;
+import workerboard.model.dto.ViewsForApplicationUser;
+import workerboard.serivce.UserService;
 
 import javax.validation.constraints.NotNull;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin
 @RequestMapping("/api/user")
-public class ApplicationUserController {
+public class UserController {
 
-    private final ApplicationUserService userService;
+    private final UserService userService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public ApplicationUserController(ApplicationUserService userService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserController(UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userService = userService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
