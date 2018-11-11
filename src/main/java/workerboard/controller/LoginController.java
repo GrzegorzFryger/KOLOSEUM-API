@@ -30,7 +30,7 @@ public class LoginController
 
 
     @PostMapping
-    @JsonView(ViewsForApplicationUser.Public.class)
+    @JsonView(ViewsForApplicationUser.Basic.class)
     public ResponseEntity<ApplicationUser> loginUser(@RequestBody @Valid LoginDto loginDto) throws ApplicationWrongPassword, ApplicationNotFound {
 
         return ResponseEntity.ok(loginService.checkUser(loginDto));

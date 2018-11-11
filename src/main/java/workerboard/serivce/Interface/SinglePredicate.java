@@ -1,4 +1,4 @@
-package workerboard.serivce;
+package workerboard.serivce.Interface;
 
 import org.springframework.data.jpa.domain.Specification;
 import workerboard.model.ApplicationUser;

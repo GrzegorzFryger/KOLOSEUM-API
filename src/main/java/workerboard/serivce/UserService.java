@@ -9,9 +9,11 @@ import workerboard.exception.ApplicationWrongPassword;
 import workerboard.model.ApplicationUser;
 import workerboard.model.dto.UserPasswordDto;
 import workerboard.repository.ApplicationUserRepository;
+import workerboard.serivce.Interface.SinglePredicate;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service

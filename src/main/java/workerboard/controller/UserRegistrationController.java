@@ -1,38 +1,40 @@
 package workerboard.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import workerboard.exception.ApplicationNotFound;
 import workerboard.exception.RegistrationNotAddException;
+import workerboard.model.ApplicationUser;
 import workerboard.model.dto.RegistrationUser;
+import workerboard.model.dto.ViewsForApplicationUser;
 import workerboard.serivce.RegistrationUserService;
+import workerboard.serivce.mapper.UserRegistrationMapper;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin
 @RequestMapping("/api/registration")
 public class UserRegistrationController {
 
-
+    private UserRegistrationMapper registrationMapper;
     private RegistrationUserService registrationUserService;
 
-    @Autowired
-    public UserRegistrationController(RegistrationUserService registrationUserService) {
+    public UserRegistrationController(UserRegistrationMapper registrationMapper, RegistrationUserService registrationUserService) {
+        this.registrationMapper = registrationMapper;
         this.registrationUserService = registrationUserService;
     }
 
     @PostMapping
-    public ResponseEntity<Void> registerNewUser(@Valid @RequestBody RegistrationUser registrationUser)
-            throws RegistrationNotAddException {
+    @JsonView(ViewsForApplicationUser.Basic.class)
+    public ResponseEntity<ApplicationUser> registerNewUser(@RequestBody @Valid RegistrationUser registrationUser)
+            throws RegistrationNotAddException, ApplicationNotFound {
 
-
-        if (registrationUserService.registrationNewUser(registrationUser)) {
-            return ResponseEntity.accepted().build();
-        }
-
-
-        throw new RegistrationNotAddException("Not added user");
+        return ResponseEntity.ok(this.registrationUserService.registrationNewUser(Optional
+                .of(registrationMapper.registrationUserToApplicationUser(registrationUser))
+                .orElseThrow(() -> new RegistrationNotAddException("Not add new user"))));
 
     }
 }

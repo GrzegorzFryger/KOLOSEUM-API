@@ -15,17 +15,17 @@ public class ApplicationUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonView(ViewsForApplicationUser.Public.class)
+    @JsonView(ViewsForApplicationUser.ExtendedByID.class)
     private Long id;
-    @JsonView(ViewsForApplicationUser.Public.class)
+    @JsonView(ViewsForApplicationUser.Basic.class)
     private String firstName;
-    @JsonView(ViewsForApplicationUser.Public.class)
+    @JsonView(ViewsForApplicationUser.Basic.class)
     private String lastName;
-    @JsonView(ViewsForApplicationUser.Public.class)
+    @JsonView(ViewsForApplicationUser.Basic.class)
     private String email;
 
     private String password;
-    @JsonView(ViewsForApplicationUser.Public.class)
+    @JsonView(ViewsForApplicationUser.Basic.class)
     private UserRole userRole;
 
     public ApplicationUser() {

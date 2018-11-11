@@ -31,7 +31,7 @@ public class UserController {
     }
 
 
-    @JsonView(ViewsForApplicationUser.Public.class)
+    @JsonView(ViewsForApplicationUser.ExtendedByID.class)
     @GetMapping("/{id}")
     public ResponseEntity<ApplicationUser> getUserById(@PathVariable @NotNull Long id) throws ApplicationNotFound {
 
@@ -57,19 +57,19 @@ public class UserController {
     }
 
     @GetMapping("/email/{email}")
-    @JsonView(ViewsForApplicationUser.Public.class)
+    @JsonView(ViewsForApplicationUser.ExtendedByID.class)
     public ResponseEntity<ApplicationUser> getUserByEmail(@PathVariable @NotNull String email) throws ApplicationNotFound{
         return ResponseEntity.ok(userService.findUserByEmail(email));
     }
 
     @GetMapping("/parameters")
-    @JsonView(ViewsForApplicationUser.Public.class)
+    @JsonView(ViewsForApplicationUser.ExtendedByID.class)
     public ResponseEntity<List> getUserByParameters( @RequestParam Map<String,String> allRequestParams, ModelMap model) throws ApplicationNotFound, ApplicationToMuchArguments {
 
        return ResponseEntity.ok(userService.getUserByParameters(allRequestParams));
     }
     @GetMapping("/users")
-    @JsonView(ViewsForApplicationUser.Public.class)
+    @JsonView(ViewsForApplicationUser.ExtendedByID.class)
     public ResponseEntity<List<ApplicationUser>> getAllUsers() throws ApplicationNotFound {
 
         return ResponseEntity.ok(userService.findAllUsers());

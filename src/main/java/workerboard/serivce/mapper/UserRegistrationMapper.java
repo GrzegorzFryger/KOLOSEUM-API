@@ -4,12 +4,11 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
-import org.springframework.stereotype.Repository;
 import workerboard.model.ApplicationUser;
 import workerboard.model.dto.RegistrationUser;
 
-@Repository
-@Mapper
+
+@Mapper(componentModel = "spring")
 public interface UserRegistrationMapper {
 
     UserRegistrationMapper INSTANCE = Mappers.getMapper(UserRegistrationMapper.class);
