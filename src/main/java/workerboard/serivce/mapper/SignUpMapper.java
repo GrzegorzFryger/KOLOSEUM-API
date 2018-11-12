@@ -9,9 +9,9 @@ import workerboard.model.dto.RegistrationUserDto;
 
 
 @Mapper(componentModel = "spring")
-public interface UserRegistrationMapper {
+public interface SignUpMapper {
 
-    UserRegistrationMapper INSTANCE = Mappers.getMapper(UserRegistrationMapper.class);
+    SignUpMapper INSTANCE = Mappers.getMapper(SignUpMapper.class);
 
     @Mappings(
             {

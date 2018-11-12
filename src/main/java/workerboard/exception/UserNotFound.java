@@ -1,10 +1,10 @@
 package workerboard.exception;
 
-public class ApplicationNotFound extends Exception {
+public class UserNotFound extends Exception {
 
     private String message;
 
-    public ApplicationNotFound(String message) {
+    public UserNotFound(String message) {
         this.message = message;
     }
 
