@@ -3,10 +3,10 @@ package workerboard.model;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.hibernate.annotations.NaturalId;
 import workerboard.model.dto.ViewsForApplicationUser;
-import workerboard.model.enums.UserRole;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "application_user")
@@ -28,7 +28,7 @@ public class ApplicationUser {
     private String password;
 
     @JsonView(ViewsForApplicationUser.Basic.class)
-    @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.ALL})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))

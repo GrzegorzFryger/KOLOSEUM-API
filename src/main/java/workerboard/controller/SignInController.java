@@ -1,39 +1,49 @@
 package workerboard.controller;
 
 
-import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import workerboard.exception.UserNotFound;
 import workerboard.exception.UserWrongPassword;
-import workerboard.model.ApplicationUser;
 import workerboard.model.dto.LoginDto;
-import workerboard.model.dto.ViewsForApplicationUser;
-import workerboard.serivce.SignInService;
+import workerboard.security.jwt.JwtProvider;
+import workerboard.security.jwt.model.JwtAuthenticationResponse;
 
 import javax.validation.Valid;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/login")
-public class SignInController
-{
-
-    private final SignInService signInService;
-
+@RequestMapping("/api/signin")
+public class SignInController {
 
     @Autowired
-    public SignInController(SignInService signInService) {
-        this.signInService = signInService;
-    }
+    private JwtProvider jwtProvider;
+
+    @Autowired
+    AuthenticationManager authenticationManager;
 
 
     @PostMapping
-    @JsonView(ViewsForApplicationUser.Basic.class)
-    public ResponseEntity<ApplicationUser> loginUser(@RequestBody @Valid LoginDto loginDto) throws UserWrongPassword, UserNotFound {
+    public ResponseEntity<?> loginUser(@RequestBody @Valid LoginDto loginDto) throws UserWrongPassword, UserNotFound {
 
-        return ResponseEntity.ok(signInService.checkUser(loginDto));
+        //pull db
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginDto.getEmail(),
+                        loginDto.getPassword()
+                )
+        );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String jwt = jwtProvider.generateJwtToken(authentication);
+
+        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
 
     }
 }

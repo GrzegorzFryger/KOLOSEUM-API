@@ -3,8 +3,8 @@ package workerboard.controller;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import workerboard.exception.UserNotFound;
 import workerboard.exception.SingUpNotAddException;
+import workerboard.exception.UserNotFound;
 import workerboard.model.ApplicationUser;
 import workerboard.model.dto.RegistrationUserDto;
 import workerboard.model.dto.ViewsForApplicationUser;
@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/registration")
+@RequestMapping("/api/signup")
 public class SingUpController {
 
     private SignUpMapper registrationMapper;

@@ -3,9 +3,6 @@ package workerboard;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
@@ -22,17 +19,4 @@ public class WorkerBoardApplication {
     }
 
 
-    @Configuration
-    protected static class ApplicationSecurity extends WebSecurityConfigurerAdapter {
-
-        @Override
-        protected void configure(HttpSecurity http) throws Exception {
-            // @formatter:off
-            http.httpBasic().disable();
-            http.csrf().disable();
-            // @formatter:on
-        }
-
-
-    }
 }
