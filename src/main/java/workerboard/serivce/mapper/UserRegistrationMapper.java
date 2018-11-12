@@ -20,7 +20,7 @@ public interface UserRegistrationMapper {
                     @Mapping(source = "registrationSurname", target = "lastName"),
                     @Mapping(source = "registrationEmail", target = "email"),
                     @Mapping(source = "registrationPassword", target = "password"),
-                    @Mapping(source = "userRole", target = "userRole")
+                    @Mapping(source = "userRole", target = "roles")
             }
     )
     ApplicationUser registrationUserToApplicationUser(RegistrationUserDto registrationUserDto);

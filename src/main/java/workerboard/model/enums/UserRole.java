@@ -1,9 +1,13 @@
 package workerboard.model.enums;
 
-public enum UserRole {
+import java.io.Serializable;
+
+public enum UserRole implements Serializable {
     SELLER,
     ADMIN,
     MANAGER,
     ANALYST,
     UNSPECIFED
+
+
 }

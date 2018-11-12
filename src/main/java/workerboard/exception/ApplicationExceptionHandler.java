@@ -35,7 +35,7 @@ public class ApplicationExceptionHandler {
 
         }
         if (ex instanceof ApplicationWrongPassword) {
-            HttpStatus status = HttpStatus.NOT_MODIFIED;
+            HttpStatus status = HttpStatus.NOT_ACCEPTABLE;
             ApplicationWrongPassword applicationNotFound = (ApplicationWrongPassword) ex;
 
             return handleWrongPasswordException(applicationNotFound,headers, status, request);
