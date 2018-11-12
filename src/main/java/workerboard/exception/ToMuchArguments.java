@@ -1,10 +1,10 @@
 package workerboard.exception;
 
-public class RegistrationNotAddException extends Exception {
+public class ToMuchArguments extends Exception {
 
     private String message;
 
-    public RegistrationNotAddException(String message) {
+    public ToMuchArguments(String message) {
         this.message = message;
     }
 
@@ -13,3 +13,5 @@ public class RegistrationNotAddException extends Exception {
         return message;
     }
 }
+
+

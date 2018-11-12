@@ -1,10 +1,10 @@
 package workerboard.exception;
 
-public class ApplicationToMuchArguments extends Exception {
+public class UserWrongPassword extends Exception {
 
     private String message;
 
-    public ApplicationToMuchArguments(String message) {
+    public UserWrongPassword(String message) {
         this.message = message;
     }
 
@@ -13,5 +13,4 @@ public class ApplicationToMuchArguments extends Exception {
         return message;
     }
 }
-
 

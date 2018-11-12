@@ -12,38 +12,38 @@ import java.util.Collections;
 import java.util.List;
 
 @ControllerAdvice
-public class ApplicationExceptionHandler {
-    @ExceptionHandler({RegistrationNotAddException.class,ApplicationNotFound.class,
-    ApplicationWrongPassword.class, ApplicationToMuchArguments.class})
+public class GlobalExceptionHandler {
+    @ExceptionHandler({SingUpNotAddException.class, UserNotFound.class,
+    UserWrongPassword.class, ToMuchArguments.class})
 
     public final ResponseEntity<ApiError> handleException(Exception ex, WebRequest request) {
         HttpHeaders headers = new HttpHeaders();
 
 
-        if (ex instanceof RegistrationNotAddException) {
+        if (ex instanceof SingUpNotAddException) {
             HttpStatus status = HttpStatus.NOT_ACCEPTABLE;
-            RegistrationNotAddException registrationNotAddException = (RegistrationNotAddException) ex;
+            SingUpNotAddException singUpNotAddException = (SingUpNotAddException) ex;
 
-            return handleRegistrationNotAddException(registrationNotAddException, headers, status, request);
+            return handleRegistrationNotAddException(singUpNotAddException, headers, status, request);
 
         }
-        if (ex instanceof ApplicationNotFound) {
+        if (ex instanceof UserNotFound) {
             HttpStatus status = HttpStatus.NOT_FOUND;
-            ApplicationNotFound applicationNotFound = (ApplicationNotFound) ex;
+            UserNotFound userNotFound = (UserNotFound) ex;
 
-            return handleNotFoundException(applicationNotFound, headers, status, request);
+            return handleNotFoundException(userNotFound, headers, status, request);
 
         }
-        if (ex instanceof ApplicationWrongPassword) {
-            HttpStatus status = HttpStatus.NOT_MODIFIED;
-            ApplicationWrongPassword applicationNotFound = (ApplicationWrongPassword) ex;
+        if (ex instanceof UserWrongPassword) {
+            HttpStatus status = HttpStatus.NOT_ACCEPTABLE;
+            UserWrongPassword applicationNotFound = (UserWrongPassword) ex;
 
             return handleWrongPasswordException(applicationNotFound,headers, status, request);
         }
 
-        if (ex instanceof ApplicationToMuchArguments) {
+        if (ex instanceof ToMuchArguments) {
             HttpStatus status = HttpStatus.NOT_ACCEPTABLE;
-            ApplicationToMuchArguments appex = (ApplicationToMuchArguments) ex;
+            ToMuchArguments appex = (ToMuchArguments) ex;
 
             return handleApplicationToMuchArgument(appex,headers, status, request);
         }
@@ -61,24 +61,24 @@ public class ApplicationExceptionHandler {
 
     /* "There you should add new handle method of exception, coming from yours controller */
 
-    protected ResponseEntity<ApiError> handleRegistrationNotAddException(RegistrationNotAddException ex,
+    protected ResponseEntity<ApiError> handleRegistrationNotAddException(SingUpNotAddException ex,
                                                                          HttpHeaders headers, HttpStatus status, WebRequest request) {
         List<String> errors = Collections.singletonList(ex.getMessage());
         return handleExceptionOther(ex, new ApiError(errors), headers, status, request);
     }
-    protected ResponseEntity<ApiError> handleApplicationToMuchArgument(ApplicationToMuchArguments ex,
-                                                                         HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<ApiError> handleApplicationToMuchArgument(ToMuchArguments ex,
+                                                                       HttpHeaders headers, HttpStatus status, WebRequest request) {
         List<String> errors = Collections.singletonList(ex.getMessage());
         return handleExceptionOther(ex, new ApiError(errors), headers, status, request);
     }
 
-    protected ResponseEntity<ApiError> handleNotFoundException(ApplicationNotFound ex,
-                                                                         HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<ApiError> handleNotFoundException(UserNotFound ex,
+                                                               HttpHeaders headers, HttpStatus status, WebRequest request) {
         List<String> errors = Collections.singletonList(ex.getMessage());
         return handleExceptionOther(ex, new ApiError(errors), headers, status, request);
     }
-    protected ResponseEntity<ApiError> handleWrongPasswordException(ApplicationWrongPassword ex,
-                                                               HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<ApiError> handleWrongPasswordException(UserWrongPassword ex,
+                                                                    HttpHeaders headers, HttpStatus status, WebRequest request) {
         List<String> errors = Collections.singletonList(ex.getMessage());
         return handleExceptionOther(ex, new ApiError(errors), headers, status, request);
     }

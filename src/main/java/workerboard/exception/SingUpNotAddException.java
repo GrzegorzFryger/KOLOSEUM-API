@@ -1,10 +1,10 @@
 package workerboard.exception;
 
-public class ApplicationWrongPassword extends Exception {
+public class SingUpNotAddException extends Exception {
 
     private String message;
 
-    public ApplicationWrongPassword(String message) {
+    public SingUpNotAddException(String message) {
         this.message = message;
     }
 
@@ -13,4 +13,3 @@ public class ApplicationWrongPassword extends Exception {
         return message;
     }
 }
-

@@ -1,16 +1,15 @@
 package workerboard.model;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import org.hibernate.annotations.NaturalId;
 import workerboard.model.dto.ViewsForApplicationUser;
-import workerboard.model.enums.UserRole;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.util.Objects;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
+@Table(name = "application_user")
 public class ApplicationUser {
 
     @Id
@@ -21,22 +20,29 @@ public class ApplicationUser {
     private String firstName;
     @JsonView(ViewsForApplicationUser.Basic.class)
     private String lastName;
+
+    @NaturalId
     @JsonView(ViewsForApplicationUser.Basic.class)
     private String email;
 
     private String password;
+
     @JsonView(ViewsForApplicationUser.Basic.class)
-    private UserRole userRole;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private List<Role> roles = new ArrayList<>();
 
     public ApplicationUser() {
     }
 
-    public ApplicationUser(String firstName, String lastName, String email, String password, UserRole userRole) {
+    public ApplicationUser(String firstName, String lastName, String email, String password, List<Role> roles) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.userRole = userRole;
+        this.roles = roles;
     }
 
     public Long getId() {
@@ -79,41 +85,11 @@ public class ApplicationUser {
         this.password = password;
     }
 
-    public UserRole getUserRole() {
-        return userRole;
+    public List<Role> getRoles() {
+        return roles;
     }
 
-    public void setUserRole(UserRole userRole) {
-        this.userRole = userRole;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof ApplicationUser)) return false;
-        ApplicationUser that = (ApplicationUser) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(firstName, that.firstName) &&
-                Objects.equals(lastName, that.lastName) &&
-                Objects.equals(email, that.email) &&
-                Objects.equals(password, that.password) &&
-                userRole == that.userRole;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, firstName, lastName, email, password, userRole);
-    }
-
-    @Override
-    public String toString() {
-        return "ApplicationUser{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", userRole=" + userRole +
-                '}';
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 }

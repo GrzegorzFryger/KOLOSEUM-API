@@ -1,13 +1,16 @@
 package workerboard.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import workerboard.model.Role;
 import workerboard.model.enums.UserRole;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public class RegistrationUserDto implements Serializable
 {
@@ -29,9 +32,12 @@ public class RegistrationUserDto implements Serializable
     private String registrationPassword;
 
     @JsonIgnore
-    private final UserRole userRole = UserRole.UNSPECIFED;
+    private Set<Role> userRole = new HashSet<>();
 
     public RegistrationUserDto() {
+
+
+
     }
 
     public String getRegistrationName() {
@@ -66,35 +72,12 @@ public class RegistrationUserDto implements Serializable
         this.registrationPassword = registrationPassword;
     }
 
-    public UserRole getUserRole() {
+    public Set<Role> getUserRole() {
+
         return userRole;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof RegistrationUserDto)) return false;
-        RegistrationUserDto that = (RegistrationUserDto) o;
-        return Objects.equals(registrationName, that.registrationName) &&
-                Objects.equals(registrationSurname, that.registrationSurname) &&
-                Objects.equals(registrationEmail, that.registrationEmail) &&
-                Objects.equals(registrationPassword, that.registrationPassword) &&
-                userRole == that.userRole;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(registrationName, registrationSurname, registrationEmail, registrationPassword, userRole);
-    }
-
-    @Override
-    public String toString() {
-        return "RegistrationUserDto{" +
-                "registrationName='" + registrationName + '\'' +
-                ", registrationSurname='" + registrationSurname + '\'' +
-                ", registrationEmail='" + registrationEmail + '\'' +
-                ", registrationPassword='" + registrationPassword + '\'' +
-                ", userRole=" + userRole +
-                '}';
+    public void setUserRole(Set<Role> userRole) {
+        this.userRole = userRole;
     }
 }

@@ -9,9 +9,9 @@ import workerboard.model.dto.RegistrationUserDto;
 
 
 @Mapper(componentModel = "spring")
-public interface UserRegistrationMapper {
+public interface SignUpMapper {
 
-    UserRegistrationMapper INSTANCE = Mappers.getMapper(UserRegistrationMapper.class);
+    SignUpMapper INSTANCE = Mappers.getMapper(SignUpMapper.class);
 
     @Mappings(
             {
@@ -20,7 +20,7 @@ public interface UserRegistrationMapper {
                     @Mapping(source = "registrationSurname", target = "lastName"),
                     @Mapping(source = "registrationEmail", target = "email"),
                     @Mapping(source = "registrationPassword", target = "password"),
-                    @Mapping(source = "userRole", target = "userRole")
+                    @Mapping(source = "userRole", target = "roles")
             }
     )
     ApplicationUser registrationUserToApplicationUser(RegistrationUserDto registrationUserDto);
