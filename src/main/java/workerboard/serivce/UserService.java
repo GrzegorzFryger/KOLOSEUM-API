@@ -3,9 +3,9 @@ package workerboard.serivce;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import workerboard.exception.ApplicationNotFound;
-import workerboard.exception.ApplicationToMuchArguments;
-import workerboard.exception.ApplicationWrongPassword;
+import workerboard.exception.UserNotFound;
+import workerboard.exception.ToMuchArguments;
+import workerboard.exception.UserWrongPassword;
 import workerboard.model.ApplicationUser;
 import workerboard.model.dto.UserPasswordDto;
 import workerboard.repository.ApplicationUserRepository;
@@ -28,7 +28,7 @@ public class UserService {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    protected ApplicationUser userGetOneLazy(Long id) throws ApplicationNotFound {
+    protected ApplicationUser userGetOneLazy(Long id) throws UserNotFound {
 
         ApplicationUser user = null;
 
@@ -36,24 +36,24 @@ public class UserService {
             user = this.userRepository.getOne(id);
 
         } catch ( EntityNotFoundException e ) {
-            throw new ApplicationNotFound("Not Found user wit id:" + id);
+            throw new UserNotFound("Not Found user wit id:" + id);
         }
 
         return user;
     }
 
-    public ApplicationUser findUserByEmail(String userEmail) throws ApplicationNotFound {
+    public ApplicationUser findUserByEmail(String userEmail) throws UserNotFound {
 
-        return userRepository.findByEmail(userEmail).orElseThrow(() -> new ApplicationNotFound("not Found"));
+        return userRepository.findByEmail(userEmail).orElseThrow(() -> new UserNotFound("not Found"));
     }
 
-    public ApplicationUser findUserById(Long id) throws ApplicationNotFound {
+    public ApplicationUser findUserById(Long id) throws UserNotFound {
 
         return userRepository.findById(id)
-                .orElseThrow(() -> new ApplicationNotFound("User not found by id " + id));
+                .orElseThrow(() -> new UserNotFound("User not found by id " + id));
     }
 
-    public ApplicationUser updateUser(Long id, ApplicationUser newUser) throws ApplicationNotFound {
+    public ApplicationUser updateUser(Long id, ApplicationUser newUser) throws UserNotFound {
 
         ApplicationUser oldUser = this.userGetOneLazy(id);
 
@@ -63,25 +63,25 @@ public class UserService {
         return userRepository.save(oldUser);
     }
 
-    public List<ApplicationUser> findAllUsers() throws ApplicationNotFound {
+    public List<ApplicationUser> findAllUsers() throws UserNotFound {
 
         List<ApplicationUser> list = userRepository.findAll();
 
         if (list.isEmpty()) {
-            throw new ApplicationNotFound("Not found any users");
+            throw new UserNotFound("Not found any users");
         }
 
         return list;
     }
 
-    public boolean deleteUserById(Long id) throws ApplicationNotFound {
+    public boolean deleteUserById(Long id) throws UserNotFound {
 
         userRepository.deleteById(id);
 
         return (this.findUserById(id) != null) ? false : true;
     }
 
-    public ApplicationUser updatePassword(Long id, UserPasswordDto newPassword) throws ApplicationWrongPassword, ApplicationNotFound {
+    public ApplicationUser updatePassword(Long id, UserPasswordDto newPassword) throws UserWrongPassword, UserNotFound {
 
         ApplicationUser user = this.userGetOneLazy(id);
 
@@ -91,16 +91,16 @@ public class UserService {
                     .encode(newPassword.getNewPassword()));
         } else {
 
-            throw new ApplicationWrongPassword("Password not Match");
+            throw new UserWrongPassword("Password not Match");
         }
 
         return userRepository.save(user);
     }
 
-    public List getUserByParameters(Map<String, String> parameters) throws ApplicationToMuchArguments, ApplicationNotFound {
+    public List getUserByParameters(Map<String, String> parameters) throws ToMuchArguments, UserNotFound {
 
         if (parameters.size() > 1) {
-            throw new ApplicationToMuchArguments("To much arguments in parameters");
+            throw new ToMuchArguments("To much arguments in parameters");
         }
 
         SinglePredicate func = (field, value) -> {
