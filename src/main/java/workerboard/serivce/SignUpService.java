@@ -9,7 +9,7 @@ import workerboard.model.Role;
 import workerboard.model.enums.UserRole;
 import workerboard.repository.ApplicationUserRepository;
 
-import java.util.*;
+import java.util.Arrays;
 
 @Service
 public class SignUpService {
@@ -37,7 +37,7 @@ public class SignUpService {
 
         newApplicationUser.setPassword(passwordEncoder.encode(newApplicationUser.getPassword()));
 
-        newApplicationUser.setRoles(Arrays.asList(new Role(UserRole.UNSPECIFED)));
+        newApplicationUser.setRoles(Arrays.asList(new Role(UserRole.ROLE_UNSPECIFED)));
 
         return applicationUserRepository.save(newApplicationUser);
     }

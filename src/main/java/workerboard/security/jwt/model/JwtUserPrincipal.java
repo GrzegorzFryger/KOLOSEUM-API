@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class JwtUserPrinciple implements UserDetails {
+public class JwtUserPrincipal implements UserDetails {
 
 
     private Long id;
@@ -27,7 +27,7 @@ public class JwtUserPrinciple implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public JwtUserPrinciple(Long id, String name, String surname, String password, String email,
+    public JwtUserPrincipal(Long id, String name, String surname, String password, String email,
                             Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.name = name;
@@ -37,14 +37,14 @@ public class JwtUserPrinciple implements UserDetails {
         this.authorities = authorities;
     }
 
-    public static JwtUserPrinciple buildPrinciple(ApplicationUser user) {
+    public static JwtUserPrincipal buildPrinciple(ApplicationUser user) {
 
 
         List<GrantedAuthority> authorities = user.getRoles().stream().map(role ->
                 new SimpleGrantedAuthority(role.getName().name())
         ).collect(Collectors.toList());
 
-        return new JwtUserPrinciple(
+        return new JwtUserPrincipal(
                 user.getId(),
                 user.getFirstName(),
                 user.getLastName(),
@@ -56,7 +56,7 @@ public class JwtUserPrinciple implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return authorities;
     }
 
     @Override
@@ -91,7 +91,7 @@ public class JwtUserPrinciple implements UserDetails {
 
     @Override
     public String toString() {
-        return "JwtUserPrinciple{" +
+        return "JwtUserPrincipal{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +

@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import workerboard.repository.ApplicationUserRepository;
-import workerboard.security.jwt.model.JwtUserPrinciple;
+import workerboard.security.jwt.model.JwtUserPrincipal;
 
 @Service
 public class JwtUserService implements UserDetailsService {
@@ -19,7 +19,7 @@ public class JwtUserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        return JwtUserPrinciple.buildPrinciple(
+        return JwtUserPrincipal.buildPrinciple(
 
                 repository.findByEmail(email)
                         .orElseThrow(() -> new UsernameNotFoundException("Not found user with: " + email))

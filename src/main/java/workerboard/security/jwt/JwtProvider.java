@@ -5,7 +5,7 @@ import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
-import workerboard.security.jwt.model.JwtUserPrinciple;
+import workerboard.security.jwt.model.JwtUserPrincipal;
 
 import java.util.Date;
 
@@ -20,7 +20,7 @@ public class JwtProvider {
 
     public String generateJwtToken(Authentication authentication) {
 
-        JwtUserPrinciple userPrincipal = (JwtUserPrinciple) authentication.getPrincipal();
+        JwtUserPrincipal userPrincipal = (JwtUserPrincipal) authentication.getPrincipal();
 
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + expirationTime);
