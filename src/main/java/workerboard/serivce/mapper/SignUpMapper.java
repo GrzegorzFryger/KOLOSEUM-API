@@ -24,4 +24,6 @@ public interface SignUpMapper {
             }
     )
     ApplicationUser registrationUserToApplicationUser(RegistrationUserDto registrationUserDto);
+
 }
+
