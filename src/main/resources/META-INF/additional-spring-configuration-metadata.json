@@ -1,0 +1,14 @@
+{
+  "properties": [
+    {
+      "name": "jwt.secretPass",
+      "type": "java.lang.String",
+      "description": "Description for jwt.secretPass."
+    },
+    {
+      "name": "jwt.expirationTime",
+      "type": "java.lang.String",
+      "description": "Description for jwt.expirationTime."
+    }
+  ]
+}

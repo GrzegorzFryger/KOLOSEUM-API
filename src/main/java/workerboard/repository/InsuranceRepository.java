@@ -5,7 +5,7 @@ import workerboard.model.InsuranceApplication;
 
 import java.time.LocalDate;
 
-public interface InsuranceApplicationRepository extends JpaRepository<InsuranceApplication, Long> {
+public interface InsuranceRepository extends JpaRepository<InsuranceApplication, Long> {
 
     Integer countByRegisterDate(LocalDate registerDate);
 }

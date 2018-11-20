@@ -1,33 +1,48 @@
 package workerboard.model;
 
-import workerboard.model.enums.UserRole;
+import com.fasterxml.jackson.annotation.JsonView;
+import org.hibernate.annotations.NaturalId;
+import workerboard.model.dto.ViewsForApplicationUser;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
+@Table(name = "application_user")
 public class ApplicationUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView(ViewsForApplicationUser.ExtendedByID.class)
     private Long id;
+    @JsonView(ViewsForApplicationUser.Basic.class)
     private String firstName;
+    @JsonView(ViewsForApplicationUser.Basic.class)
     private String lastName;
+
+    @NaturalId
+    @JsonView(ViewsForApplicationUser.Basic.class)
     private String email;
+
     private String password;
-    private UserRole userRole;
+
+    @JsonView(ViewsForApplicationUser.Basic.class)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private List<Role> roles = new ArrayList<>();
 
     public ApplicationUser() {
     }
 
-    public ApplicationUser(String firstName, String lastName, String email, String password, UserRole userRole) {
+    public ApplicationUser(String firstName, String lastName, String email, String password, List<Role> roles) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.userRole = userRole;
+        this.roles = roles;
     }
 
 
@@ -51,7 +66,15 @@ public class ApplicationUser {
         return password;
     }
 
-    public UserRole getUserRole() {
-        return userRole;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 }

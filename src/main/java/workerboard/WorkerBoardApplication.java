@@ -11,5 +11,10 @@ public class WorkerBoardApplication {
         SpringApplication.run(WorkerBoardApplication.class, args);
     }
 
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
 
 }
