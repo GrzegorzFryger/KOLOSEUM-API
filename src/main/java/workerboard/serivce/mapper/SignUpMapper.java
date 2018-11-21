@@ -18,8 +18,8 @@ public interface SignUpMapper {
                     @Mapping(ignore = true, target = "id"),
                     @Mapping(source = "registrationName", target = "firstName"),
                     @Mapping(source = "registrationSurname", target = "lastName"),
-                    @Mapping(source = "registrationEmail", target = "email"),
-                    @Mapping(source = "registrationPassword", target = "password"),
+                    @Mapping(source = "email", target = "email"),
+                    @Mapping(source = "password", target = "password"),
                     @Mapping(source = "userRole", target = "roles")
             }
     )
