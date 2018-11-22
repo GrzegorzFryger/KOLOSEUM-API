@@ -21,7 +21,6 @@ public class SignUpService {
     @Autowired
     public SignUpService(ApplicationUserRepository applicationUserRepository,
                          BCryptPasswordEncoder passwordEncoder) {
-
         this.applicationUserRepository = applicationUserRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -37,8 +36,7 @@ public class SignUpService {
 
         newApplicationUser.setPassword(passwordEncoder.encode(newApplicationUser.getPassword()));
 
-        newApplicationUser.setRoles(Arrays.asList(new Role(UserRole.ROLE_UNSPECIFED)));
-
+        newApplicationUser.setRoles(Arrays.asList(new Role(UserRole.ROLE_UNSPECIFIED)));
         return applicationUserRepository.save(newApplicationUser);
     }
 }

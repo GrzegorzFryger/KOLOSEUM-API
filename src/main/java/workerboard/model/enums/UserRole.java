@@ -7,7 +7,7 @@ public enum UserRole implements Serializable {
     ROLE_ADMIN,
     ROLE_MANAGER,
     ROLE_ANALYST,
-    ROLE_UNSPECIFED
+    ROLE_UNSPECIFIED
 
 
 }
