@@ -10,11 +10,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import workerboard.exception.UserNotFound;
 import workerboard.exception.UserWrongPassword;
+import workerboard.model.ApplicationUser;
 import workerboard.model.dto.LoginDto;
+import workerboard.model.dto.SignInUserDto;
+import workerboard.repository.ApplicationUserRepository;
 import workerboard.security.jwt.JwtProvider;
-import workerboard.security.jwt.model.JwtAuthenticationResponse;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin
@@ -27,10 +30,14 @@ public class SignInController {
     @Autowired
     AuthenticationManager authenticationManager;
 
+    @Autowired
+    ApplicationUserRepository applicationUserRepository;
+
 
     @PostMapping
-    public ResponseEntity<?> loginUser(@RequestBody @Valid LoginDto loginDto) throws UserWrongPassword, UserNotFound {
+    public ResponseEntity<SignInUserDto> loginUser(@RequestBody @Valid LoginDto loginDto) throws UserWrongPassword, UserNotFound {
 
+        SignInUserDto dto = new SignInUserDto();
         //pull db
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -41,9 +48,16 @@ public class SignInController {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        String jwt = jwtProvider.generateJwtToken(authentication);
+        Optional<ApplicationUser> byEmail = applicationUserRepository.findByEmail(loginDto.getEmail());
 
-        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
+        if(byEmail.isPresent()) {
+
+            dto.setApplicationUser(byEmail.get());
+            dto.setToken(jwtProvider.generateJwtToken(authentication));
+            dto.setTokenType("Bearer");
+            return ResponseEntity.ok(dto);
+        }
+        throw new UserNotFound("User with " + loginDto.getEmail() + " email not found");
 
     }
 }

@@ -1,5 +1,7 @@
 package workerboard.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.hibernate.annotations.NaturalId;
 import workerboard.model.dto.ViewsForApplicationUser;
@@ -24,6 +26,7 @@ public class ApplicationUser {
     @NaturalId
     @JsonView(ViewsForApplicationUser.Basic.class)
     private String email;
+
 
     private String password;
 
@@ -78,10 +81,12 @@ public class ApplicationUser {
         this.email = email;
     }
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
 
+    @JsonProperty
     public void setPassword(String password) {
         this.password = password;
     }
