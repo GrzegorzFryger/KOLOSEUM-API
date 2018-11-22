@@ -33,28 +33,45 @@ public class RegistrationUserDto implements Serializable
     private Set<Role> userRole = new HashSet<>();
 
     public RegistrationUserDto() {
-
-
-
     }
 
     public String getRegistrationName() {
         return registrationName;
     }
 
+    public void setRegistrationName(String registrationName) {
+        this.registrationName = registrationName;
+    }
+
     public String getRegistrationSurname() {
         return registrationSurname;
+    }
+
+    public void setRegistrationSurname(String registrationSurname) {
+        this.registrationSurname = registrationSurname;
     }
 
     public String getEmail() {
         return email;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getPassword() {
         return password;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public Set<Role> getUserRole() {
         return userRole;
+    }
+
+    public void setUserRole(Set<Role> userRole) {
+        this.userRole = userRole;
     }
 }
