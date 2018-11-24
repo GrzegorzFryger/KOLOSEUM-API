@@ -1,10 +1,10 @@
 package workerboard.exception;
 
-public class UserNotFound extends Exception {
+public class WrongTypeArguments extends Exception {
 
     private String message;
 
-    public UserNotFound(String message) {
+    public WrongTypeArguments(String message) {
         this.message = message;
     }
 
@@ -13,3 +13,5 @@ public class UserNotFound extends Exception {
         return message;
     }
 }
+
+

@@ -8,7 +8,7 @@ import workerboard.model.ApplicationUser;
 import java.util.Optional;
 
 @Repository
-public interface ApplicationUserRepository extends JpaRepository<ApplicationUser, Long> , JpaSpecificationExecutor {
+public interface ApplicationUserRepository extends BasicRepository<ApplicationUser> {
 
      Optional<ApplicationUser> findByEmail(String userEmail);
 }

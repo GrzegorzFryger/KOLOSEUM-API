@@ -13,8 +13,8 @@ import java.util.List;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler({SingUpNotAddException.class, UserNotFound.class,
-    UserWrongPassword.class, ToMuchArguments.class})
+    @ExceptionHandler({SingUpNotAddException.class, NotFound.class,
+    UserWrongPassword.class, WrongTypeArguments.class})
 
     public final ResponseEntity<ApiError> handleException(Exception ex, WebRequest request) {
         HttpHeaders headers = new HttpHeaders();
@@ -27,11 +27,11 @@ public class GlobalExceptionHandler {
             return handleRegistrationNotAddException(singUpNotAddException, headers, status, request);
 
         }
-        if (ex instanceof UserNotFound) {
+        if (ex instanceof NotFound) {
             HttpStatus status = HttpStatus.NOT_FOUND;
-            UserNotFound userNotFound = (UserNotFound) ex;
+            NotFound notFound = (NotFound) ex;
 
-            return handleNotFoundException(userNotFound, headers, status, request);
+            return handleNotFoundException(notFound, headers, status, request);
 
         }
         if (ex instanceof UserWrongPassword) {
@@ -41,9 +41,9 @@ public class GlobalExceptionHandler {
             return handleWrongPasswordException(applicationNotFound,headers, status, request);
         }
 
-        if (ex instanceof ToMuchArguments) {
+        if (ex instanceof WrongTypeArguments) {
             HttpStatus status = HttpStatus.NOT_ACCEPTABLE;
-            ToMuchArguments appex = (ToMuchArguments) ex;
+            WrongTypeArguments appex = (WrongTypeArguments) ex;
 
             return handleApplicationToMuchArgument(appex,headers, status, request);
         }
@@ -66,13 +66,13 @@ public class GlobalExceptionHandler {
         List<String> errors = Collections.singletonList(ex.getMessage());
         return handleExceptionOther(ex, new ApiError(errors), headers, status, request);
     }
-    protected ResponseEntity<ApiError> handleApplicationToMuchArgument(ToMuchArguments ex,
+    protected ResponseEntity<ApiError> handleApplicationToMuchArgument(WrongTypeArguments ex,
                                                                        HttpHeaders headers, HttpStatus status, WebRequest request) {
         List<String> errors = Collections.singletonList(ex.getMessage());
         return handleExceptionOther(ex, new ApiError(errors), headers, status, request);
     }
 
-    protected ResponseEntity<ApiError> handleNotFoundException(UserNotFound ex,
+    protected ResponseEntity<ApiError> handleNotFoundException(NotFound ex,
                                                                HttpHeaders headers, HttpStatus status, WebRequest request) {
         List<String> errors = Collections.singletonList(ex.getMessage());
         return handleExceptionOther(ex, new ApiError(errors), headers, status, request);

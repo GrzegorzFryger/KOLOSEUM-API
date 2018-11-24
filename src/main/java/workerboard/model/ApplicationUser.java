@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.hibernate.annotations.NaturalId;
 import workerboard.model.dto.ViewsForApplicationUser;
+import workerboard.serivce.mapper.MapGenerate;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "application_user")
-public class ApplicationUser {
+public class ApplicationUser implements MapGenerate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

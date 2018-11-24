@@ -8,7 +8,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import workerboard.exception.UserNotFound;
+import workerboard.exception.NotFound;
 import workerboard.exception.UserWrongPassword;
 import workerboard.model.ApplicationUser;
 import workerboard.model.dto.LoginDto;
@@ -35,7 +35,7 @@ public class SignInController {
 
 
     @PostMapping
-    public ResponseEntity<SignInUserDto> loginUser(@RequestBody @Valid LoginDto loginDto) throws UserWrongPassword, UserNotFound {
+    public ResponseEntity<SignInUserDto> loginUser(@RequestBody @Valid LoginDto loginDto) throws UserWrongPassword, NotFound {
 
         SignInUserDto dto = new SignInUserDto();
         //pull db
@@ -57,7 +57,7 @@ public class SignInController {
             dto.setTokenType("Bearer");
             return ResponseEntity.ok(dto);
         }
-        throw new UserNotFound("User with " + loginDto.getEmail() + " email not found");
+        throw new NotFound("User with " + loginDto.getEmail() + " email not found");
 
     }
 }

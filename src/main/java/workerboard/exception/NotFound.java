@@ -1,10 +1,10 @@
 package workerboard.exception;
 
-public class ToMuchArguments extends Exception {
+public class NotFound extends Exception {
 
     private String message;
 
-    public ToMuchArguments(String message) {
+    public NotFound(String message) {
         this.message = message;
     }
 
@@ -13,5 +13,3 @@ public class ToMuchArguments extends Exception {
         return message;
     }
 }
-
-

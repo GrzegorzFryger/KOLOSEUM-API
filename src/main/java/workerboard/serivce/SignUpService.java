@@ -3,7 +3,7 @@ package workerboard.serivce;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import workerboard.exception.UserNotFound;
+import workerboard.exception.NotFound;
 import workerboard.model.ApplicationUser;
 import workerboard.model.Role;
 import workerboard.model.enums.UserRole;
@@ -26,12 +26,12 @@ public class SignUpService {
     }
 
 
-    public ApplicationUser registrationNewUser(ApplicationUser newApplicationUser) throws UserNotFound {
+    public ApplicationUser registrationNewUser(ApplicationUser newApplicationUser) throws NotFound {
 
         if (applicationUserRepository
                 .findByEmail(newApplicationUser.getEmail())
                 .isPresent()) {
-            throw new UserNotFound("User with email: " + newApplicationUser.getEmail() + " exist");
+            throw new NotFound("User with email: " + newApplicationUser.getEmail() + " exist");
         }
 
         newApplicationUser.setPassword(passwordEncoder.encode(newApplicationUser.getPassword()));

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import workerboard.model.Vehicle;
 
 @Repository
-public interface VehicleRepository extends JpaRepository<Vehicle, Long>, JpaSpecificationExecutor {
+public interface VehicleRepository extends BasicRepository<Vehicle>  {
 
 
 }

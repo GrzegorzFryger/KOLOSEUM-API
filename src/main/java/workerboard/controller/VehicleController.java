@@ -25,6 +25,7 @@ public class VehicleController {
     @PostMapping
     @PreAuthorize("hasRole('PM') or hasRole('ADMIN')")
     public ResponseEntity<List<Vehicle>> findVehicleProperty(@RequestBody Vehicle vehicle){
+
         return ResponseEntity.ok(vehicleService.findVehicleProperty(vehicle));
     }
 

@@ -3,8 +3,8 @@ package workerboard.controller;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import workerboard.exception.NotFound;
 import workerboard.exception.SingUpNotAddException;
-import workerboard.exception.UserNotFound;
 import workerboard.model.ApplicationUser;
 import workerboard.model.dto.RegistrationUserDto;
 import workerboard.model.dto.ViewsForApplicationUser;
@@ -30,7 +30,7 @@ public class SingUpController {
     @PostMapping
     @JsonView(ViewsForApplicationUser.Basic.class)
     public ResponseEntity<ApplicationUser> registerNewUser(@RequestBody @Valid RegistrationUserDto registrationUserDto)
-            throws SingUpNotAddException, UserNotFound {
+            throws SingUpNotAddException, NotFound {
 
         return ResponseEntity.ok(this.signUpService.registrationNewUser(Optional
                 .of(registrationMapper.registrationUserToApplicationUser(registrationUserDto))
