@@ -26,7 +26,7 @@ public interface MapGenerate {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         return map;
     }
 }
