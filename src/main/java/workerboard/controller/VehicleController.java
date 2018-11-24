@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.*;
 import workerboard.model.Vehicle;
 import workerboard.serivce.VehicleService;
 
+import javax.xml.ws.Response;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -31,7 +33,15 @@ public class VehicleController {
 
     @PostMapping("/{attribute}")
     public ResponseEntity<List<String>> findVehicleProperty(@RequestBody Vehicle vehicle, @PathVariable("attribute") String attribute ){
+
+        //temporary for angular
+        if(attribute.equals("productionYear") ) {
+            return ResponseEntity.ok(vehicleService.findAllByAttributeWithDistrict("productionYear"));
+        }
+
         return ResponseEntity.ok(vehicleService.findVehiclePropertyByAttribute(vehicle, attribute));
     }
+
+
 
 }

@@ -1,12 +1,10 @@
 package workerboard.serivce;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import workerboard.model.Vehicle;
 import workerboard.repository.VehicleRepository;
 
-import javax.persistence.criteria.Predicate;
 import java.util.*;
 
 @Service
@@ -27,7 +25,6 @@ public class VehicleService extends BasicAbstractService<Vehicle>{
             vehicle);
     }
 
-
     public List<String> findVehiclePropertyByAttribute(Vehicle vehicle, String attribute) {
 
         return super.findPropertyByAttribute(andCriteria(),
@@ -35,4 +32,11 @@ public class VehicleService extends BasicAbstractService<Vehicle>{
                 attribute,
                 Vehicle.class);
     }
+
+    public List<String> findAllByAttributeWithDistrict( String attribute) {
+
+        return vehicleRepository.findAllByAttributeWithDistinct(Vehicle.class,attribute);
+    }
+
+
 }

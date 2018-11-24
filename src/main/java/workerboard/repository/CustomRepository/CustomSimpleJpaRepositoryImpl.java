@@ -36,7 +36,7 @@ public class CustomSimpleJpaRepositoryImpl<T,ID extends Serializable>  extends S
 
     @Override
     @Transactional(readOnly = true)
-    public List<String> findAllPropertyByAttribute(Specification<T> spec, Class<T> domainClass, String attribute)
+    public List<String> findAllByAttributeAndCriteria(Specification<T> spec, Class<T> domainClass, String attribute)
             throws IllegalArgumentException{
 
         Assert.notNull(domainClass, "Domain class must not be null!");
@@ -52,11 +52,33 @@ public class CustomSimpleJpaRepositoryImpl<T,ID extends Serializable>  extends S
         Root<T> root = criteria.from(domainClass);
         criteria.select(root.get(attribute));
 
+
         criteria.where(spec.toPredicate(root,criteria,builder));
         return entityManager.createQuery(criteria).getResultList();
 
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<String> findAllByAttributeWithDistinct(Class<T> domainClass, String attribute)
+            throws IllegalArgumentException{
+
+        Assert.notNull(domainClass, "Domain class must not be null!");
+        Assert.notNull(attribute, "Specification must not be null!");
+
+
+        CriteriaBuilder builder =  entityManager.getCriteriaBuilder();
+
+        CriteriaQuery<String> criteria = builder
+                .createQuery(String.class);
+
+        Root<T> root = criteria.from(domainClass);
+        criteria.select(root.get(attribute));
+        criteria.distinct(true);
+
+        return entityManager.createQuery(criteria).getResultList();
+
+    }
 
 
 

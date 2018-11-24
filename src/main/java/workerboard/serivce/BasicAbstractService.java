@@ -73,7 +73,7 @@ public abstract class BasicAbstractService<T> {
 
         Assert.notEmpty(mapParameters, "Map must not be empty ");
         return basicRepository
-                .findAllPropertyByAttribute(criteria.createSpecification(mapParameters),
+                .findAllByAttributeAndCriteria(criteria.createSpecification(mapParameters),
                         domain,
                         attribute);
     }

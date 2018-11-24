@@ -12,7 +12,8 @@ import java.util.Optional;
 public interface CustomSimpleJpaRepository<T,ID extends Serializable> extends JpaRepository<T, ID> {
 
 
-    List<String> findAllPropertyByAttribute(Specification<T> spec, Class<T> domainClass, String attribute)
+    List<String> findAllByAttributeAndCriteria(Specification<T> spec, Class<T> domainClass, String attribute)
             throws IllegalArgumentException;
 
+    List<String> findAllByAttributeWithDistinct(Class<T> domainClass, String attribute);
 }
