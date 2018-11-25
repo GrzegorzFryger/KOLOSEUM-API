@@ -3,6 +3,7 @@ package workerboard.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import workerboard.exception.NotFound;
 import workerboard.model.ToDoCard;
 import workerboard.model.dto.ToDoCardCreateDto;
 import workerboard.model.dto.ToDoCardUpdateDto;
@@ -31,6 +32,11 @@ public class ToDoController {
     @GetMapping
     ResponseEntity<List<ToDoCard>> getAllToDoCards(){
         return ResponseEntity.ok(toDoService.getAllToDoCards());
+    }
+
+    @GetMapping(path = "/byUser/{userId}")
+    ResponseEntity<List<ToDoCard>> getAllToDoCardsByUser(@PathVariable("userId") Long id) throws NotFound {
+        return ResponseEntity.ok(toDoService.getAllToDoCardsByUser(id));
     }
 
     @PutMapping

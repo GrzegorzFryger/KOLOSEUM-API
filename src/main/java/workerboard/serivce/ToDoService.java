@@ -2,6 +2,7 @@ package workerboard.serivce;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import workerboard.exception.NotFound;
 import workerboard.model.ApplicationUser;
 import workerboard.model.ServiceMessage;
 import workerboard.model.ToDoCard;
@@ -114,5 +115,16 @@ public class ToDoService {
         }
         card.addMessage(new ServiceMessage(ServiceMessageType.ERROR, "Card doesn't exist"));
         return card;
+    }
+
+    public List<ToDoCard> getAllToDoCardsByUser(Long id) throws NotFound {
+
+        Optional<ApplicationUser> optionlUser = applicationUserRepository.findById(id);
+        if(optionlUser.isPresent()) {
+            return toDoRepository.findAllByUser(optionlUser.get());
+        }
+
+        throw new NotFound("User with ID: " + id + " not found");
+
     }
 }

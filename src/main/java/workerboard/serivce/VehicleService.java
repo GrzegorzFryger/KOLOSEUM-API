@@ -6,6 +6,7 @@ import workerboard.model.Vehicle;
 import workerboard.repository.VehicleRepository;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class VehicleService extends BasicAbstractService<Vehicle>{
@@ -30,12 +31,18 @@ public class VehicleService extends BasicAbstractService<Vehicle>{
         return super.findPropertyByAttribute(andCriteria(),
                 vehicle,
                 attribute,
-                Vehicle.class);
+                Vehicle.class)
+                .stream()
+                .distinct()
+                .collect(Collectors.toList());
     }
 
     public List<String> findAllByAttributeWithDistrict( String attribute) {
 
-        return vehicleRepository.findAllByAttributeWithDistinct(Vehicle.class,attribute);
+        return vehicleRepository.findAllByAttributeWithDistinct(Vehicle.class,attribute)
+                .stream()
+                .sorted(Comparator.reverseOrder())
+                .collect(Collectors.toList());
     }
 
 

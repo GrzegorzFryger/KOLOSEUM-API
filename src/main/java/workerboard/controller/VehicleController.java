@@ -7,9 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import workerboard.model.Vehicle;
 import workerboard.serivce.VehicleService;
 
-import javax.xml.ws.Response;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -25,7 +23,7 @@ public class VehicleController {
 
 
     @PostMapping
-    @PreAuthorize("hasRole('PM') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('PM') or hasRole('ADMIN') or hasRole('UNSPECIFIED')")
     public ResponseEntity<List<Vehicle>> findVehicleProperty(@RequestBody Vehicle vehicle){
 
         return ResponseEntity.ok(vehicleService.findVehicleProperty(vehicle));
