@@ -1,12 +1,17 @@
 package workerboard.serivce;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import workerboard.model.Vehicle;
+import workerboard.repository.CustomRepository.CustomSimpleJpaRepositoryImpl;
 import workerboard.repository.VehicleRepository;
 
-import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
+
+import static workerboard.repository.CustomRepository.CustomSimpleJpaRepositoryImpl.SortType.ASC;
+import static workerboard.repository.CustomRepository.CustomSimpleJpaRepositoryImpl.SortType.DESC;
 
 @Service
 public class VehicleService extends BasicAbstractService<Vehicle>{
@@ -28,21 +33,17 @@ public class VehicleService extends BasicAbstractService<Vehicle>{
 
     public List<String> findVehiclePropertyByAttribute(Vehicle vehicle, String attribute) {
 
-        return super.findPropertyByAttribute(andCriteria(),
+        return findPropertyByAttribute(andCriteria(),
                 vehicle,
                 attribute,
-                Vehicle.class)
-                .stream()
-                .distinct()
-                .collect(Collectors.toList());
+                Vehicle.class,true, ASC);
     }
 
     public List<String> findAllByAttributeWithDistrict( String attribute) {
 
-        return vehicleRepository.findAllByAttributeWithDistinct(Vehicle.class,attribute)
-                .stream()
-                .sorted(Comparator.reverseOrder())
-                .collect(Collectors.toList());
+
+        return vehicleRepository.findAllProjection(Vehicle.class,attribute,true , DESC);
+
     }
 
 

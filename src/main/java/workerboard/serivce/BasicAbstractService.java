@@ -4,6 +4,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.Assert;
 import workerboard.exception.NotFound;
 import workerboard.repository.BasicRepository;
+import workerboard.repository.CustomRepository.CustomSimpleJpaRepositoryImpl;
 import workerboard.serivce.mapper.MapGenerate;
 
 import javax.persistence.criteria.Predicate;
@@ -37,6 +38,7 @@ public abstract class BasicAbstractService<T> {
         };
     }
 
+
     @SuppressWarnings("unchecked")
     //Accept only map with one value
     public static SpecificationFunctional likeCriteria() throws IllegalArgumentException {
@@ -57,6 +59,25 @@ public abstract class BasicAbstractService<T> {
         return basicRepository.findAll();
     }
 
+
+    @SuppressWarnings("unchecked")
+    public <U extends MapGenerate> List<String> findPropertyByAttribute(SpecificationFunctional criteria, U classCastToMap,
+                                                                        String selectedAttribute, Class<T> domain, boolean distinct,
+                                                                        CustomSimpleJpaRepositoryImpl.SortType sortType) {
+
+        Assert.notNull(classCastToMap, "Domain class must not be null!");
+        return basicRepository
+                .findAllProjectionByAttributeAndCriteria(criteria.createSpecification(
+                        classCastToMap.toMap()
+                        ),
+                        domain,
+                        selectedAttribute,
+                        distinct,
+                        sortType
+                ) ;
+
+    }
+
     @SuppressWarnings("unchecked")
     public <U extends MapGenerate> List<String> findPropertyByAttribute(SpecificationFunctional criteria, U classCastToMap,
                                                                         String selectedAttribute, Class<T> domain) {
@@ -73,7 +94,7 @@ public abstract class BasicAbstractService<T> {
 
         Assert.notEmpty(mapParameters, "Map must not be empty ");
         return basicRepository
-                .findAllByAttributeAndCriteria(criteria.createSpecification(mapParameters),
+                .findAllProjectionByAttributeAndCriteria(criteria.createSpecification(mapParameters),
                         domain,
                         attribute);
     }
