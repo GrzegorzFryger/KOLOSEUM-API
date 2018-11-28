@@ -1,6 +1,7 @@
 package workerboard.model;
 
 import workerboard.model.dto.RiskDto;
+import workerboard.model.enums.InsuranceApplicationState;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -26,6 +27,8 @@ public class InsuranceApplication {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "message_id")
     private List<ServiceMessage> messages = new ArrayList<>();
+    @Enumerated(EnumType.STRING)
+    private InsuranceApplicationState state;
     @Transient
     private List<RiskDto> riskVariants = new ArrayList<>();
     private LocalDate registerDate = LocalDate.now();
@@ -33,12 +36,13 @@ public class InsuranceApplication {
     public InsuranceApplication() {
     }
 
-    public InsuranceApplication(Vehicle vehicle, List<Person> persons, List<Risk> risks, String number, List<ServiceMessage> messages) {
+    public InsuranceApplication(Vehicle vehicle, List<Person> persons, List<Risk> risks, String number, List<ServiceMessage> messages, InsuranceApplicationState state) {
         this.vehicle = vehicle;
         this.persons = persons;
         this.risks = risks;
         this.number = number;
         this.messages = messages;
+        this.state = state;
     }
 
     public Long getId() {
@@ -87,5 +91,13 @@ public class InsuranceApplication {
 
     public LocalDate getRegisterDate() {
         return registerDate;
+    }
+
+    public InsuranceApplicationState getState() {
+        return state;
+    }
+
+    public void setState(InsuranceApplicationState state) {
+        this.state = state;
     }
 }

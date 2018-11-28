@@ -17,13 +17,13 @@ public class RisksService {
 
     List<RiskDto> getAvailableRisks(InsuranceApplication insuranceApplication) {
         List<RiskDto> risks = new ArrayList<>();
-        risks.add(new RiskDto("NNW Basic", 30000, getPremiumByPrice(150)));
-        risks.add(new RiskDto("NNW Premium", 50000, getPremiumByPrice(240)));
-        risks.add(new RiskDto("Assistance Basic", 15000, getPremiumByPrice(160)));
-        risks.add(new RiskDto("Assistance Premium", 15000, getPremiumByPrice(220)));
-        risks.add(new RiskDto("Szyby", 5000, getPremiumByPrice(120)));
-        risks.add(new RiskDto("AC", Double.valueOf(insuranceApplication.getVehicle().getVehicleValue()), getPremiumByPrice(getACPrice(insuranceApplication))));
-        risks.add(new RiskDto("OC", Double.valueOf(insuranceApplication.getVehicle().getVehicleValue()), getPremiumByPrice(getOCPrice(insuranceApplication))));
+        risks.add(new RiskDto("NNW Basic", 30000, getPremiumByPrice(150), "Następstwo Nieszczęśliwych Wypadków"));
+        risks.add(new RiskDto("NNW Premium", 50000, getPremiumByPrice(240), "Następstwo Nieszczęśliwych Wypadków"));
+        risks.add(new RiskDto("Assistance Basic", 15000, getPremiumByPrice(160), "Car Assistance - Wariant Podstawowy"));
+        risks.add(new RiskDto("Assistance Premium", 15000, getPremiumByPrice(220), "Car Assistance - Wariant Rozszerzony"));
+        risks.add(new RiskDto("Szyby", 5000, getPremiumByPrice(120), "Ubezpieczenie Szyb"));
+        risks.add(new RiskDto("AC", Double.valueOf(insuranceApplication.getVehicle().getVehicleValue()), getPremiumByPrice(getACPrice(insuranceApplication)), "Auto Casco"));
+        risks.add(new RiskDto("OC", Double.valueOf(insuranceApplication.getVehicle().getVehicleValue()), getPremiumByPrice(getOCPrice(insuranceApplication)), "Ubezpieczenia komunikacyjne OC"));
 
 
         return risks;

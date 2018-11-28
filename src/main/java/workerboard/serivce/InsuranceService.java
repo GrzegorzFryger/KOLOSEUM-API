@@ -2,13 +2,16 @@ package workerboard.serivce;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import workerboard.exception.NotFound;
 import workerboard.model.InsuranceApplication;
 import workerboard.model.ServiceMessage;
+import workerboard.model.enums.InsuranceApplicationState;
 import workerboard.model.enums.ServiceMessageType;
 import workerboard.repository.InsuranceHistoryRepository;
 import workerboard.repository.InsuranceRepository;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 public class InsuranceService {
@@ -32,6 +35,7 @@ public class InsuranceService {
 
         insuranceApplication.setRiskVariants(risksService.getAvailableRisks(insuranceApplication));
         insuranceApplication.setNumber(getCalculationNumber());
+        insuranceApplication.setState(InsuranceApplicationState.APPLICATION);
 
         insuranceHistoryRepository.save(insuranceApplication.getPersons().get(0).getInsuranceHistory());
         insuranceRepository.save(insuranceApplication);
@@ -51,5 +55,17 @@ public class InsuranceService {
 
         return insuranceApplication.getPersons().get(0).getDrivingLicenseIssueDate() != null;
 
+    }
+
+    public InsuranceApplication getInsuranceApplicationById(Long id) throws NotFound {
+
+        Optional<InsuranceApplication> applicationOptional = insuranceRepository.findById(id);
+        if(applicationOptional.isPresent()){
+            InsuranceApplication insuranceApplication = applicationOptional.get();
+            insuranceApplication.setRiskVariants(risksService.getAvailableRisks(insuranceApplication));
+            return insuranceApplication;
+        }
+
+        throw new NotFound("Application with ID " + id + " not found");
     }
 }
