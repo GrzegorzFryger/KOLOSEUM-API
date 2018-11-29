@@ -32,17 +32,19 @@ public class InsuranceApplication {
     @Transient
     private List<RiskDto> riskVariants = new ArrayList<>();
     private LocalDate registerDate = LocalDate.now();
+    private Integer installmentAmount = 1;
 
     public InsuranceApplication() {
     }
 
-    public InsuranceApplication(Vehicle vehicle, List<Person> persons, List<Risk> risks, String number, List<ServiceMessage> messages, InsuranceApplicationState state) {
+    public InsuranceApplication(Vehicle vehicle, List<Person> persons, List<Risk> risks, String number, List<ServiceMessage> messages, InsuranceApplicationState state, Integer installmentAmount) {
         this.vehicle = vehicle;
         this.persons = persons;
         this.risks = risks;
         this.number = number;
         this.messages = messages;
         this.state = state;
+        this.installmentAmount = installmentAmount;
     }
 
     public Long getId() {
@@ -99,5 +101,9 @@ public class InsuranceApplication {
 
     public void setState(InsuranceApplicationState state) {
         this.state = state;
+    }
+
+    public Integer getInstallmentAmount() {
+        return installmentAmount;
     }
 }
