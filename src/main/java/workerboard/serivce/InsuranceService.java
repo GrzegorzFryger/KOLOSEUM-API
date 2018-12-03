@@ -68,4 +68,15 @@ public class InsuranceService {
 
         throw new NotFound("Application with ID " + id + " not found");
     }
+
+    public InsuranceApplication updateInsuranceApplication(Long id, InsuranceApplication insuranceApplication) throws NotFound {
+        Optional<InsuranceApplication> optionalApplication = insuranceRepository.findById(id);
+        if(optionalApplication.isPresent()) {
+            InsuranceApplication applicationFromDB = optionalApplication.get();
+            applicationFromDB = insuranceApplication;
+            return insuranceRepository.save(applicationFromDB);
+        }
+
+        throw new NotFound("Application with ID: " + id + "not found");
+    }
 }

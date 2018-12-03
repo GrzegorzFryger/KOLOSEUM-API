@@ -30,4 +30,10 @@ public class InsuranceController {
         return ResponseEntity.ok(insuranceService.getInsuranceApplicationById(id));
 
     }
+
+    @PutMapping("/{id}")
+    ResponseEntity<InsuranceApplication> updateInsuranceApplication(@PathVariable("id") Long id, @RequestBody InsuranceApplication insuranceApplication) throws NotFound {
+        return ResponseEntity.ok(insuranceService.updateInsuranceApplication(id, insuranceApplication));
+    }
+
 }

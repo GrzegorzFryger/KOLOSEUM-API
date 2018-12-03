@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import workerboard.repository.CustomRepository.CustomSimpleJpaRepositoryImpl;
 
+
 @SpringBootApplication
 @EnableJpaRepositories(repositoryBaseClass = CustomSimpleJpaRepositoryImpl.class)
 public class WorkerBoardApplication {

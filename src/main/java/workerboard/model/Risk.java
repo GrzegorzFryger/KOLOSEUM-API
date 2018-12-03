@@ -10,7 +10,7 @@ public class Risk {
     private Long id;
     private String name;
     private double sum;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "premiumList_id")
     private Premium premiumList;
 
