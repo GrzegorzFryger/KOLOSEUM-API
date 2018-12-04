@@ -3,6 +3,7 @@ package workerboard.serivce;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import workerboard.exception.NotFound;
+import workerboard.exception.WrongTypeArguments;
 import workerboard.model.ApplicationUser;
 import workerboard.model.ServiceMessage;
 import workerboard.model.ToDoCard;
@@ -30,29 +31,16 @@ public class ToDoService {
     }
 
 
-    public ToDoCard createToDoCard(ToDoCardCreateDto toDoCardCreateDto) {
+    public ToDoCard createToDoCard(ToDoCardCreateDto toDoCardCreateDto) throws  NotFound {
         ToDoCard toDoCard = new ToDoCard();
 
-        if(toDoCardCreateDto.getText() == null || toDoCardCreateDto.getText().isEmpty() ) {
-            toDoCard.addMessage(new ServiceMessage(ServiceMessageType.ERROR, "Text is required"));
-            return toDoCard;
-        }
-        if(toDoCardCreateDto.getTitle() == null || toDoCardCreateDto.getTitle().isEmpty()) {
-            toDoCard.addMessage(new ServiceMessage(ServiceMessageType.ERROR, "Title is required"));
-            return toDoCard;
-        }
-        if(toDoCardCreateDto.getUserId() == null) {
-            toDoCard.addMessage(new ServiceMessage(ServiceMessageType.ERROR, "UserId is required"));
-            return toDoCard;
-        }
+       ApplicationUser applicationUser = applicationUserRepository
+               .findById(toDoCardCreateDto.getUserId()).orElseThrow(() -> new NotFound("not Found"));
 
-        Optional<ApplicationUser> applicationUserOptional = applicationUserRepository.findById(toDoCardCreateDto.getUserId());
-        if(applicationUserOptional.isPresent()) {
-            return toDoRepository.save(ToDoCard.createToDoCard(toDoCardCreateDto, applicationUserOptional.get()));
-        } else {
-            toDoCard.addMessage(new ServiceMessage(ServiceMessageType.ERROR, "User doesn't exist"));
-            return toDoCard;
-        }
+
+       return toDoRepository.save(ToDoCard.createToDoCard(toDoCardCreateDto, applicationUser));
+
+
     }
 
     public List<ToDoCard> getAllToDoCards() {
@@ -72,7 +60,8 @@ public class ToDoService {
                     toDoCard.setUser(applicationUserOptional.get());
                 } else {
                     ToDoCard card = new ToDoCard();
-                    card.addMessage(new ServiceMessage(ServiceMessageType.ERROR, "User doesn't exist"));
+                    //todo
+//                    card.addMessage(new ServiceMessage(ServiceMessageType.ERROR, "User doesn't exist"));
                     return card;
                 }
             }
@@ -86,10 +75,11 @@ public class ToDoService {
             if(toDoCardUpdateDto.getState() != null) {
                 toDoCard.setState(toDoCardUpdateDto.getState());
             }
-            toDoCard.setLastModification(LocalDateTime.now());
+           // toDoCard.setLastModification(LocalDateTime.now());
             toDoRepository.save(toDoCard);
         }else {
-            toDoCard.addMessage(new ServiceMessage(ServiceMessageType.ERROR, "Card doesn't exist"));
+            //todo
+//            toDoCard.addMessage(new ServiceMessage(ServiceMessageType.ERROR, "Card doesn't exist"));
             return toDoCard;
         }
         return toDoCard;
@@ -101,7 +91,7 @@ public class ToDoService {
             return toDoCardOptional.get();
         }
         ToDoCard card = new ToDoCard();
-        card.addMessage(new ServiceMessage(ServiceMessageType.ERROR, "Card doesn't exist"));
+//        card.addMessage(new ServiceMessage(ServiceMessageType.ERROR, "Card doesn't exist"));
         return card;
     }
 
@@ -110,10 +100,12 @@ public class ToDoService {
         Optional<ToDoCard> toDoCardOptional = toDoRepository.findById(id);
         if(toDoCardOptional.isPresent()){
             toDoRepository.deleteById(id);
-            card.addMessage(new ServiceMessage(ServiceMessageType.INFO, "Card removed correctly"));
+            //todo
+//            card.addMessage(new ServiceMessage(ServiceMessageType.INFO, "Card removed correctly"));
             return card;
         }
-        card.addMessage(new ServiceMessage(ServiceMessageType.ERROR, "Card doesn't exist"));
+        //todo
+//        card.addMessage(new ServiceMessage(ServiceMessageType.ERROR, "Card doesn't exist"));
         return card;
     }
 
