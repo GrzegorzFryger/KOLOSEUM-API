@@ -13,15 +13,17 @@ public class Adress {
     private Long id;
     private String postalCode;
     private String city;
+    private String street;
     private String house;
     private String apartment;
 
     public Adress() {
     }
 
-    public Adress(String postalCode, String city, String house, String apartment) {
+    public Adress(String postalCode, String city, String street, String house, String apartment) {
         this.postalCode = postalCode;
         this.city = city;
+        this.street = street;
         this.house = house;
         this.apartment = apartment;
     }
@@ -36,6 +38,10 @@ public class Adress {
 
     public String getCity() {
         return city;
+    }
+
+    public String getStreet() {
+        return street;
     }
 
     public String getHouse() {

@@ -43,8 +43,6 @@ public class ToDoController {
 
     @GetMapping
     ResponseEntity<List<ToDoCard>> getAllToDoCards(){
-
-
         return ResponseEntity.ok(toDoService.getAllToDoCards());
     }
 
