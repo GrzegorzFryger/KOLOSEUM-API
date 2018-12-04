@@ -1,8 +1,16 @@
 package workerboard.model.dto;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 public class ToDoCardCreateDto {
+    @NotNull
+    @NotBlank(message = "title not be null")
     private String title;
+    @NotNull
+    @NotBlank(message = "text not be null")
     private String text;
+    @NotNull
     private Long userId;
 
     public ToDoCardCreateDto() {

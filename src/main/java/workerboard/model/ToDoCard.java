@@ -2,15 +2,16 @@ package workerboard.model;
 
 import workerboard.model.dto.ToDoCardCreateDto;
 import workerboard.model.enums.ToDoCardState;
+import workerboard.serivce.ToDoCardListener;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
-public class ToDoCard {
+@EntityListeners(ToDoCardListener.class)
+public class ToDoCard extends AuditingAbstract<String> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,25 +23,30 @@ public class ToDoCard {
     private ApplicationUser user;
     @Enumerated(EnumType.STRING)
     private ToDoCardState state;
-    private LocalDate createdDate;
-    private LocalDateTime lastModification;
-    @Transient
-    private List<ServiceMessage> messages = new ArrayList<>();
+
 
     public ToDoCard() {
+        super();
     }
 
-    private ToDoCard(String title, String text, ApplicationUser user, ToDoCardState state, LocalDate createdDate, LocalDateTime lastModyfication) {
+    private ToDoCard(String title, String text, ApplicationUser user, ToDoCardState state, Date createdDate,
+                     Date lastModyfication) {
+        super();
         this.title = title;
         this.text = text;
         this.user = user;
         this.state = state;
-        this.createdDate = createdDate;
-        this.lastModification = lastModyfication;
+        super.createdDateCard = createdDate;
+        super.lastModifiedDate = lastModyfication;
+
     }
 
     public static ToDoCard createToDoCard(ToDoCardCreateDto toDoCardCreateDto, ApplicationUser user){
-        return new ToDoCard(toDoCardCreateDto.getTitle(),toDoCardCreateDto.getText(), user, ToDoCardState.NEW, LocalDate.now(), LocalDateTime.now());
+        return new ToDoCard(toDoCardCreateDto.getTitle(),
+                toDoCardCreateDto.getText(),
+                user, ToDoCardState.NEW,
+                new Date(),
+                new Date());
     }
 
     public Long getId() {
@@ -63,12 +69,8 @@ public class ToDoCard {
         return state;
     }
 
-    public LocalDate getCreatedDate() {
-        return createdDate;
-    }
-
-    public List<ServiceMessage> getMessages() {
-        return messages;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setTitle(String title) {
@@ -87,15 +89,4 @@ public class ToDoCard {
         this.state = state;
     }
 
-    public LocalDateTime getLastModification() {
-        return lastModification;
-    }
-
-    public void setLastModification(LocalDateTime lastModification) {
-        this.lastModification = lastModification;
-    }
-
-    public void addMessage(ServiceMessage message){
-        messages.add(message);
-    }
 }
