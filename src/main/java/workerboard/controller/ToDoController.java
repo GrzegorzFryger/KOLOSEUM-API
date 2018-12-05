@@ -11,6 +11,7 @@ import workerboard.model.dto.ToDoCardCreateDto;
 import workerboard.model.dto.ToDoCardUpdateDto;
 import workerboard.model.enums.UserRole;
 import workerboard.repository.ApplicationUserRepository;
+import workerboard.repository.ToDoCardHistoryRepository;
 import workerboard.repository.ToDoRepository;
 import workerboard.serivce.ToDoService;
 
@@ -23,18 +24,20 @@ import java.util.List;
 @RequestMapping("/api/todo")
 public class ToDoController {
 
-    @Autowired
+
     private ToDoRepository repository;
     private ApplicationUserRepository applicationUserRepository;
-
-
+    private ToDoCardHistoryRepository toDoCardHistoryRepository;
     private ToDoService toDoService;
 
     @Autowired
-    public ToDoController(ToDoService toDoService) {
+    public ToDoController(ToDoRepository repository, ApplicationUserRepository applicationUserRepository,
+                          ToDoCardHistoryRepository toDoCardHistoryRepository, ToDoService toDoService) {
+        this.repository = repository;
+        this.applicationUserRepository = applicationUserRepository;
+        this.toDoCardHistoryRepository = toDoCardHistoryRepository;
         this.toDoService = toDoService;
     }
-
 
     @PostMapping
     ResponseEntity<ToDoCard> createToDoCard(@RequestBody @Valid ToDoCardCreateDto toDoCard) throws NotFound {
@@ -52,7 +55,7 @@ public class ToDoController {
     }
 
     @PutMapping
-    ResponseEntity<ToDoCard> updateToDoCard(@RequestBody ToDoCardUpdateDto toDoCardUpdateDto) throws NotFound {
+    ResponseEntity<ToDoCard> updateToDoCard(@RequestBody @Valid ToDoCardUpdateDto toDoCardUpdateDto) throws NotFound {
         return ResponseEntity.ok(toDoService.updateToDoCard(toDoCardUpdateDto));
     }
 
@@ -67,4 +70,10 @@ public class ToDoController {
         toDoService.deleteToDoCardById(id);
         return ResponseEntity.ok("ok");
     }
+
+    @GetMapping(path = "/history/{id}")
+    ResponseEntity<?> getHistoryToDoCard(@PathVariable Long id) throws NotFound {
+        return ResponseEntity.ok( toDoCardHistoryRepository.findAllByCardId(id));
+    }
+
 }

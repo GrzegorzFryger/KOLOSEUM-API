@@ -30,7 +30,6 @@ public class ToDoService {
         this.applicationUserRepository = applicationUserRepository;
     }
 
-
     public ToDoCard createToDoCard(ToDoCardCreateDto toDoCardCreateDto) throws NotFound {
         ToDoCard toDoCard = new ToDoCard();
 

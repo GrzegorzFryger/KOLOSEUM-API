@@ -2,16 +2,18 @@ package workerboard.model.dto;
 
 import workerboard.model.enums.ToDoCardState;
 
+import javax.validation.constraints.NotNull;
+
 public class ToDoCardUpdateDto {
-
+    @NotNull
     private String title;
-
+    @NotNull
     private String text;
-
+    @NotNull
     private Long userId;
-
+    @NotNull
     private Long cardToUpdateId;
-
+    @NotNull
     private ToDoCardState state;
 
 
@@ -66,14 +68,4 @@ public class ToDoCardUpdateDto {
         this.state = state;
     }
 
-    @Override
-    public String toString() {
-        return "ToDoCardUpdateDto{" +
-                "title='" + title + '\'' +
-                ", text='" + text + '\'' +
-                ", userId=" + userId +
-                ", cardToUpdateId=" + cardToUpdateId +
-                ", state=" + state +
-                '}';
-    }
 }
