@@ -15,7 +15,7 @@ import static javax.persistence.TemporalType.TIMESTAMP;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class ToDoCardHistory  {
+public class ToDoCardHistory extends AuditingAbstract<String> {
 
     @Id
     @GeneratedValue
@@ -26,6 +26,7 @@ public class ToDoCardHistory  {
     private ToDoCard card;
     private String title;
     private String text;
+    private ToDoCardState state;
 
     @CreatedBy
     private String modifiedBy;
@@ -38,10 +39,13 @@ public class ToDoCardHistory  {
     private ToDoCardState action;
 
     public ToDoCardHistory() {
+        super();
     }
 
     public ToDoCardHistory(ToDoCard card, ToDoCardState action) {
+        super();
         this.card = card;
+        this.state = card.getState();
         this.title = card.getTitle();
         this.text = card.getText();
         this.action = action;
@@ -54,14 +58,6 @@ public class ToDoCardHistory  {
     public void setId(Integer id) {
         this.id = id;
     }
-
-//    public ToDoCard getCard() {
-//        return card;
-//    }
-//
-//    public void setCard(ToDoCard card) {
-//        this.card = card;
-//    }
 
     public String getTitle() {
         return title;
@@ -103,4 +99,7 @@ public class ToDoCardHistory  {
         this.action = action;
     }
 
+    public ToDoCardState getState() {
+        return state;
+    }
 }
