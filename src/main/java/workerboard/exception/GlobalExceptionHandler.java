@@ -3,18 +3,22 @@ package workerboard.exception;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.util.WebUtils;
 
+import java.awt.*;
 import java.util.Collections;
 import java.util.List;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler({SingUpNotAddException.class, NotFound.class,
-    UserWrongPassword.class, WrongTypeArguments.class})
+    UserWrongPassword.class, WrongTypeArguments.class, MethodArgumentNotValidException.class})
 
     public final ResponseEntity<ApiError> handleException(Exception ex, WebRequest request) {
         HttpHeaders headers = new HttpHeaders();
@@ -46,6 +50,12 @@ public class GlobalExceptionHandler {
             WrongTypeArguments appex = (WrongTypeArguments) ex;
 
             return handleApplicationToMuchArgument(appex,headers, status, request);
+        }
+        if (ex instanceof MethodArgumentNotValidException) {
+            HttpStatus status = HttpStatus.NOT_ACCEPTABLE;
+            MethodArgumentNotValidException appex = (MethodArgumentNotValidException) ex;
+
+            return handleMethodArgumentNotValidException(appex,headers, status, request);
         }
 
 
@@ -80,6 +90,17 @@ public class GlobalExceptionHandler {
     protected ResponseEntity<ApiError> handleWrongPasswordException(UserWrongPassword ex,
                                                                     HttpHeaders headers, HttpStatus status, WebRequest request) {
         List<String> errors = Collections.singletonList(ex.getMessage());
+        return handleExceptionOther(ex, new ApiError(errors), headers, status, request);
+    }
+    protected ResponseEntity<ApiError> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex,
+                                                                    HttpHeaders headers, HttpStatus status, WebRequest request) {
+
+
+        List<String> errors = Collections.singletonList(ex.getBindingResult()
+                .getAllErrors()
+                .get(0)
+                .getDefaultMessage());
+
         return handleExceptionOther(ex, new ApiError(errors), headers, status, request);
     }
 

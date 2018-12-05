@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import workerboard.model.ToDoCard;
 
 @Repository
-public interface ToDoCardHistoryRepository extends JpaRepository<ToDoCard, Integer> {
+public interface ToDoCardHistoryRepository extends JpaRepository<ToDoCard, Long> {
 }

@@ -52,17 +52,19 @@ public class ToDoController {
     }
 
     @PutMapping
-    ResponseEntity<ToDoCard> updateToDoCard(@RequestBody ToDoCardUpdateDto toDoCardUpdateDto){
+    ResponseEntity<ToDoCard> updateToDoCard(@RequestBody ToDoCardUpdateDto toDoCardUpdateDto) throws NotFound {
         return ResponseEntity.ok(toDoService.updateToDoCard(toDoCardUpdateDto));
     }
 
     @GetMapping(path = "/{id}")
-    ResponseEntity<ToDoCard> getToDoCardById(@PathVariable("id") Long id){
+    ResponseEntity<ToDoCard> getToDoCardById(@PathVariable("id") Long id) throws NotFound {
         return ResponseEntity.ok(toDoService.getToDoCardById(id));
     }
 
     @DeleteMapping(path = "/{id}")
-    ResponseEntity<ToDoCard> deleteToDoCardById(@PathVariable("id") Long id){
-        return ResponseEntity.ok(toDoService.deleteToDoCardById(id));
+    ResponseEntity<?> deleteToDoCardById(@PathVariable("id") Long id) throws NotFound {
+
+        toDoService.deleteToDoCardById(id);
+        return ResponseEntity.ok("ok");
     }
 }

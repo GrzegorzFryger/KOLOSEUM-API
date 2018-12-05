@@ -3,10 +3,15 @@ package workerboard.model.dto;
 import workerboard.model.enums.ToDoCardState;
 
 public class ToDoCardUpdateDto {
+
     private String title;
+
     private String text;
+
     private Long userId;
+
     private Long cardToUpdateId;
+
     private ToDoCardState state;
 
 
@@ -25,19 +30,50 @@ public class ToDoCardUpdateDto {
         return title;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getText() {
         return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 
     public Long getUserId() {
         return userId;
     }
 
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
     public Long getCardToUpdateId() {
         return cardToUpdateId;
     }
 
+    public void setCardToUpdateId(Long cardToUpdateId) {
+        this.cardToUpdateId = cardToUpdateId;
+    }
+
     public ToDoCardState getState() {
         return state;
+    }
+
+    public void setState(ToDoCardState state) {
+        this.state = state;
+    }
+
+    @Override
+    public String toString() {
+        return "ToDoCardUpdateDto{" +
+                "title='" + title + '\'' +
+                ", text='" + text + '\'' +
+                ", userId=" + userId +
+                ", cardToUpdateId=" + cardToUpdateId +
+                ", state=" + state +
+                '}';
     }
 }

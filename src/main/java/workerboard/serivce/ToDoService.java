@@ -31,92 +31,61 @@ public class ToDoService {
     }
 
 
-    public ToDoCard createToDoCard(ToDoCardCreateDto toDoCardCreateDto) throws  NotFound {
+    public ToDoCard createToDoCard(ToDoCardCreateDto toDoCardCreateDto) throws NotFound {
         ToDoCard toDoCard = new ToDoCard();
 
-       ApplicationUser applicationUser = applicationUserRepository
-               .findById(toDoCardCreateDto.getUserId()).orElseThrow(() -> new NotFound("not Found"));
+        ApplicationUser applicationUser = applicationUserRepository
+                .findById(toDoCardCreateDto.getUserId())
+                .orElseThrow(() -> new NotFound("User not Found"));
 
-
-       return toDoRepository.save(ToDoCard.createToDoCard(toDoCardCreateDto, applicationUser));
-
-
+        return toDoRepository.save(ToDoCard.createToDoCard(toDoCardCreateDto, applicationUser));
     }
 
     public List<ToDoCard> getAllToDoCards() {
         return toDoRepository.findAll();
     }
 
-    public ToDoCard updateToDoCard(ToDoCardUpdateDto toDoCardUpdateDto) {
-        ToDoCard toDoCard = new ToDoCard();
+    public ToDoCard updateToDoCard(ToDoCardUpdateDto toDoCardUpdateDto) throws NotFound {
 
-        Optional<ToDoCard> toDoCardOptional = toDoRepository.findById(toDoCardUpdateDto.getCardToUpdateId());
-        if(toDoCardOptional.isPresent()){
-            toDoCard = toDoCardOptional.get();
+        ToDoCard toDoCard = toDoRepository.findById(toDoCardUpdateDto.getCardToUpdateId())
+                .orElseThrow(() -> new NotFound("Card with: " + toDoCardUpdateDto.getCardToUpdateId() + "not found"));
 
-            if(toDoCardUpdateDto.getUserId() != null) {
-                Optional<ApplicationUser> applicationUserOptional = applicationUserRepository.findById(toDoCardUpdateDto.getUserId());
-                if (applicationUserOptional.isPresent()) {
-                    toDoCard.setUser(applicationUserOptional.get());
-                } else {
-                    ToDoCard card = new ToDoCard();
-                    //todo
-//                    card.addMessage(new ServiceMessage(ServiceMessageType.ERROR, "User doesn't exist"));
-                    return card;
-                }
-            }
+        toDoCard.setUser(applicationUserRepository
+                 .findById(toDoCardUpdateDto.getUserId())
+                .orElseThrow(() -> new NotFound("User with: " + toDoCardUpdateDto.getUserId() + "not found"))
+        );
 
-            if(toDoCardUpdateDto.getText() != null) {
-                toDoCard.setText(toDoCardUpdateDto.getText());
-            }
-            if(toDoCardUpdateDto.getTitle() != null) {
-                toDoCard.setTitle(toDoCardUpdateDto.getTitle());
-            }
-            if(toDoCardUpdateDto.getState() != null) {
-                toDoCard.setState(toDoCardUpdateDto.getState());
-            }
-           // toDoCard.setLastModification(LocalDateTime.now());
-            toDoRepository.save(toDoCard);
-        }else {
-            //todo
-//            toDoCard.addMessage(new ServiceMessage(ServiceMessageType.ERROR, "Card doesn't exist"));
-            return toDoCard;
+        if (toDoCardUpdateDto.getText() != null) {
+            toDoCard.setText(toDoCardUpdateDto.getText());
         }
-        return toDoCard;
+        if (toDoCardUpdateDto.getTitle() != null) {
+            toDoCard.setTitle(toDoCardUpdateDto.getTitle());
+        }
+        if (toDoCardUpdateDto.getState() != null) {
+            toDoCard.setState(toDoCardUpdateDto.getState());
+        }
+
+        return toDoRepository.save(toDoCard);
     }
 
-    public ToDoCard getToDoCardById(Long id) {
-        Optional<ToDoCard> toDoCardOptional = toDoRepository.findById(id);
-        if(toDoCardOptional.isPresent()){
-            return toDoCardOptional.get();
-        }
-        ToDoCard card = new ToDoCard();
-//        card.addMessage(new ServiceMessage(ServiceMessageType.ERROR, "Card doesn't exist"));
-        return card;
+    public ToDoCard getToDoCardById(Long id) throws NotFound {
+       return toDoRepository.findById(id)
+               .orElseThrow(() -> new NotFound("Card with id: " + id + "not found"));
     }
 
-    public ToDoCard deleteToDoCardById(Long id) {
-        ToDoCard card = new ToDoCard();
-        Optional<ToDoCard> toDoCardOptional = toDoRepository.findById(id);
-        if(toDoCardOptional.isPresent()){
-            toDoRepository.deleteById(id);
-            //todo
-//            card.addMessage(new ServiceMessage(ServiceMessageType.INFO, "Card removed correctly"));
-            return card;
-        }
-        //todo
-//        card.addMessage(new ServiceMessage(ServiceMessageType.ERROR, "Card doesn't exist"));
-        return card;
+    public void deleteToDoCardById(Long id) throws NotFound {
+
+         toDoRepository.findById(id)
+                 .orElseThrow(() -> new NotFound("Card with id: " + id + "not found"));
+
+          toDoRepository.deleteById(id);
     }
 
-    public List<ToDoCard> getAllToDoCardsByUser(Long id) throws NotFound {
+    public List<ToDoCard> getAllToDoCardsByUser(Long userId) throws NotFound {
 
-        Optional<ApplicationUser> optionalUser = applicationUserRepository.findById(id);
-        if(optionalUser.isPresent()) {
-            return toDoRepository.findAllByUser(optionalUser.get());
-        }
-
-        throw new NotFound("User with ID: " + id + " not found");
+        return toDoRepository.findAllByUser(applicationUserRepository
+                    .findById(userId)
+                    .orElseThrow(() -> new NotFound("Card with id: " + userId + "not found")));
 
     }
 }
