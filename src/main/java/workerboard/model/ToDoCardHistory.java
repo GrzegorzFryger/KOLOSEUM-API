@@ -14,24 +14,17 @@ import static javax.persistence.EnumType.STRING;
 import static javax.persistence.TemporalType.TIMESTAMP;
 
 @Entity
-@EntityListeners(AuditingEntityListener.class)
 public class ToDoCardHistory  {
 
     @Id
     @GeneratedValue
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "to_do_card_id")
-    private ToDoCard card;
     private String title;
     private String text;
 
-    @CreatedBy
     private String modifiedBy;
 
-    @CreatedDate
-    @Temporal(TIMESTAMP)
     private Date modifiedDate;
 
     @Enumerated(STRING)
@@ -40,10 +33,12 @@ public class ToDoCardHistory  {
     public ToDoCardHistory() {
     }
 
-    public ToDoCardHistory(ToDoCard card, ToDoCardState action) {
-        this.card = card;
-        this.title = card.getTitle();
-        this.text = card.getText();
+
+    public ToDoCardHistory(String title, String text, String modifiedBy, Date modifiedDate, ToDoCardState action) {
+        this.title = title;
+        this.text = text;
+        this.modifiedBy = modifiedBy;
+        this.modifiedDate = modifiedDate;
         this.action = action;
     }
 
@@ -55,13 +50,6 @@ public class ToDoCardHistory  {
         this.id = id;
     }
 
-    public ToDoCard getCard() {
-        return card;
-    }
-
-    public void setCard(ToDoCard card) {
-        this.card = card;
-    }
 
     public String getTitle() {
         return title;

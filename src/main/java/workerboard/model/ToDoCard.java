@@ -45,6 +45,14 @@ public class ToDoCard extends AuditingAbstract<String> {
 
     }
 
+    public ToDoCard(String title, String text, ApplicationUser user, ToDoCardState state, List<ToDoCardHistory> toDoCardHistories) {
+        this.title = title;
+        this.text = text;
+        this.user = user;
+        this.state = state;
+        this.toDoCardHistories = toDoCardHistories;
+    }
+
     public static ToDoCard createToDoCard(ToDoCardCreateDto toDoCardCreateDto, ApplicationUser user){
         return new ToDoCard(toDoCardCreateDto.getTitle(),
                 toDoCardCreateDto.getText(),
