@@ -23,6 +23,9 @@ public class ToDoCard extends AuditingAbstract<String> {
     private ApplicationUser user;
     @Enumerated(EnumType.STRING)
     private ToDoCardState state;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "history_id")
+    private List<ToDoCardHistory> toDoCardHistories;
 
 
     public ToDoCard() {
@@ -30,14 +33,15 @@ public class ToDoCard extends AuditingAbstract<String> {
     }
 
     private ToDoCard(String title, String text, ApplicationUser user, ToDoCardState state, Date createdDate,
-                     Date lastModyfication) {
+                     Date lastModification, List<ToDoCardHistory> toDoCardHistories) {
         super();
         this.title = title;
         this.text = text;
         this.user = user;
         this.state = state;
         super.createdDateCard = createdDate;
-        super.lastModifiedDate = lastModyfication;
+        super.lastModifiedDate = lastModification;
+        this.toDoCardHistories = toDoCardHistories;
 
     }
 
@@ -46,8 +50,9 @@ public class ToDoCard extends AuditingAbstract<String> {
                 toDoCardCreateDto.getText(),
                 user, ToDoCardState.NEW,
                 new Date(),
-                new Date());
+                new Date(), new ArrayList<>());
     }
+
 
     public Long getId() {
         return id;
@@ -89,4 +94,7 @@ public class ToDoCard extends AuditingAbstract<String> {
         this.state = state;
     }
 
+    public List<ToDoCardHistory> getToDoCardHistories() {
+        return toDoCardHistories;
+    }
 }

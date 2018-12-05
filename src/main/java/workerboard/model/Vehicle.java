@@ -30,11 +30,13 @@ public class Vehicle implements MapGenerate {
     private String fuelType;
     private String bodyType;
     private String vehicleValue;
+    private String licencePlateNumber;
+    private String vin;
 
     public Vehicle() {
     }
 
-    public Vehicle(String mark, String model, String engineCapacity, String loadWeight, String enginePower, String productionYear, String cylindersCount, String seatCount, String doorsCount, String gearboxCount, String gearboxType, String name, String type, String engineHPower, String fuelType, String bodyType, String vehicleValue) {
+    public Vehicle(String mark, String model, String engineCapacity, String loadWeight, String enginePower, String productionYear, String cylindersCount, String seatCount, String doorsCount, String gearboxCount, String gearboxType, String name, String type, String engineHPower, String fuelType, String bodyType, String vehicleValue, String licencePlateNumber, String vin) {
         this.mark = mark;
         this.model = model;
         this.engineCapacity = engineCapacity;
@@ -52,6 +54,8 @@ public class Vehicle implements MapGenerate {
         this.fuelType = fuelType;
         this.bodyType = bodyType;
         this.vehicleValue = vehicleValue;
+        this.licencePlateNumber = licencePlateNumber;
+        this.vin = vin;
     }
 
     public Long getId() {
@@ -198,27 +202,11 @@ public class Vehicle implements MapGenerate {
         this.vehicleValue = vehicleValue;
     }
 
-    @Override
-    public String toString() {
-        return "Vehicle{" +
-                "id=" + id +
-                ", mark='" + mark + '\'' +
-                ", model='" + model + '\'' +
-                ", engineCapacity='" + engineCapacity + '\'' +
-                ", loadWeight='" + loadWeight + '\'' +
-                ", enginePower='" + enginePower + '\'' +
-                ", productionYear='" + productionYear + '\'' +
-                ", cylindersCount='" + cylindersCount + '\'' +
-                ", seatCount='" + seatCount + '\'' +
-                ", doorsCount='" + doorsCount + '\'' +
-                ", gearboxCount='" + gearboxCount + '\'' +
-                ", gearboxType='" + gearboxType + '\'' +
-                ", name='" + name + '\'' +
-                ", type='" + type + '\'' +
-                ", engineHPower='" + engineHPower + '\'' +
-                ", fuelType='" + fuelType + '\'' +
-                ", bodyType='" + bodyType + '\'' +
-                ", vehicleValue='" + vehicleValue + '\'' +
-                '}';
+    public String getLicencePlateNumber() {
+        return licencePlateNumber;
+    }
+
+    public String getVin() {
+        return vin;
     }
 }

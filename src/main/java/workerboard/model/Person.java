@@ -11,9 +11,9 @@ public class Person {
     private Long id;
     private String firstName;
     private String lastName;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "adress_id")
-    private Adress adress;
+    private Adress address = new Adress();
     private LocalDate dayOfBirth;
     private String pesel;
     private LocalDate drivingLicenseIssueDate;
@@ -27,7 +27,7 @@ public class Person {
     public Person(String firstName, String lastName, Adress adress, LocalDate dayOfBirth, String pesel, LocalDate drivingLicenseIssueDate, InsuranceHistory insuranceHistory) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.adress = adress;
+        this.address = adress;
         this.dayOfBirth = dayOfBirth;
         this.pesel = pesel;
         this.drivingLicenseIssueDate = drivingLicenseIssueDate;
@@ -46,8 +46,8 @@ public class Person {
         return lastName;
     }
 
-    public Adress getAdress() {
-        return adress;
+    public Adress getAddress() {
+        return address;
     }
 
     public LocalDate getDayOfBirth() {

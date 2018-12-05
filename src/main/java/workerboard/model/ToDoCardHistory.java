@@ -1,7 +1,6 @@
 package workerboard.model;
 
 
-import org.springframework.context.annotation.Lazy;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -23,8 +22,7 @@ public class ToDoCardHistory  {
     private Integer id;
 
     @ManyToOne
-    @Lazy
-    @JoinColumn(name = "to_do_card_id", foreignKey = @ForeignKey(name = "to_do_card_id"))
+    @JoinColumn(name = "to_do_card_id")
     private ToDoCard card;
     private String title;
     private String text;
@@ -104,4 +102,5 @@ public class ToDoCardHistory  {
     public void setAction(ToDoCardState action) {
         this.action = action;
     }
+
 }

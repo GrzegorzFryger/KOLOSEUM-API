@@ -111,9 +111,9 @@ public class ToDoService {
 
     public List<ToDoCard> getAllToDoCardsByUser(Long id) throws NotFound {
 
-        Optional<ApplicationUser> optionlUser = applicationUserRepository.findById(id);
-        if(optionlUser.isPresent()) {
-            return toDoRepository.findAllByUser(optionlUser.get());
+        Optional<ApplicationUser> optionalUser = applicationUserRepository.findById(id);
+        if(optionalUser.isPresent()) {
+            return toDoRepository.findAllByUser(optionalUser.get());
         }
 
         throw new NotFound("User with ID: " + id + " not found");
