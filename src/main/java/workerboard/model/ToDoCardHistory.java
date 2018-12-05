@@ -14,17 +14,24 @@ import static javax.persistence.EnumType.STRING;
 import static javax.persistence.TemporalType.TIMESTAMP;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class ToDoCardHistory  {
 
     @Id
-    @GeneratedValue
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "to_do_card_id")
+    private ToDoCard card;
     private String title;
     private String text;
 
+    @CreatedBy
     private String modifiedBy;
 
+    @CreatedDate
+    @Temporal(TIMESTAMP)
     private Date modifiedDate;
 
     @Enumerated(STRING)
@@ -33,23 +40,21 @@ public class ToDoCardHistory  {
     public ToDoCardHistory() {
     }
 
-
-    public ToDoCardHistory(String title, String text, String modifiedBy, Date modifiedDate, ToDoCardState action) {
-        this.title = title;
-        this.text = text;
-        this.modifiedBy = modifiedBy;
-        this.modifiedDate = modifiedDate;
+    public ToDoCardHistory(ToDoCard card, ToDoCardState action) {
+        this.card = card;
+        this.title = card.getTitle();
+        this.text = card.getText();
         this.action = action;
     }
 
-    public Integer getId() {
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
-
 
     public String getTitle() {
         return title;

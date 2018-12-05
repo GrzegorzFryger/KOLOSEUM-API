@@ -47,7 +47,7 @@ public class ToDoCardListener {
     @Transactional(MANDATORY)
     void perform(ToDoCard target, ToDoCardState action) {
         EntityManager entityManager = CurrentBeanAccess.getBean(EntityManager.class);
-//        entityManager.persist(new ToDoCardHistory(target, action));
+        entityManager.persist(new ToDoCardHistory(target, action));
     }
 
 }
