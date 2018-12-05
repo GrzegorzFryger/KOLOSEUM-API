@@ -24,7 +24,7 @@ public class ToDoCard extends AuditingAbstract<String> {
     @Enumerated(EnumType.STRING)
     private ToDoCardState state;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "history_id")
+    @JoinColumn(name = "to_do_card_id")
     private List<ToDoCardHistory> toDoCardHistories;
 
 

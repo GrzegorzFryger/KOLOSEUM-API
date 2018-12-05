@@ -55,13 +55,13 @@ public class ToDoCardHistory  {
         this.id = id;
     }
 
-    public ToDoCard getCard() {
-        return card;
-    }
-
-    public void setCard(ToDoCard card) {
-        this.card = card;
-    }
+//    public ToDoCard getCard() {
+//        return card;
+//    }
+//
+//    public void setCard(ToDoCard card) {
+//        this.card = card;
+//    }
 
     public String getTitle() {
         return title;
