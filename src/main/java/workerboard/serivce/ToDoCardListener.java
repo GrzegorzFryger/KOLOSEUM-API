@@ -3,27 +3,20 @@ package workerboard.serivce;
 
 
 
-import javax.persistence.EntityManager;
-import javax.persistence.PrePersist;
-import javax.persistence.PreRemove;
-import javax.persistence.PreUpdate;
-
 import org.springframework.stereotype.Service;
 import workerboard.CurrentBeanAccess;
 import workerboard.model.ToDoCard;
 import workerboard.model.ToDoCardHistory;
 import workerboard.model.enums.ToDoCardState;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PrePersist;
+import javax.persistence.PreRemove;
+import javax.persistence.PreUpdate;
 import javax.transaction.Transactional;
 
-
 import static javax.transaction.Transactional.TxType.MANDATORY;
-
-import static workerboard.model.enums.ToDoCardState.NEW;
-import static workerboard.model.enums.ToDoCardState.DONE;
-
-
-import static workerboard.model.enums.ToDoCardState.UPDATED;
+import static workerboard.model.enums.ToDoCardState.*;
 
 
 @Service

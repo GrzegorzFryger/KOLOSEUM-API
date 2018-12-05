@@ -11,7 +11,7 @@ import java.util.List;
 
 @Entity
 @EntityListeners(ToDoCardListener.class)
-public class ToDoCard extends AuditingAbstract<String> {
+public class ToDoCard  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,21 +26,19 @@ public class ToDoCard extends AuditingAbstract<String> {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "to_do_card_id")
     private List<ToDoCardHistory> toDoCardHistories;
+    private Date createdDate;
 
 
     public ToDoCard() {
-        super();
     }
 
     private ToDoCard(String title, String text, ApplicationUser user, ToDoCardState state, Date createdDate,
-                     Date lastModification, List<ToDoCardHistory> toDoCardHistories) {
-        super();
+                     List<ToDoCardHistory> toDoCardHistories) {
         this.title = title;
         this.text = text;
         this.user = user;
         this.state = state;
-        super.createdDateCard = createdDate;
-        super.lastModifiedDate = lastModification;
+        this.createdDate = createdDate;
         this.toDoCardHistories = toDoCardHistories;
 
     }
@@ -49,7 +47,6 @@ public class ToDoCard extends AuditingAbstract<String> {
         return new ToDoCard(toDoCardCreateDto.getTitle(),
                 toDoCardCreateDto.getText(),
                 user, ToDoCardState.NEW,
-                new Date(),
                 new Date(), new ArrayList<>());
     }
 
