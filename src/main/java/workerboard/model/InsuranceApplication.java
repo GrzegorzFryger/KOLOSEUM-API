@@ -33,11 +33,12 @@ public class InsuranceApplication {
     private List<RiskDto> riskVariants = new ArrayList<>();
     private LocalDate registerDate = LocalDate.now();
     private Integer installmentAmount = 1;
+    private Integer totalPolicyValue;
 
     public InsuranceApplication() {
     }
 
-    public InsuranceApplication(Vehicle vehicle, List<Person> persons, List<Risk> risks, String number, List<ServiceMessage> messages, InsuranceApplicationState state, Integer installmentAmount) {
+    public InsuranceApplication(Vehicle vehicle, List<Person> persons, List<Risk> risks, String number, List<ServiceMessage> messages, InsuranceApplicationState state, Integer installmentAmount, Integer totalPolicyValue) {
         this.vehicle = vehicle;
         this.persons = persons;
         this.risks = risks;
@@ -45,6 +46,7 @@ public class InsuranceApplication {
         this.messages = messages;
         this.state = state;
         this.installmentAmount = installmentAmount;
+        this.totalPolicyValue = totalPolicyValue;
     }
 
     public Long getId() {
@@ -105,5 +107,9 @@ public class InsuranceApplication {
 
     public Integer getInstallmentAmount() {
         return installmentAmount;
+    }
+
+    public Integer getTotalPolicyValue() {
+        return totalPolicyValue;
     }
 }

@@ -36,4 +36,9 @@ public class InsuranceController {
         return ResponseEntity.ok(insuranceService.updateInsuranceApplication(id, insuranceApplication));
     }
 
+    @PostMapping("/{id}/accept")
+    ResponseEntity<InsuranceApplication> acceptInsuranceApplication(@PathVariable("id") Long id, @RequestBody InsuranceApplication insuranceApplication) throws NotFound {
+        return ResponseEntity.ok(insuranceService.acceptInsuranceApplication(id, insuranceApplication));
+    }
+
 }
