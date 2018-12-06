@@ -94,4 +94,8 @@ public class ToDoCard  {
     public List<ToDoCardHistory> getToDoCardHistories() {
         return toDoCardHistories;
     }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
 }

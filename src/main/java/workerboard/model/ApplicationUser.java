@@ -37,16 +37,21 @@ public class ApplicationUser implements MapGenerate {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles = new ArrayList<>();
+    @OneToOne
+    @JsonView(ViewsForApplicationUser.Basic.class)
+    @JoinColumn(name = "experience_id")
+    private Experience experience;
 
     public ApplicationUser() {
     }
 
-    public ApplicationUser(String firstName, String lastName, String email, String password, List<Role> roles) {
+    public ApplicationUser(String firstName, String lastName, String email, String password, List<Role> roles, Experience experience) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.roles = roles;
+        this.experience = experience;
     }
 
 
@@ -98,5 +103,9 @@ public class ApplicationUser implements MapGenerate {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public Experience getExperience() {
+        return experience;
     }
 }
