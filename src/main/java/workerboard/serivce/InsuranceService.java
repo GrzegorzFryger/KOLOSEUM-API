@@ -3,14 +3,17 @@ package workerboard.serivce;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import workerboard.exception.NotFound;
+import workerboard.model.ApplicationUser;
 import workerboard.model.InsuranceApplication;
 import workerboard.model.ServiceMessage;
 import workerboard.model.enums.InsuranceApplicationState;
 import workerboard.model.enums.ServiceMessageType;
+import workerboard.repository.ApplicationUserRepository;
 import workerboard.repository.InsuranceHistoryRepository;
 import workerboard.repository.InsuranceRepository;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,12 +22,14 @@ public class InsuranceService {
     private InsuranceRepository insuranceRepository;
     private InsuranceHistoryRepository insuranceHistoryRepository;
     private RisksService risksService;
+    private ApplicationUserRepository applicationUserRepository;
 
     @Autowired
-    public InsuranceService(InsuranceRepository insuranceRepository, RisksService risksService, InsuranceHistoryRepository insuranceHistoryRepository) {
+    public InsuranceService(InsuranceRepository insuranceRepository, RisksService risksService, InsuranceHistoryRepository insuranceHistoryRepository, ApplicationUserRepository applicationUserRepository) {
         this.insuranceRepository = insuranceRepository;
         this.risksService = risksService;
         this.insuranceHistoryRepository = insuranceHistoryRepository;
+        this.applicationUserRepository = applicationUserRepository;
     }
 
     public InsuranceApplication registerInsuranceApplication(InsuranceApplication insuranceApplication) {
@@ -90,5 +95,16 @@ public class InsuranceService {
 
         }
         throw new NotFound("Application with ID: " + id + "not found");
+    }
+
+    public List<InsuranceApplication> getInsuranceApplicationByUser(Long id) throws NotFound {
+        Optional<ApplicationUser> applicationUserOptional = applicationUserRepository.findById(id);
+        if(applicationUserOptional.isPresent()){
+            ApplicationUser user = applicationUserOptional.get();
+            return insuranceRepository.findAllBySeller(user);
+        }
+
+        throw new NotFound("User with ID: " + id + "not found");
+
     }
 }

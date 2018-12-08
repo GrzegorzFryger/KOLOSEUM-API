@@ -34,11 +34,14 @@ public class InsuranceApplication {
     private LocalDate registerDate = LocalDate.now();
     private Integer installmentAmount = 1;
     private Integer totalPolicyValue;
+    @OneToOne
+    @JoinColumn(name = "seller_id")
+    private ApplicationUser seller;
 
     public InsuranceApplication() {
     }
 
-    public InsuranceApplication(Vehicle vehicle, List<Person> persons, List<Risk> risks, String number, List<ServiceMessage> messages, InsuranceApplicationState state, Integer installmentAmount, Integer totalPolicyValue) {
+    public InsuranceApplication(Vehicle vehicle, List<Person> persons, List<Risk> risks, String number, List<ServiceMessage> messages, InsuranceApplicationState state, Integer installmentAmount, Integer totalPolicyValue, ApplicationUser seller) {
         this.vehicle = vehicle;
         this.persons = persons;
         this.risks = risks;
@@ -47,6 +50,7 @@ public class InsuranceApplication {
         this.state = state;
         this.installmentAmount = installmentAmount;
         this.totalPolicyValue = totalPolicyValue;
+        this.seller = seller;
     }
 
     public Long getId() {
@@ -111,5 +115,9 @@ public class InsuranceApplication {
 
     public Integer getTotalPolicyValue() {
         return totalPolicyValue;
+    }
+
+    public ApplicationUser getSeller() {
+        return seller;
     }
 }

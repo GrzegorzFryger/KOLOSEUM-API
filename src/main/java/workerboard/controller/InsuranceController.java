@@ -7,6 +7,8 @@ import workerboard.exception.NotFound;
 import workerboard.model.InsuranceApplication;
 import workerboard.serivce.InsuranceService;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin
 @RequestMapping("/api/application")
@@ -39,6 +41,11 @@ public class InsuranceController {
     @PostMapping("/{id}/accept")
     ResponseEntity<InsuranceApplication> acceptInsuranceApplication(@PathVariable("id") Long id, @RequestBody InsuranceApplication insuranceApplication) throws NotFound {
         return ResponseEntity.ok(insuranceService.acceptInsuranceApplication(id, insuranceApplication));
+    }
+
+    @GetMapping("/{id}/byUser")
+    ResponseEntity<List<InsuranceApplication>> getInsuranceApplicationByUser(@PathVariable("id") Long id) throws NotFound {
+        return ResponseEntity.ok(insuranceService.getInsuranceApplicationByUser(id));
     }
 
 }
