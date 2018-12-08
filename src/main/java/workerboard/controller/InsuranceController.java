@@ -48,4 +48,6 @@ public class InsuranceController {
         return ResponseEntity.ok(insuranceService.getInsuranceApplicationByUser(id));
     }
 
+
+
 }
