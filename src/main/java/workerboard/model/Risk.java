@@ -14,6 +14,7 @@ public class Risk {
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "premiumList_id")
     private Premium premiumList;
+    private String displayName;
     private LocalDate startDate = LocalDate.now().plusDays(1);
     private LocalDate endDate = LocalDate.now().plusDays(365);
 
@@ -21,12 +22,13 @@ public class Risk {
     }
 
 
-    public Risk(String name, double sum, Premium premiumList, LocalDate startDate, LocalDate endDate) {
+    public Risk(String name, double sum, Premium premiumList, LocalDate startDate, LocalDate endDate, String displayName) {
         this.name = name;
         this.sum = sum;
         this.premiumList = premiumList;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.displayName = displayName;
     }
 
     public Long getId() {
@@ -51,5 +53,9 @@ public class Risk {
 
     public LocalDate getEndDate() {
         return endDate;
+    }
+
+    public String getDisplayName() {
+        return displayName;
     }
 }

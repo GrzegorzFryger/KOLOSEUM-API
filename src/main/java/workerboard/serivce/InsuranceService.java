@@ -40,7 +40,7 @@ public class InsuranceService {
 
         insuranceApplication.setRiskVariants(risksService.getAvailableRisks(insuranceApplication));
         insuranceApplication.setNumber(getCalculationNumber());
-        insuranceApplication.setState(InsuranceApplicationState.APPLICATION);
+        insuranceApplication.setState(InsuranceApplicationState.SIMULATION);
 
         insuranceHistoryRepository.save(insuranceApplication.getPersons().get(0).getInsuranceHistory());
         insuranceRepository.save(insuranceApplication);
@@ -79,6 +79,7 @@ public class InsuranceService {
         if(optionalApplication.isPresent()) {
             InsuranceApplication applicationFromDB = optionalApplication.get();
             applicationFromDB = insuranceApplication;
+            applicationFromDB.setState(InsuranceApplicationState.APPLICATION);
             return insuranceRepository.save(applicationFromDB);
         }
 
