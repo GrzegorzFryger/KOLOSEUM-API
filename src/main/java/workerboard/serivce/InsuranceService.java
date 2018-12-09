@@ -1,7 +1,9 @@
 package workerboard.serivce;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import workerboard.evens.InsuranceEvent;
 import workerboard.exception.NotFound;
 import workerboard.model.ApplicationUser;
 import workerboard.model.InsuranceApplication;
@@ -23,14 +25,21 @@ public class InsuranceService {
     private InsuranceHistoryRepository insuranceHistoryRepository;
     private RisksService risksService;
     private ApplicationUserRepository applicationUserRepository;
+    private ApplicationEventPublisher applicationEventPublisher;
 
     @Autowired
-    public InsuranceService(InsuranceRepository insuranceRepository, RisksService risksService, InsuranceHistoryRepository insuranceHistoryRepository, ApplicationUserRepository applicationUserRepository) {
+    public InsuranceService(InsuranceRepository insuranceRepository, InsuranceHistoryRepository insuranceHistoryRepository,
+                            RisksService risksService, ApplicationUserRepository applicationUserRepository,
+                            ApplicationEventPublisher applicationEventPublisher) {
         this.insuranceRepository = insuranceRepository;
-        this.risksService = risksService;
         this.insuranceHistoryRepository = insuranceHistoryRepository;
+        this.risksService = risksService;
         this.applicationUserRepository = applicationUserRepository;
+        this.applicationEventPublisher = applicationEventPublisher;
     }
+
+
+
 
     public InsuranceApplication registerInsuranceApplication(InsuranceApplication insuranceApplication) {
         if(!isApplicationValid(insuranceApplication)){
@@ -92,7 +101,13 @@ public class InsuranceService {
             InsuranceApplication applicationFromDb = optionalApplication.get();
             applicationFromDb = insuranceApplication;
             applicationFromDb.setState(InsuranceApplicationState.POLICY);
-            return insuranceRepository.save(applicationFromDb);
+
+           applicationFromDb = insuranceRepository.save(applicationFromDb);
+           applicationEventPublisher.publishEvent(
+                   new InsuranceEvent(this,applicationFromDb)
+           );
+
+            return applicationFromDb;
 
         }
         throw new NotFound("Application with ID: " + id + "not found");
