@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import workerboard.model.ApplicationUser;
 import workerboard.model.dto.DatesDto;
 import workerboard.serivce.ToolsService;
 
@@ -26,5 +27,10 @@ public class ToolsController {
         return ResponseEntity.ok(toolsService.getDates());
     }
 
+
+    @GetMapping("/exp")
+    public ResponseEntity<?> getExp(){
+      return null;
+    }
 
 }

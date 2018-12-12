@@ -37,9 +37,15 @@ public class ApplicationUser implements MapGenerate {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles = new ArrayList<>();
-    @OneToOne
+
     @JsonView(ViewsForApplicationUser.Basic.class)
-    @JoinColumn(name = "experience_id")
+    @OneToOne(
+            mappedBy = "applicationUser",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
+    )
+
     private Experience experience;
 
     public ApplicationUser() {
@@ -53,6 +59,21 @@ public class ApplicationUser implements MapGenerate {
         this.roles = roles;
         this.experience = experience;
     }
+
+
+    //set instance Application user for Experience
+    public void setExperience(Experience experience) {
+        if (experience == null) {
+            if (this.experience != null) {
+                this.experience.setApplicationUser(null);
+            }
+        }
+        else {
+            experience.setApplicationUser(this);
+        }
+        this.experience = experience;
+    }
+
 
 
     public Long getId() {

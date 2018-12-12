@@ -3,7 +3,7 @@ package workerboard.serivce;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-import workerboard.evens.InsuranceEvent;
+import workerboard.evens.EventProducer;
 import workerboard.exception.NotFound;
 import workerboard.model.ApplicationUser;
 import workerboard.model.InsuranceApplication;
@@ -25,18 +25,19 @@ public class InsuranceService {
     private InsuranceHistoryRepository insuranceHistoryRepository;
     private RisksService risksService;
     private ApplicationUserRepository applicationUserRepository;
-    private ApplicationEventPublisher applicationEventPublisher;
+   private EventProducer eventProducer;
 
-    @Autowired
+   @Autowired
     public InsuranceService(InsuranceRepository insuranceRepository, InsuranceHistoryRepository insuranceHistoryRepository,
-                            RisksService risksService, ApplicationUserRepository applicationUserRepository,
-                            ApplicationEventPublisher applicationEventPublisher) {
+                            RisksService risksService, ApplicationUserRepository applicationUserRepository, EventProducer eventProducer) {
         this.insuranceRepository = insuranceRepository;
         this.insuranceHistoryRepository = insuranceHistoryRepository;
         this.risksService = risksService;
         this.applicationUserRepository = applicationUserRepository;
-        this.applicationEventPublisher = applicationEventPublisher;
+        this.eventProducer = eventProducer;
     }
+
+
 
 
 
@@ -103,10 +104,10 @@ public class InsuranceService {
             applicationFromDb.setState(InsuranceApplicationState.POLICY);
 
            applicationFromDb = insuranceRepository.save(applicationFromDb);
-           applicationEventPublisher.publishEvent(
-                   new InsuranceEvent(this,applicationFromDb)
-           );
+/////////////////////////
+            System.out.print("\n"+ "Watek : "+  Thread.currentThread().getId()+ " Nazwa : "+Thread.currentThread().getName() + "\n");
 
+            this.createEvent(applicationFromDb);
             return applicationFromDb;
 
         }
@@ -123,4 +124,8 @@ public class InsuranceService {
         throw new NotFound("User with ID: " + id + "not found");
 
     }
+
+    protected void createEvent(InsuranceApplication insurance) {
+       eventProducer.createInsuranceEvent(insurance);
+   }
 }

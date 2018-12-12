@@ -1,42 +1,45 @@
 package workerboard.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonView;
+import workerboard.model.dto.ViewsForApplicationUser;
+
+import javax.persistence.*;
 
 @Entity
 public class Experience {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @JsonView(ViewsForApplicationUser.Basic.class)
     private long level;
+    @JsonView(ViewsForApplicationUser.Basic.class)
     private long expTotalEarned;
+    @JsonView(ViewsForApplicationUser.Basic.class)
     private long expToNextLevel;
-    private double percentToNextLevel;
+    @JsonView(ViewsForApplicationUser.Basic.class)
     private int attack;
+    @JsonView(ViewsForApplicationUser.Basic.class)
     private int defence;
+    @JsonView(ViewsForApplicationUser.Basic.class)
     private int knowledge;
+    @JsonView(ViewsForApplicationUser.Basic.class)
     private int speedAttack;
+    @JsonView(ViewsForApplicationUser.Basic.class)
     private int pointsToAdd;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @MapsId
+    ApplicationUser applicationUser;
+
+    //to change
     public Experience() {
         this.level = 1;
-        this.expToNextLevel = 1000;
         this.expTotalEarned = 0;
     }
 
-    public Experience(long level, long expTotalEarned, long expToNextLevel, double percentToNextLevel, int attack, int defence, int knowledge, int speedAttack, int pointsToAdd) {
-        this.level = level;
-        this.expTotalEarned = expTotalEarned;
-        this.expToNextLevel = expToNextLevel;
-        this.percentToNextLevel = percentToNextLevel;
-        this.attack = attack;
-        this.defence = defence;
-        this.knowledge = knowledge;
-        this.speedAttack = speedAttack;
-        this.pointsToAdd = pointsToAdd;
+
+    public void setApplicationUser(ApplicationUser applicationUser) {
+        this.applicationUser = applicationUser;
     }
 
     public Long getId() {
@@ -71,13 +74,6 @@ public class Experience {
         this.expToNextLevel = expToNextLevel;
     }
 
-    public double getPercentToNextLevel() {
-        return percentToNextLevel;
-    }
-
-    public void setPercentToNextLevel(double percentToNextLevel) {
-        this.percentToNextLevel = percentToNextLevel;
-    }
 
     public int getAttack() {
         return attack;
@@ -118,4 +114,6 @@ public class Experience {
     public void setPointsToAdd(int pointsToAdd) {
         this.pointsToAdd = pointsToAdd;
     }
+
+
 }
