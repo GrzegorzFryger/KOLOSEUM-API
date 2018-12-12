@@ -53,6 +53,10 @@ public class InsuranceApplication {
         this.seller = seller;
     }
 
+    public void setSeller(ApplicationUser seller) {
+        this.seller = seller;
+    }
+
     public Long getId() {
         return id;
     }

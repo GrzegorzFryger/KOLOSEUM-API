@@ -12,7 +12,7 @@ import workerboard.repository.ExperienceRepository;
 @Service
 public class ExperienceService {
 
-    private static final Logger logger = LoggerFactory.getLogger(ExperienceService.class);
+   // private static final Logger logger = LoggerFactory.getLogger(ExperienceService.class);
 
 
     private ExperiencePointManager experiencePointManager;
@@ -27,11 +27,10 @@ public class ExperienceService {
 
     public void setPoint(InsuranceApplication insurance ){
 
-        System.out.print("Inside service : id : "+insurance.getSeller().getId() + "\n");
-
-       Experience experience = repository.findById(insurance.getSeller().getId()).get();
-
-       experience = experiencePointManager.addPoint(experience,insurance.getInstallmentAmount().longValue());
+        Experience experience = repository.findById(insurance.getSeller().getId()).get();
+        experience = experiencePointManager.addPoint(
+                experience,
+                insurance.getTotalPolicyValue().longValue());
 
        repository.save(experience);
 

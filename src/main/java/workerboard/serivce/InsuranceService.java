@@ -1,7 +1,7 @@
 package workerboard.serivce;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import workerboard.evens.EventProducer;
 import workerboard.exception.NotFound;
@@ -13,6 +13,8 @@ import workerboard.model.enums.ServiceMessageType;
 import workerboard.repository.ApplicationUserRepository;
 import workerboard.repository.InsuranceHistoryRepository;
 import workerboard.repository.InsuranceRepository;
+import workerboard.security.jwt.CurrentUser;
+import workerboard.security.jwt.model.JwtUserPrincipal;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,6 +22,9 @@ import java.util.Optional;
 
 @Service
 public class InsuranceService {
+
+
+
 
     private InsuranceRepository insuranceRepository;
     private InsuranceHistoryRepository insuranceHistoryRepository;
@@ -36,12 +41,7 @@ public class InsuranceService {
         this.applicationUserRepository = applicationUserRepository;
         this.eventProducer = eventProducer;
     }
-
-
-
-
-
-
+    
     public InsuranceApplication registerInsuranceApplication(InsuranceApplication insuranceApplication) {
         if(!isApplicationValid(insuranceApplication)){
             insuranceApplication.addMessage(new ServiceMessage(ServiceMessageType.ERROR, "Tariffication attribute is missing"));
@@ -102,12 +102,10 @@ public class InsuranceService {
             InsuranceApplication applicationFromDb = optionalApplication.get();
             applicationFromDb = insuranceApplication;
             applicationFromDb.setState(InsuranceApplicationState.POLICY);
-
-           applicationFromDb = insuranceRepository.save(applicationFromDb);
-/////////////////////////
-            System.out.print("\n"+ "Watek : "+  Thread.currentThread().getId()+ " Nazwa : "+Thread.currentThread().getName() + "\n");
+            applicationFromDb = insuranceRepository.save(applicationFromDb);
 
             this.createEvent(applicationFromDb);
+
             return applicationFromDb;
 
         }
@@ -128,4 +126,5 @@ public class InsuranceService {
     protected void createEvent(InsuranceApplication insurance) {
        eventProducer.createInsuranceEvent(insurance);
    }
+
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import workerboard.model.ApplicationUser;
 import workerboard.model.Experience;
 import workerboard.serivce.ExperienceService;
 
@@ -22,9 +23,14 @@ public class CustomEventListener {
     @EventListener
     public void handle(InsuranceEvent applicationCreateEvent) {
 
-       // applicationCreateEvent.getInsurance().getSeller().getId()
+//        ApplicationUser user = new ApplicationUser();
+//        user.setId(Long.valueOf(1));
+//
+//       applicationCreateEvent.getInsurance().setSeller(user);
 
-        System.out.print("\n"+"Inside evenListiner : id : "+ applicationCreateEvent.getInsurance().getInstallmentAmount()+ "\n");
+
+
+      //  System.out.print("\n"+"Inside evenListiner : id : "+ applicationCreateEvent.getInsurance().getInstallmentAmount()+ "\n");
 
         service.setPoint(applicationCreateEvent.getInsurance());
 
