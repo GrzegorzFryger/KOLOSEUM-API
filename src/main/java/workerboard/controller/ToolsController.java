@@ -6,12 +6,13 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import workerboard.model.ApplicationUser;
 import workerboard.model.dto.DatesDto;
-import workerboard.security.jwt.CurrentUser;
-import workerboard.security.jwt.model.JwtUserPrincipal;
-import workerboard.serivce.InsuranceService;
+import workerboard.model.enums.UserRole;
 import workerboard.serivce.ToolsService;
+
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -30,6 +31,11 @@ public class ToolsController {
     @GetMapping("/dates")
     ResponseEntity<DatesDto> getDates() {
         return ResponseEntity.ok(toolsService.getDates());
+    }
+
+    @GetMapping("/roles")
+    ResponseEntity<List<UserRole>> getAllRoles() {
+        return ResponseEntity.ok(Arrays.asList(UserRole.values()));
     }
 
 
