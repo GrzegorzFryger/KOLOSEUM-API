@@ -1,5 +1,6 @@
 package workerboard.serivce;
 
+import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import workerboard.exception.NotFound;
@@ -8,6 +9,7 @@ import workerboard.model.ApplicationUser;
 import workerboard.model.ServiceMessage;
 import workerboard.model.ToDoCard;
 import workerboard.model.dto.ToDoCardCreateDto;
+import workerboard.model.dto.ToDoCardToMoveDto;
 import workerboard.model.dto.ToDoCardUpdateDto;
 import workerboard.model.enums.ServiceMessageType;
 import workerboard.repository.ApplicationUserRepository;
@@ -85,6 +87,22 @@ public class ToDoService {
         return toDoRepository.findAllByUser(applicationUserRepository
                     .findById(userId)
                     .orElseThrow(() -> new NotFound("Card with id: " + userId + "not found")));
+
+    }
+
+    public void moveCardToOtherUser(ToDoCardToMoveDto cardMoveDto) throws NotFound {
+
+        ToDoCard card = this.toDoRepository
+                .findById(cardMoveDto.getCardId())
+                .orElseThrow(()-> new NotFound("Not found card with : " + cardMoveDto.getCardId()));
+
+        this.applicationUserRepository.findById(cardMoveDto.getIdUserToMove()).ifPresent( x-> {
+                        card.setUser(x);
+                        this.toDoRepository.save(card);
+                }
+        );
+
+
 
     }
 }

@@ -7,8 +7,7 @@ public class ToDoCardCreateDto {
     @NotNull
     @NotBlank(message = "title not be null")
     private String title;
-    @NotNull
-    @NotBlank(message = "text not be null")
+
     private String text;
     @NotNull
     private Long userId;

@@ -33,7 +33,7 @@ public class WorkerBoardApplication {
     public ExperiencePointManager experiencePointManager(){
        BasicExperiencePointManager basicExperiencePointManager = new BasicExperiencePointManager();
 
-       basicExperiencePointManager.setConverterPoint(100);
+       basicExperiencePointManager.setConverterPoint(10);
         return basicExperiencePointManager;
     }
 

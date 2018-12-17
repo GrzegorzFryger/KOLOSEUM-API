@@ -1,6 +1,7 @@
 package workerboard.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import workerboard.exception.NotFound;
@@ -8,6 +9,7 @@ import workerboard.model.ApplicationUser;
 import workerboard.model.Role;
 import workerboard.model.ToDoCard;
 import workerboard.model.dto.ToDoCardCreateDto;
+import workerboard.model.dto.ToDoCardToMoveDto;
 import workerboard.model.dto.ToDoCardUpdateDto;
 import workerboard.model.enums.UserRole;
 import workerboard.repository.ApplicationUserRepository;
@@ -55,7 +57,9 @@ public class ToDoController {
     }
 
     @PutMapping
-    ResponseEntity<ToDoCard> updateToDoCard(@RequestBody @Valid ToDoCardUpdateDto toDoCardUpdateDto) throws NotFound {
+    ResponseEntity<ToDoCard> updateToDoCard(@RequestBody  ToDoCardUpdateDto toDoCardUpdateDto) throws NotFound {
+
+        System.out.print("\n"+toDoCardUpdateDto.toString() + "\n");
         return ResponseEntity.ok(toDoService.updateToDoCard(toDoCardUpdateDto));
     }
 
@@ -74,6 +78,15 @@ public class ToDoController {
     @GetMapping(path = "/history/{id}")
     ResponseEntity<?> getHistoryToDoCard(@PathVariable Long id) throws NotFound {
         return ResponseEntity.ok( toDoCardHistoryRepository.findAllByCardId(id));
+    }
+
+    @PostMapping("/moveCard")
+    ResponseEntity<?> moveCardToOtherUser(@RequestBody ToDoCardToMoveDto cardMoveDto ) throws NotFound {
+
+
+        this.toDoService.moveCardToOtherUser(cardMoveDto);
+        return ResponseEntity.ok(HttpStatus.OK);
+
     }
 
 }

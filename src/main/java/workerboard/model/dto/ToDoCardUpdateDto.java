@@ -7,11 +7,11 @@ import javax.validation.constraints.NotNull;
 public class ToDoCardUpdateDto {
     @NotNull
     private String title;
-    @NotNull
+
     private String text;
-    @NotNull
+
     private Long userId;
-    @NotNull
+
     private Long cardToUpdateId;
     @NotNull
     private ToDoCardState state;
