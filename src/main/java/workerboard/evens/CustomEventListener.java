@@ -2,6 +2,8 @@ package workerboard.evens;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
+import org.springframework.messaging.core.MessageSendingOperations;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import workerboard.model.ApplicationUser;
@@ -13,27 +15,31 @@ public class CustomEventListener {
 
 
     private ExperienceService service;
+    private MessageSendingOperations messagingTemplate;
 
-    @Autowired
-    public CustomEventListener(ExperienceService service) {
+
+    public CustomEventListener(ExperienceService service, MessageSendingOperations messagingTemplate) {
         this.service = service;
+        this.messagingTemplate = messagingTemplate;
     }
 
     @Async("threadPoolTaskExecutor")
     @EventListener
     public void handle(InsuranceEvent applicationCreateEvent) {
 
-//        ApplicationUser user = new ApplicationUser();
-//        user.setId(Long.valueOf(1));
 //
-//       applicationCreateEvent.getInsurance().setSeller(user);
-
-
-
-      //  System.out.print("\n"+"Inside evenListiner : id : "+ applicationCreateEvent.getInsurance().getInstallmentAmount()+ "\n");
 
         service.setPoint(applicationCreateEvent.getInsurance());
 
-        System.out.print("\n"+ " Listner Watek : "+  Thread.currentThread().getId()+ " Nazwa : "+Thread.currentThread().getName() + applicationCreateEvent.getInsurance()+ "\n");
+
+
+       // this.messagingTemplate.convertAndSend();
+
+
+
+        System.out.print("\n"+ " Listner Watek : "+  Thread.currentThread().getId()+ " Nazwa : "+Thread.currentThread()
+                .getName() + applicationCreateEvent.getInsurance()+ "\n");
+
+
     }
 }
