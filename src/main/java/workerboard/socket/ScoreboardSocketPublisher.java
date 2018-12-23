@@ -33,7 +33,7 @@ public class ScoreboardSocketPublisher {
 
         this.simpMessagingTemplate.convertAndSend("/score/experience", this.updateExperienceScore());
         this.simpMessagingTemplate.convertAndSend("/score/policies", this.updateExperienceScore());
-        System.out.print(this.updateExperienceScore());
+
 
     }
 

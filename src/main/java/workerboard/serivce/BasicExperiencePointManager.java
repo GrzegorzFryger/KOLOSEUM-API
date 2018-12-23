@@ -8,12 +8,14 @@ public class BasicExperiencePointManager implements ExperiencePointManager {
 
     private Experience experience;
     private int converterPoint;
+    private int pointToAddForExperience;
 
     public BasicExperiencePointManager() {
+        pointToAddForExperience = 4;
     }
 
     @Override
-    public Experience addPoint(Experience experience, Long experiencePoint) {
+    public Experience addExperiencePoint(Experience experience, Long experiencePoint) {
         Assert.notNull(experience, "Object must not be null");
         Assert.notNull(experiencePoint, "Object must not be null");
 
@@ -28,22 +30,33 @@ public class BasicExperiencePointManager implements ExperiencePointManager {
 
 
     protected void generateLevelValue(){
-        this.experience.setLevel(Math.round(
-                Math.log10(experience.getExpTotalEarned())
-        ))  ;
 
+        long tempLevel = Math.round(
+                Math.log10(experience.getExpTotalEarned()));
+
+        if(tempLevel > this.experience.getLevel()) {
+
+            for(int i = 0;i <= tempLevel - this.experience.getLevel(); i++ ){
+                generatePointForAttributes();
+            }
+            this.experience.setLevel(tempLevel);
+        }
     }
 
     protected void generatePointToNextLevel(){
 
+
         experience.setExpToNextLevel(Math.round(
                 Math.pow(10, experience.getLevel() + 1) - experience.getExpTotalEarned())
         );
-
     }
 
     protected void addExperiencePoint(Long exp){
         this.experience.setExpTotalEarned(this.experience.getExpTotalEarned() + exp );
+    }
+
+    protected void generatePointForAttributes() {
+        this.experience.setPointsToAdd(experience.getPointsToAdd() + pointToAddForExperience);
     }
 
     public void setExperience(Experience experience) {

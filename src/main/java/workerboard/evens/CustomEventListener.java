@@ -28,7 +28,7 @@ public class CustomEventListener {
     @EventListener
     public void handle(InsuranceEvent applicationCreateEvent) {
 
-        service.setPoint(applicationCreateEvent.getInsurance());
+        service.setExperiencePoint(applicationCreateEvent.getInsurance());
         publisher.publishData();
     }
 }

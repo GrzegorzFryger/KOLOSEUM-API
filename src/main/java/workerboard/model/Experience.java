@@ -115,5 +115,19 @@ public class Experience {
         this.pointsToAdd = pointsToAdd;
     }
 
-
+    @Override
+    public String toString() {
+        return "Experience{" +
+                "id=" + id +
+                ", level=" + level +
+                ", expTotalEarned=" + expTotalEarned +
+                ", expToNextLevel=" + expToNextLevel +
+                ", attack=" + attack +
+                ", defence=" + defence +
+                ", knowledge=" + knowledge +
+                ", speedAttack=" + speedAttack +
+                ", pointsToAdd=" + pointsToAdd +
+                ", applicationUser=" + applicationUser +
+                '}';
+    }
 }

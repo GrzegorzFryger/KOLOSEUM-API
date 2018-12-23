@@ -4,7 +4,7 @@ import workerboard.model.Experience;
 
 public interface ExperiencePointManager {
 
-    public Experience addPoint(Experience experience, Long experiencePoint);
+    public Experience addExperiencePoint(Experience experience, Long experiencePoint);
 
 
     }
