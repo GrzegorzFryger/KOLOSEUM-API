@@ -6,8 +6,8 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
 import workerboard.model.ExperienceScore;
 import workerboard.model.PoliciesScore;
+import workerboard.repository.CustomRepository.ScoreboardCustomRepository;
 import workerboard.repository.CustomRepository.SortType;
-import workerboard.repository.ExperienceRepository;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,13 +18,15 @@ public class ScoreboardSocketPublisher {
 
 
     private final SimpMessagingTemplate simpMessagingTemplate;
-    private final ExperienceRepository experienceRepository;
+    private final ScoreboardCustomRepository repository;
+
+    public ScoreboardSocketPublisher(SimpMessagingTemplate simpMessagingTemplate, ScoreboardCustomRepository repository) {
+        this.simpMessagingTemplate = simpMessagingTemplate;
+        this.repository = repository;
+    }
 
     @Autowired
-    public ScoreboardSocketPublisher(SimpMessagingTemplate simpMessagingTemplate, ExperienceRepository experienceRepository) {
-        this.simpMessagingTemplate = simpMessagingTemplate;
-        this.experienceRepository = experienceRepository;
-    }
+
 
     @Async("threadPoolTaskExecutor")
     public void publishData(){
@@ -36,14 +38,14 @@ public class ScoreboardSocketPublisher {
     }
 
     private List<ExperienceScore> updateExperienceScore(){
-        return this.experienceRepository.getExperienceScoreboard(SortType.DESC);
+        return this.repository.getExperienceScoreboard(SortType.DESC);
     }
 
     private List<PoliciesScore> updatePoliciesScore(){
 
         LocalDate currentDate = LocalDate.now();
 
-        return this.experienceRepository.getPoliciesScoreboard(
+        return this.repository.getPoliciesScoreboard(
                 LocalDate.of(currentDate.getYear(),currentDate.getMonth(),1),
                 currentDate,
                 SortType.DESC);

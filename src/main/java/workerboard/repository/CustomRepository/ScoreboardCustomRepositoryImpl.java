@@ -39,10 +39,14 @@ public class ScoreboardCustomRepositoryImpl implements ScoreboardCustomRepositor
         Join<Experience, ApplicationUser> applicationUserJoin = rootExperience
                 .join("applicationUser", JoinType.LEFT);
 
+
         criteria.multiselect(rootExperience.get("id"),
                 rootExperience.get("expTotalEarned"),
                 applicationUserJoin.get("firstName"),
-                applicationUserJoin.get("lastName"))
+                applicationUserJoin.get("lastName"),
+                rootExperience.get("attack"),
+                rootExperience.get("defence"),
+                rootExperience.get("knowledge"))
                 .orderBy(setTypeOrder(builder,
                         rootExperience,
                         "expTotalEarned",
