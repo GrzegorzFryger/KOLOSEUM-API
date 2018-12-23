@@ -21,7 +21,6 @@ public class ExperienceService {
         this.repository = repository;
     }
 
-
     public void setPoint(InsuranceApplication insurance ){
 
         Experience experience = repository.findById(insurance.getSeller().getId()).get();
@@ -30,19 +29,11 @@ public class ExperienceService {
                 insurance.getTotalPolicyValue().longValue());
 
        repository.save(experience);
-
-
     }
-
 
     public Experience getExperienceById(Long id)
     {
         return repository.findById(id).get();
-    }
-
-    public void projec() {
-
-
     }
 
 }
