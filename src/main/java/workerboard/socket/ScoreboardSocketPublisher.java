@@ -4,8 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
-import workerboard.model.Experience;
 import workerboard.repository.ExperienceRepository;
 
 @Controller

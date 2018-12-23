@@ -5,20 +5,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import workerboard.exception.NotFound;
-import workerboard.model.ApplicationUser;
-import workerboard.model.Role;
 import workerboard.model.ToDoCard;
 import workerboard.model.dto.ToDoCardCreateDto;
 import workerboard.model.dto.ToDoCardToMoveDto;
 import workerboard.model.dto.ToDoCardUpdateDto;
-import workerboard.model.enums.UserRole;
-import workerboard.repository.ApplicationUserRepository;
+import workerboard.repository.ApplicationUserCustomRepository;
 import workerboard.repository.ToDoCardHistoryRepository;
 import workerboard.repository.ToDoRepository;
 import workerboard.serivce.ToDoService;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -28,12 +24,12 @@ public class ToDoController {
 
 
     private ToDoRepository repository;
-    private ApplicationUserRepository applicationUserRepository;
+    private ApplicationUserCustomRepository applicationUserRepository;
     private ToDoCardHistoryRepository toDoCardHistoryRepository;
     private ToDoService toDoService;
 
     @Autowired
-    public ToDoController(ToDoRepository repository, ApplicationUserRepository applicationUserRepository,
+    public ToDoController(ToDoRepository repository, ApplicationUserCustomRepository applicationUserRepository,
                           ToDoCardHistoryRepository toDoCardHistoryRepository, ToDoService toDoService) {
         this.repository = repository;
         this.applicationUserRepository = applicationUserRepository;

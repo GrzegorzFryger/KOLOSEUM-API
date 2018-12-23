@@ -3,8 +3,8 @@ package workerboard.serivce;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.Assert;
 import workerboard.exception.NotFound;
-import workerboard.repository.BasicRepository;
-import workerboard.repository.CustomRepository.CustomSimpleJpaRepositoryImpl;
+import workerboard.repository.BasicCustomRepository;
+import workerboard.repository.CustomRepository.SortType;
 import workerboard.serivce.mapper.MapGenerate;
 
 import javax.persistence.criteria.Predicate;
@@ -14,10 +14,10 @@ import java.util.Optional;
 
 public abstract class BasicAbstractService<T> {
 
-    private BasicRepository<T> basicRepository;
+    private BasicCustomRepository<T> basicRepository;
 
 
-    public void setBasicRepository(BasicRepository<T> basicRepository) {
+    public void setBasicRepository(BasicCustomRepository<T> basicRepository) {
         this.basicRepository = basicRepository;
     }
 
@@ -63,7 +63,7 @@ public abstract class BasicAbstractService<T> {
     @SuppressWarnings("unchecked")
     public <U extends MapGenerate> List<String> findPropertyByAttribute(SpecificationFunctional criteria, U classCastToMap,
                                                                         String selectedAttribute, Class<T> domain, boolean distinct,
-                                                                        CustomSimpleJpaRepositoryImpl.SortType sortType) {
+                                                                        SortType sortType) {
 
         Assert.notNull(classCastToMap, "Domain class must not be null!");
         return basicRepository

@@ -1,8 +1,5 @@
 package workerboard.serivce;
 
-import org.apache.juli.logging.LogFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import workerboard.model.Experience;
@@ -40,7 +37,12 @@ public class ExperienceService {
 
     public Experience getExperienceById(Long id)
     {
-        return null;//repository.findById(id);
+        return repository.findById(id).get();
+    }
+
+    public void projec() {
+
+
     }
 
 }

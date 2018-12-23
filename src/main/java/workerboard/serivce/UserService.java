@@ -7,7 +7,7 @@ import workerboard.exception.NotFound;
 import workerboard.exception.UserWrongPassword;
 import workerboard.model.ApplicationUser;
 import workerboard.model.dto.UserPasswordDto;
-import workerboard.repository.ApplicationUserRepository;
+import workerboard.repository.ApplicationUserCustomRepository;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -15,11 +15,11 @@ import java.util.List;
 @Service
 public class UserService extends BasicAbstractService<ApplicationUser> {
 
-    private ApplicationUserRepository userRepository;
+    private ApplicationUserCustomRepository userRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public UserService(ApplicationUserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserService(ApplicationUserCustomRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
 
         super.setBasicRepository(userRepository);
         this.userRepository = userRepository;

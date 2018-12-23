@@ -4,22 +4,20 @@ package workerboard.serivce;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import workerboard.model.Vehicle;
-import workerboard.repository.CustomRepository.CustomSimpleJpaRepositoryImpl;
-import workerboard.repository.VehicleRepository;
+import workerboard.repository.CustomRepository.SortType;
+import workerboard.repository.VehicleCustomRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static workerboard.repository.CustomRepository.CustomSimpleJpaRepositoryImpl.SortType.ASC;
-import static workerboard.repository.CustomRepository.CustomSimpleJpaRepositoryImpl.SortType.DESC;
+
 
 @Service
 public class VehicleService extends BasicAbstractService<Vehicle>{
 
-    private VehicleRepository vehicleRepository;
+    private VehicleCustomRepository vehicleRepository;
 
     @Autowired
-    public VehicleService(VehicleRepository vehicleRepository) {
+    public VehicleService(VehicleCustomRepository vehicleRepository) {
         super.setBasicRepository(vehicleRepository);
         this.vehicleRepository = vehicleRepository;
     }
@@ -36,13 +34,13 @@ public class VehicleService extends BasicAbstractService<Vehicle>{
         return findPropertyByAttribute(andCriteria(),
                 vehicle,
                 attribute,
-                Vehicle.class,true, ASC);
+                Vehicle.class,true, SortType.DESC);
     }
 
     public List<String> findAllByAttributeWithDistrict( String attribute) {
 
 
-        return vehicleRepository.findAllProjection(Vehicle.class,attribute,true , DESC);
+        return vehicleRepository.findAllProjection(Vehicle.class,attribute,true , SortType.DESC);
 
     }
 
