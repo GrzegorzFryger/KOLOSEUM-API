@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import workerboard.repository.ApplicationUserRepository;
+import workerboard.repository.ApplicationUserCustomRepository;
 import workerboard.security.jwt.model.JwtUserPrincipal;
 
 @Service
@@ -13,7 +13,7 @@ public class JwtUserService implements UserDetailsService {
 
 
     @Autowired
-    ApplicationUserRepository repository;
+    ApplicationUserCustomRepository repository;
 
 
     @Override

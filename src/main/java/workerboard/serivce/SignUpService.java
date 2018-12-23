@@ -8,7 +8,7 @@ import workerboard.model.ApplicationUser;
 import workerboard.model.Experience;
 import workerboard.model.Role;
 import workerboard.model.enums.UserRole;
-import workerboard.repository.ApplicationUserRepository;
+import workerboard.repository.ApplicationUserCustomRepository;
 import workerboard.repository.ExperienceRepository;
 
 import java.util.Arrays;
@@ -17,12 +17,12 @@ import java.util.Arrays;
 public class SignUpService {
 
 
-    private ApplicationUserRepository applicationUserRepository;
+    private ApplicationUserCustomRepository applicationUserRepository;
     private ExperienceRepository repository;
     private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public SignUpService(ApplicationUserRepository applicationUserRepository,
+    public SignUpService(ApplicationUserCustomRepository applicationUserRepository,
                          BCryptPasswordEncoder passwordEncoder) {
         this.applicationUserRepository = applicationUserRepository;
         this.passwordEncoder = passwordEncoder;

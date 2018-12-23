@@ -1,33 +1,27 @@
 package workerboard.serivce;
 
-import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import workerboard.exception.NotFound;
-import workerboard.exception.WrongTypeArguments;
 import workerboard.model.ApplicationUser;
-import workerboard.model.ServiceMessage;
 import workerboard.model.ToDoCard;
 import workerboard.model.dto.ToDoCardCreateDto;
 import workerboard.model.dto.ToDoCardToMoveDto;
 import workerboard.model.dto.ToDoCardUpdateDto;
-import workerboard.model.enums.ServiceMessageType;
-import workerboard.repository.ApplicationUserRepository;
+import workerboard.repository.ApplicationUserCustomRepository;
 import workerboard.repository.ToDoRepository;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ToDoService {
 
     private ToDoRepository toDoRepository;
-    private ApplicationUserRepository applicationUserRepository;
+    private ApplicationUserCustomRepository applicationUserRepository;
 
 
     @Autowired
-    public ToDoService(ToDoRepository toDoRepository, ApplicationUserRepository applicationUserRepository) {
+    public ToDoService(ToDoRepository toDoRepository, ApplicationUserCustomRepository applicationUserRepository) {
         this.toDoRepository = toDoRepository;
         this.applicationUserRepository = applicationUserRepository;
     }

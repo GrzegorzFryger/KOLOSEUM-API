@@ -11,33 +11,27 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.io.Serializable;
 import java.util.List;
 
 @NoRepositoryBean
-public class CustomSimpleJpaRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRepository<T, ID> implements CustomSimpleJpaRepository<T, ID> {
+public class SimpleJpaCustomRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRepository<T, ID> implements SimpleJpaCustomRepository<T, ID> {
 
     private EntityManager entityManager;
     private final ProjectionFactory projectionFactory = new SpelAwareProxyProjectionFactory();
 
-    public CustomSimpleJpaRepositoryImpl(JpaEntityInformation<T, ?> entityInformation, EntityManager entityManager) {
+    public SimpleJpaCustomRepositoryImpl(JpaEntityInformation<T, ?> entityInformation, EntityManager entityManager) {
         super(entityInformation, entityManager);
         this.entityManager = entityManager;
     }
 
-    public CustomSimpleJpaRepositoryImpl(Class<T> domainClass, EntityManager em, EntityManager entityManager) {
+    public SimpleJpaCustomRepositoryImpl(Class<T> domainClass, EntityManager em, EntityManager entityManager) {
         super(domainClass, em);
         this.entityManager = entityManager;
     }
 
 
-    public static enum SortType {
-        ASC,
-        DESC,
-    }
 
 
     @Override
@@ -151,6 +145,7 @@ public class CustomSimpleJpaRepositoryImpl<T, ID extends Serializable> extends S
         );
     }
 
+
     @Override
     @Transactional(readOnly = true)
     @Deprecated
@@ -171,6 +166,8 @@ public class CustomSimpleJpaRepositoryImpl<T, ID extends Serializable> extends S
 
         return findAllProjection(criteria);
     }
+
+
 
 
     private <U> CriteriaQuery<U> setDistinct(CriteriaQuery<U> criteriaQuery) {

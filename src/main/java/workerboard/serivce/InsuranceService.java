@@ -1,7 +1,6 @@
 package workerboard.serivce;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import workerboard.evens.EventProducer;
 import workerboard.exception.NotFound;
@@ -10,11 +9,9 @@ import workerboard.model.InsuranceApplication;
 import workerboard.model.ServiceMessage;
 import workerboard.model.enums.InsuranceApplicationState;
 import workerboard.model.enums.ServiceMessageType;
-import workerboard.repository.ApplicationUserRepository;
+import workerboard.repository.ApplicationUserCustomRepository;
 import workerboard.repository.InsuranceHistoryRepository;
 import workerboard.repository.InsuranceRepository;
-import workerboard.security.jwt.CurrentUser;
-import workerboard.security.jwt.model.JwtUserPrincipal;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -29,12 +26,12 @@ public class InsuranceService {
     private InsuranceRepository insuranceRepository;
     private InsuranceHistoryRepository insuranceHistoryRepository;
     private RisksService risksService;
-    private ApplicationUserRepository applicationUserRepository;
+    private ApplicationUserCustomRepository applicationUserRepository;
    private EventProducer eventProducer;
 
    @Autowired
     public InsuranceService(InsuranceRepository insuranceRepository, InsuranceHistoryRepository insuranceHistoryRepository,
-                            RisksService risksService, ApplicationUserRepository applicationUserRepository, EventProducer eventProducer) {
+                            RisksService risksService, ApplicationUserCustomRepository applicationUserRepository, EventProducer eventProducer) {
         this.insuranceRepository = insuranceRepository;
         this.insuranceHistoryRepository = insuranceHistoryRepository;
         this.risksService = risksService;

@@ -9,6 +9,13 @@
       "name": "jwt.expirationTime",
       "type": "java.lang.String",
       "description": "Description for jwt.expirationTime."
+    },
+    {
+      "name": "websocket.scoreBoard.allowedOrigins",
+      "type": "java.lang.String",
+      "description": "Description for websocket.scoreBoard.allowedOrigins."
     }
+
   ]
+
 }

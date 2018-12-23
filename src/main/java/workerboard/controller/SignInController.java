@@ -13,7 +13,7 @@ import workerboard.exception.UserWrongPassword;
 import workerboard.model.ApplicationUser;
 import workerboard.model.dto.LoginDto;
 import workerboard.model.dto.SignInUserDto;
-import workerboard.repository.ApplicationUserRepository;
+import workerboard.repository.ApplicationUserCustomRepository;
 import workerboard.security.jwt.JwtProvider;
 
 import javax.validation.Valid;
@@ -31,7 +31,7 @@ public class SignInController {
     AuthenticationManager authenticationManager;
 
     @Autowired
-    ApplicationUserRepository applicationUserRepository;
+    ApplicationUserCustomRepository applicationUserRepository;
 
 
     @PostMapping
