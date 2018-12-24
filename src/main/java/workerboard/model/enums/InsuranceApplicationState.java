@@ -4,5 +4,6 @@ public enum InsuranceApplicationState {
     APPLICATION,
     SIMULATION,
     OFFER,
-    POLICY;
+    POLICY,
+    CANCELED;
 }

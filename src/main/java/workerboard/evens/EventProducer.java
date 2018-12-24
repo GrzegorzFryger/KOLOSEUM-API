@@ -15,9 +15,16 @@ public class EventProducer {
         this.publisher = publisher;
     }
 
-    public void createInsuranceEvent(InsuranceApplication application) {
-        publisher.publishEvent(new InsuranceEvent(application));
+    public void createInsuranceNewEvent(InsuranceApplication application) {
+        publisher.publishEvent(new InsuranceNewEvent(application));
     }
+
+    public void createInsuranceUpdateEvent(InsuranceApplication application) {
+        publisher.publishEvent(new InsuranceUpdateEvent(application));
+    }
+
+
+
 
 
 

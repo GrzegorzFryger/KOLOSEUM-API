@@ -1,8 +1,8 @@
 package workerboard.model;
 
+import workerboard.evens.ToDoCardListener;
 import workerboard.model.dto.ToDoCardCreateDto;
 import workerboard.model.enums.ToDoCardState;
-import workerboard.serivce.ToDoCardListener;
 
 import javax.persistence.*;
 import java.util.ArrayList;

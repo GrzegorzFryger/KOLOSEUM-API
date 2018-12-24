@@ -10,6 +10,7 @@ public class InsuranceEvent {
         this.insurance = insurance;
     }
 
+
     public InsuranceApplication getInsurance() {
         return insurance;
     }

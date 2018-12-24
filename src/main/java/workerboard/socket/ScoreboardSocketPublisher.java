@@ -2,7 +2,6 @@ package workerboard.socket;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
 import workerboard.model.ExperienceScore;
 import workerboard.model.PoliciesScore;
@@ -20,20 +19,23 @@ public class ScoreboardSocketPublisher {
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final ScoreboardCustomRepository repository;
 
+    @Autowired
     public ScoreboardSocketPublisher(SimpMessagingTemplate simpMessagingTemplate, ScoreboardCustomRepository repository) {
         this.simpMessagingTemplate = simpMessagingTemplate;
         this.repository = repository;
     }
 
-    @Autowired
 
-
-    @Async("threadPoolTaskExecutor")
     public void publishData(){
 
-        this.simpMessagingTemplate.convertAndSend("/score/experience", this.updateExperienceScore());
+        this.simpMessagingTemplate.convertAndSend("/score", this.updateExperienceScore());
         this.simpMessagingTemplate.convertAndSend("/score/policies", this.updateExperienceScore());
+        //this.simpMessagingTemplate.convertAndSend("/score", "sadsadasDASadsDSAdsasda");
 
+
+        System.out.print("otrzymano wiadomosć" + "\n");
+        System.out.print("otrzymano wiadomosć" + "\n");
+        System.out.print("otrzymano wiadomosć" + "\n");
 
     }
 

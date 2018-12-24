@@ -2,33 +2,40 @@ package workerboard.evens;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
-import org.springframework.messaging.core.MessageSendingOperations;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import workerboard.serivce.ExperienceService;
 import workerboard.socket.ScoreboardSocketPublisher;
 
-@Component
+@Service
 public class CustomEventListener {
 
 
     private ExperienceService service;
-    private MessageSendingOperations messagingTemplate;
     private ScoreboardSocketPublisher publisher;
 
 
     @Autowired
-    public CustomEventListener(ExperienceService service, MessageSendingOperations messagingTemplate, ScoreboardSocketPublisher publisher) {
+    public CustomEventListener(ExperienceService service, ScoreboardSocketPublisher publisher) {
         this.service = service;
-        this.messagingTemplate = messagingTemplate;
         this.publisher = publisher;
     }
 
     @Async("threadPoolTaskExecutor")
     @EventListener
-    public void handle(InsuranceEvent applicationCreateEvent) {
+    public void handle(InsuranceNewEvent applicationCreateEvent) {
+
+        System.out.print(applicationCreateEvent.getInsurance());
 
         service.setExperiencePoint(applicationCreateEvent.getInsurance());
+        publisher.publishData();
+    }
+
+    @Async("threadPoolTaskExecutor")
+    @EventListener
+    public void handle(InsuranceUpdateEvent applicationCreateEvent) {
+
+        service.subtractExperiencePoint(applicationCreateEvent.getInsurance());
         publisher.publishData();
     }
 }

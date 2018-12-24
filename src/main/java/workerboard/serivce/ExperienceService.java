@@ -33,6 +33,18 @@ public class ExperienceService {
        repository.save(experience);
     }
 
+    public void subtractExperiencePoint(InsuranceApplication insurance ){
+
+        Experience experience = repository.findById(insurance.getSeller().getId()).get();
+        experience = experiencePointManager.subtractExperiencePoint(
+                experience,
+                insurance.getTotalPolicyValue().longValue());
+
+       repository.save(experience);
+    }
+
+
+
     public Experience updatePointAttributes(Experience experience) throws NotFound, WrongTypeArguments {
 
         Experience temp = this.getExperienceById(experience.getId());

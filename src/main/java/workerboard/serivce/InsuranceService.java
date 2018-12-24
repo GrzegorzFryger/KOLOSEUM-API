@@ -101,7 +101,7 @@ public class InsuranceService {
             applicationFromDb.setState(InsuranceApplicationState.POLICY);
             applicationFromDb = insuranceRepository.save(applicationFromDb);
 
-            this.createEvent(applicationFromDb);
+            this.eventProducer.createInsuranceNewEvent(applicationFromDb);
 
             return applicationFromDb;
 
@@ -120,8 +120,5 @@ public class InsuranceService {
 
     }
 
-    protected void createEvent(InsuranceApplication insurance) {
-       eventProducer.createInsuranceEvent(insurance);
-   }
 
 }

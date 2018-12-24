@@ -27,6 +27,16 @@ public class BasicExperiencePointManager implements ExperiencePointManager {
         return experience;
     }
 
+    @Override
+    public Experience subtractExperiencePoint(Experience experience, Long experiencePoint){
+
+        this.setExperience(experience);
+        this.subtractExperiencePoint(experiencePoint / converterPoint);
+        this.generateLevelValue();
+        //todo prepare history point.
+        return experience;
+    }
+
 
 
     protected void generateLevelValue(){
@@ -53,6 +63,10 @@ public class BasicExperiencePointManager implements ExperiencePointManager {
 
     protected void addExperiencePoint(Long exp){
         this.experience.setExpTotalEarned(this.experience.getExpTotalEarned() + exp );
+    }
+
+    protected void subtractExperiencePoint(Long exp){
+        this.experience.setExpTotalEarned(this.experience.getExpTotalEarned() - exp );
     }
 
     protected void generatePointForAttributes() {

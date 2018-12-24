@@ -1,4 +1,4 @@
-package workerboard.serivce;
+package workerboard.evens;
 
 
 
@@ -23,7 +23,8 @@ import static workerboard.model.enums.ToDoCardState.*;
 public class ToDoCardListener {
 
     @PrePersist
-    public void prePersist(ToDoCard target) { perform(target, NEW); }
+    public void prePersist(ToDoCard target) {
+        perform(target, NEW); }
 
     @PreUpdate
     public void preUpdate(ToDoCard target) {
