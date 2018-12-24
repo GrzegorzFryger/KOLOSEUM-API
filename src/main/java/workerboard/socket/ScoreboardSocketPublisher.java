@@ -30,12 +30,6 @@ public class ScoreboardSocketPublisher {
 
         this.simpMessagingTemplate.convertAndSend("/score", this.updateExperienceScore());
         this.simpMessagingTemplate.convertAndSend("/score/policies", this.updateExperienceScore());
-        //this.simpMessagingTemplate.convertAndSend("/score", "sadsadasDASadsDSAdsasda");
-
-
-        System.out.print("otrzymano wiadomosć" + "\n");
-        System.out.print("otrzymano wiadomosć" + "\n");
-        System.out.print("otrzymano wiadomosć" + "\n");
 
     }
 
