@@ -6,24 +6,30 @@ import org.springframework.stereotype.Service;
 import workerboard.exception.NotFound;
 import workerboard.exception.UserWrongPassword;
 import workerboard.model.ApplicationUser;
+import workerboard.model.Role;
 import workerboard.model.dto.UserPasswordDto;
 import workerboard.repository.ApplicationUserCustomRepository;
+import workerboard.repository.RoleRepository;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService extends BasicAbstractService<ApplicationUser> {
 
     private ApplicationUserCustomRepository userRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private RoleRepository roleRepository;
 
     @Autowired
-    public UserService(ApplicationUserCustomRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserService(ApplicationUserCustomRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, RoleRepository roleRepository) {
 
         super.setBasicRepository(userRepository);
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.roleRepository = roleRepository;
     }
 
     protected ApplicationUser userGetOneLazy(Long id) throws NotFound {
@@ -52,11 +58,23 @@ public class UserService extends BasicAbstractService<ApplicationUser> {
     }
 
     public ApplicationUser updateUser(Long id, ApplicationUser newUser) throws NotFound {
-
         ApplicationUser oldUser = this.userGetOneLazy(id);
+        List<Role> userRole = new ArrayList<>();
 
-        newUser.setPassword(oldUser.getPassword());
-        oldUser = newUser;
+        newUser.getRoles().forEach(role -> {
+            Optional<Role> r = roleRepository.findByName(role.getName());
+            if(r.isPresent()) {
+                userRole.add(r.get());
+            } else {
+                roleRepository.save(role);
+            }
+        });
+
+
+        oldUser.setRoles(userRole);
+        oldUser.setEmail(newUser.getEmail());
+        oldUser.setFirstName(newUser.getFirstName());
+        oldUser.setLastName(newUser.getLastName());
 
         return userRepository.save(oldUser);
     }
