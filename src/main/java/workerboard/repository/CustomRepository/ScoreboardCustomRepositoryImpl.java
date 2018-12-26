@@ -42,6 +42,8 @@ public class ScoreboardCustomRepositoryImpl implements ScoreboardCustomRepositor
 
         criteria.multiselect(rootExperience.get("id"),
                 rootExperience.get("expTotalEarned"),
+                rootExperience.get("level"),
+                rootExperience.get("expToNextLevel"),
                 applicationUserJoin.get("firstName"),
                 applicationUserJoin.get("lastName"),
                 rootExperience.get("attack"),

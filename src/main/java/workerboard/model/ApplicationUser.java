@@ -22,7 +22,7 @@ public class ApplicationUser implements MapGenerate {
     private String firstName;
     @JsonView(ViewsForApplicationUser.Basic.class)
     private String lastName;
-    
+
     @JsonView(ViewsForApplicationUser.Basic.class)
     private String email;
 
