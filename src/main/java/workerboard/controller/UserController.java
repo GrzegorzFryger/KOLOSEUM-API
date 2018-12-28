@@ -84,7 +84,6 @@ public class UserController {
             throw new WrongTypeArguments("Wrong type arguments");
         }
 
-        System.out.print(allRequestParams);
 
         switch (typeSearch){
             case "where":
