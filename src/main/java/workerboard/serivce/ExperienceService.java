@@ -6,7 +6,11 @@ import workerboard.exception.NotFound;
 import workerboard.exception.WrongTypeArguments;
 import workerboard.model.Experience;
 import workerboard.model.InsuranceApplication;
+import workerboard.model.ToDoCard;
+import workerboard.model.enums.ToDoCardState;
 import workerboard.repository.ExperienceRepository;
+
+import java.util.stream.Collectors;
 
 @Service
 public class ExperienceService {
@@ -31,6 +35,20 @@ public class ExperienceService {
                 insurance.getTotalPolicyValue().longValue());
 
        repository.save(experience);
+    }
+
+    public void setExperiencePoint(ToDoCard toDoCard){
+
+       if( toDoCard.getToDoCardHistories().stream().map(data -> data.getState() == ToDoCardState.DONE)
+               .collect(Collectors.toList()).size() == 1 ){
+
+           Experience experience = repository.findById(toDoCard.getUser().getId()).get();
+           experience = experiencePointManager.addExperiencePoint(
+                   experience,
+                   Long.valueOf(200));
+           repository.save(experience);
+       }
+
     }
 
     public void subtractExperiencePoint(InsuranceApplication insurance ){

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import workerboard.model.InsuranceApplication;
+import workerboard.model.ToDoCard;
 
 @Component
 public class EventProducer {
@@ -23,7 +24,9 @@ public class EventProducer {
         publisher.publishEvent(new InsuranceUpdateEvent(application));
     }
 
-
+    public void createToDoNewEvent(ToDoCard todo) {
+        publisher.publishEvent(new ToDoNewEvent(todo));
+    }
 
 
 

@@ -25,17 +25,25 @@ public class CustomEventListener {
     @EventListener
     public void handle(InsuranceNewEvent applicationCreateEvent) {
 
-        System.out.print(applicationCreateEvent.getInsurance());
+        System.out.print(applicationCreateEvent.getEventObject());
 
-        service.setExperiencePoint(applicationCreateEvent.getInsurance());
+        service.setExperiencePoint(applicationCreateEvent.getEventObject());
         publisher.publishData();
     }
 
     @Async("threadPoolTaskExecutor")
     @EventListener
-    public void handle(InsuranceUpdateEvent applicationCreateEvent) {
+    public void  handle(InsuranceUpdateEvent applicationCreateEvent) {
 
-        service.subtractExperiencePoint(applicationCreateEvent.getInsurance());
+        service.subtractExperiencePoint(applicationCreateEvent.getEventObject());
+        publisher.publishData();
+    }
+
+    @Async("threadPoolTaskExecutor")
+    @EventListener
+    public void  handle(ToDoNewEvent toDoNewEvent) {
+        
+        service.setExperiencePoint(toDoNewEvent.getEventObject());
         publisher.publishData();
     }
 }

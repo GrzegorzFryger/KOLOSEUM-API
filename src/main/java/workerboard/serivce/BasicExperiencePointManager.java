@@ -33,7 +33,7 @@ public class BasicExperiencePointManager implements ExperiencePointManager {
         this.setExperience(experience);
         this.subtractExperiencePoint(experiencePoint / converterPoint);
         this.generateLevelValue();
-        //todo prepare history point.
+        this.subtractPointForAttributes();
         return experience;
     }
 
@@ -71,6 +71,9 @@ public class BasicExperiencePointManager implements ExperiencePointManager {
 
     protected void generatePointForAttributes() {
         this.experience.setPointsToAdd(experience.getPointsToAdd() + pointToAddForExperience);
+    }
+    protected void subtractPointForAttributes() {
+        this.experience.setPointsToAdd(experience.getPointsToAdd() - pointToAddForExperience);
     }
 
     public void setExperience(Experience experience) {

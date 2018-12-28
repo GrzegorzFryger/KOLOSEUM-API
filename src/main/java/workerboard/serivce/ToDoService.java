@@ -2,12 +2,14 @@ package workerboard.serivce;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import workerboard.evens.EventProducer;
 import workerboard.exception.NotFound;
 import workerboard.model.ApplicationUser;
 import workerboard.model.ToDoCard;
 import workerboard.model.dto.ToDoCardCreateDto;
 import workerboard.model.dto.ToDoCardToMoveDto;
 import workerboard.model.dto.ToDoCardUpdateDto;
+import workerboard.model.enums.ToDoCardState;
 import workerboard.repository.ApplicationUserCustomRepository;
 import workerboard.repository.ToDoRepository;
 
@@ -18,13 +20,17 @@ public class ToDoService {
 
     private ToDoRepository toDoRepository;
     private ApplicationUserCustomRepository applicationUserRepository;
-
+    private EventProducer eventProducer;
 
     @Autowired
-    public ToDoService(ToDoRepository toDoRepository, ApplicationUserCustomRepository applicationUserRepository) {
+    public ToDoService(ToDoRepository toDoRepository, ApplicationUserCustomRepository applicationUserRepository, EventProducer eventProducer) {
         this.toDoRepository = toDoRepository;
         this.applicationUserRepository = applicationUserRepository;
+        this.eventProducer = eventProducer;
     }
+
+
+
 
     public ToDoCard createToDoCard(ToDoCardCreateDto toDoCardCreateDto) throws NotFound {
         ToDoCard toDoCard = new ToDoCard();
@@ -58,6 +64,9 @@ public class ToDoService {
         }
         if (toDoCardUpdateDto.getState() != null) {
             toDoCard.setState(toDoCardUpdateDto.getState());
+            if(toDoCardUpdateDto.getState() == ToDoCardState.DONE){
+                eventProducer.createToDoNewEvent(toDoCard);
+            }
         }
 
         return toDoRepository.save(toDoCard);
