@@ -1,5 +1,11 @@
 package workerboard.model;
 
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import workerboard.config.LocalDateDeserializer;
+import workerboard.config.LocalDateSerializer;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -14,9 +20,13 @@ public class Person {
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "adress_id")
     private Adress address = new Adress();
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate dayOfBirth;
     private String pesel;
     private String phoneNumber;
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate drivingLicenseIssueDate;
     @OneToOne
     @JoinColumn(name = "insuranceHistory_id")
@@ -73,9 +83,6 @@ public class Person {
         return dayOfBirth;
     }
 
-    public void setDayOfBirth(LocalDate dayOfBirth) {
-        this.dayOfBirth = dayOfBirth;
-    }
 
     public String getPesel() {
         return pesel;
@@ -97,9 +104,6 @@ public class Person {
         return drivingLicenseIssueDate;
     }
 
-    public void setDrivingLicenseIssueDate(LocalDate drivingLicenseIssueDate) {
-        this.drivingLicenseIssueDate = drivingLicenseIssueDate;
-    }
 
     public InsuranceHistory getInsuranceHistory() {
         return insuranceHistory;

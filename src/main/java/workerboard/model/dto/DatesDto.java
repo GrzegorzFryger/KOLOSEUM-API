@@ -1,11 +1,22 @@
 package workerboard.model.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import workerboard.config.LocalDateDeserializer;
+import workerboard.config.LocalDateSerializer;
+
 import java.time.LocalDate;
 
 public class DatesDto {
-    LocalDate today;
-    LocalDate days7;
-    LocalDate days30;
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+    private LocalDate today;
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+    private LocalDate days7;
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+    private LocalDate days30;
 
     public DatesDto() {
     }

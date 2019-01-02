@@ -10,8 +10,10 @@ import workerboard.model.Role;
 import workerboard.model.enums.UserRole;
 import workerboard.repository.ApplicationUserCustomRepository;
 import workerboard.repository.ExperienceRepository;
+import workerboard.repository.RoleRepository;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 @Service
 public class SignUpService {
@@ -19,13 +21,15 @@ public class SignUpService {
 
     private ApplicationUserCustomRepository applicationUserRepository;
     private ExperienceRepository repository;
+    private RoleRepository roleRepository;
     private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
     public SignUpService(ApplicationUserCustomRepository applicationUserRepository,
-                         BCryptPasswordEncoder passwordEncoder) {
+                         BCryptPasswordEncoder passwordEncoder, RoleRepository roleRepository) {
         this.applicationUserRepository = applicationUserRepository;
         this.passwordEncoder = passwordEncoder;
+        this.roleRepository = roleRepository;
     }
 
 
@@ -39,7 +43,16 @@ public class SignUpService {
 
         newApplicationUser.setPassword(passwordEncoder.encode(newApplicationUser.getPassword()));
 
-        newApplicationUser.setRoles(Arrays.asList(new Role(UserRole.ROLE_UNSPECIFIED)));
+        Optional<Role> role = roleRepository.findByName(UserRole.ROLE_UNSPECIFIED);
+
+        if(role.isPresent()) {
+            newApplicationUser.setRoles(Arrays.asList(role.get()));
+        }else {
+            newApplicationUser.setRoles(Arrays.asList(new Role(UserRole.ROLE_UNSPECIFIED)));
+        }
+
+
+
         newApplicationUser.setExperience(new Experience());
         return applicationUserRepository.save(newApplicationUser);
     }

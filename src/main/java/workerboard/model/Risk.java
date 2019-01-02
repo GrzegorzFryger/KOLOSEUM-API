@@ -1,5 +1,11 @@
 package workerboard.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import workerboard.config.LocalDateDeserializer;
+import workerboard.config.LocalDateSerializer;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -15,8 +21,14 @@ public class Risk {
     @JoinColumn(name = "premiumList_id")
     private Premium premiumList;
     private String displayName;
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate startDate = LocalDate.now().plusDays(1);
+    @JsonDeserialize(using = workerboard.config.LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate endDate = LocalDate.now().plusDays(365);
+    @JsonIgnore
+    private boolean addedToCart;
 
     public Risk() {
     }
@@ -57,5 +69,9 @@ public class Risk {
 
     public String getDisplayName() {
         return displayName;
+    }
+
+    public boolean isAddedToCart() {
+        return addedToCart;
     }
 }

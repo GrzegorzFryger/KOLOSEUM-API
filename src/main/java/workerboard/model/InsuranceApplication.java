@@ -1,5 +1,9 @@
 package workerboard.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import workerboard.config.LocalDateDeserializer;
+import workerboard.config.LocalDateSerializer;
 import workerboard.model.dto.RiskDto;
 import workerboard.model.enums.InsuranceApplicationState;
 
@@ -31,6 +35,8 @@ public class InsuranceApplication {
     private InsuranceApplicationState state;
     @Transient
     private List<RiskDto> riskVariants = new ArrayList<>();
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate registerDate = LocalDate.now();
     private Integer installmentAmount = 1;
     private Integer totalPolicyValue;

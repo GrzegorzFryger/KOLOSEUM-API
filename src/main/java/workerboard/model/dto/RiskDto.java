@@ -1,10 +1,14 @@
 package workerboard.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class RiskDto {
     private String name;
     private double sum;
     private PremiumDto premiumList;
     private String displayName;
+    @JsonIgnore
+    private boolean addedToCart;
 
     public RiskDto() {
     }
@@ -38,5 +42,9 @@ public class RiskDto {
 
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
+    }
+
+    public boolean isAddedToCart() {
+        return addedToCart;
     }
 }
