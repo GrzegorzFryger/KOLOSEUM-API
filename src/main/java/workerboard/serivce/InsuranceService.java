@@ -102,7 +102,6 @@ public class InsuranceService {
             applicationFromDb = insuranceRepository.save(applicationFromDb);
 
             this.eventProducer.createInsuranceNewEvent(applicationFromDb);
-
             return applicationFromDb;
 
         }
