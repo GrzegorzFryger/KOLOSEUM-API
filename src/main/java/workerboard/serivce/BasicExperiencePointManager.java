@@ -1,90 +1,105 @@
 package workerboard.serivce;
 
-import io.jsonwebtoken.lang.Assert;
 import workerboard.model.Experience;
 
 
 public class BasicExperiencePointManager implements ExperiencePointManager {
 
-    private Experience experience;
-    private int converterPoint;
-    private int pointToAddForExperience;
-
-    public BasicExperiencePointManager() {
-        pointToAddForExperience = 4;
-    }
-
-    @Override
-    public Experience addExperiencePoint(Experience experience, Long experiencePoint) {
-        Assert.notNull(experience, "Object must not be null");
-        Assert.notNull(experiencePoint, "Object must not be null");
-
-        this.setExperience(experience);
-        this.addExperiencePoint(experiencePoint / converterPoint);
-        this.generateLevelValue();
-        this.generatePointToNextLevel();
-
-        return experience;
-    }
-
-    @Override
-    public Experience subtractExperiencePoint(Experience experience, Long experiencePoint){
-
-        this.setExperience(experience);
-        this.subtractExperiencePoint(experiencePoint / converterPoint);
-        this.generateLevelValue();
-        this.subtractPointForAttributes();
-        return experience;
-    }
 
 
 
-    protected void generateLevelValue(){
 
-        long tempLevel = Math.round(
-                Math.log10(experience.getExpTotalEarned()));
+    public Experience countExperience(Experience experience, Long policyValue){
+        experience.setExpTotalEarned(experience.getExpTotalEarned() + policyValue);
 
-        if(tempLevel > this.experience.getLevel()) {
-
-            for(int i = 0;i <= tempLevel - this.experience.getLevel(); i++ ){
-                generatePointForAttributes();
-            }
-            this.experience.setLevel(tempLevel);
+        while(experience.getExpTotalEarned() <= countExpToNextLvl(experience.getLevel()) ) {
+            experience.setLevel(experience.getLevel() - 1);
+            experience.setPointsToAdd(experience.getPointsToAdd() - 4);
+            experience.setExpToNextLevel(countExpToNextLvl(experience.getLevel() - 1));
         }
+
+        while ( isNextLvl(experience)) {
+            experience.setLevel(experience.getLevel() + 1);
+            experience.setPointsToAdd(experience.getPointsToAdd() + 4);
+            experience.setExpToNextLevel(countExpToNextLvl(experience.getLevel() + 1));
+        }
+
+        experience.setPercentToNextLvl(experienceToNextLvl(experience));
+
+        return experience;
     }
 
-    protected void generatePointToNextLevel(){
 
-
-        experience.setExpToNextLevel(Math.round(
-                Math.pow(10, experience.getLevel() + 1) - experience.getExpTotalEarned())
-        );
+    private boolean isNextLvl(Experience experience) {
+        return experience.getExpTotalEarned() >= experience.getExpToNextLevel();
     }
 
-    protected void addExperiencePoint(Long exp){
-        this.experience.setExpTotalEarned(this.experience.getExpTotalEarned() + exp );
+    private int countExpToNextLvl(long lvl) {
+        double exponent = 1.5;
+        double baseXP = 1000;
+        return (int) Math.floor(baseXP * (Math.pow(lvl, exponent)));
     }
 
-    protected void subtractExperiencePoint(Long exp){
-        this.experience.setExpTotalEarned(this.experience.getExpTotalEarned() - exp );
+    private double experienceToNextLvl(Experience experience) {
+        int expNeededToCurrentLvl = 0;
+        if ( experience.getLevel() > 1) {
+            expNeededToCurrentLvl = countExpToNextLvl(experience.getLevel());
+        }
+
+        double a = experience.getExpTotalEarned() - expNeededToCurrentLvl;
+        double b = experience.getExpToNextLevel() - expNeededToCurrentLvl;
+
+
+        double result = (a / b);
+
+        return round(result, 2);
+
     }
 
-    protected void generatePointForAttributes() {
-        this.experience.setPointsToAdd(experience.getPointsToAdd() + pointToAddForExperience);
-    }
-    protected void subtractPointForAttributes() {
-        this.experience.setPointsToAdd(experience.getPointsToAdd() - pointToAddForExperience);
+    private double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
     }
 
-    public void setExperience(Experience experience) {
-        this.experience = experience;
-    }
 
-    public int getConverterPoint() {
-        return converterPoint;
-    }
 
-    public void setConverterPoint(int converterPoint) {
-        this.converterPoint = converterPoint;
-    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

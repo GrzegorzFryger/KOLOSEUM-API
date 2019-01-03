@@ -17,6 +17,8 @@ public class Experience {
     @JsonView(ViewsForApplicationUser.Basic.class)
     private long expToNextLevel;
     @JsonView(ViewsForApplicationUser.Basic.class)
+    private double percentToNextLvl;
+    @JsonView(ViewsForApplicationUser.Basic.class)
     private int attack;
     @JsonView(ViewsForApplicationUser.Basic.class)
     private int defence;
@@ -35,6 +37,7 @@ public class Experience {
     public Experience() {
         this.level = 1;
         this.expTotalEarned = 0;
+        this.expToNextLevel = 1000;
     }
 
 
@@ -74,6 +77,13 @@ public class Experience {
         this.expToNextLevel = expToNextLevel;
     }
 
+    public double getPercentToNextLvl() {
+        return percentToNextLvl;
+    }
+
+    public void setPercentToNextLvl(double percentToNextLvl) {
+        this.percentToNextLvl = percentToNextLvl;
+    }
 
     public int getAttack() {
         return attack;
@@ -113,21 +123,5 @@ public class Experience {
 
     public void setPointsToAdd(int pointsToAdd) {
         this.pointsToAdd = pointsToAdd;
-    }
-
-    @Override
-    public String toString() {
-        return "Experience{" +
-                "id=" + id +
-                ", level=" + level +
-                ", expTotalEarned=" + expTotalEarned +
-                ", expToNextLevel=" + expToNextLevel +
-                ", attack=" + attack +
-                ", defence=" + defence +
-                ", knowledge=" + knowledge +
-                ", speedAttack=" + speedAttack +
-                ", pointsToAdd=" + pointsToAdd +
-                ", applicationUser=" + applicationUser +
-                '}';
     }
 }

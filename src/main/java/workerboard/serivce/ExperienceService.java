@@ -2,8 +2,6 @@ package workerboard.serivce;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import workerboard.exception.NotFound;
-import workerboard.exception.WrongTypeArguments;
 import workerboard.model.Experience;
 import workerboard.model.InsuranceApplication;
 import workerboard.model.ToDoCard;
@@ -30,7 +28,7 @@ public class ExperienceService {
     public void setExperiencePoint(InsuranceApplication insurance ){
 
         Experience experience = repository.findById(insurance.getSeller().getId()).get();
-        experience = experiencePointManager.addExperiencePoint(
+        experience = experiencePointManager.countExperience(
                 experience,
                 insurance.getTotalPolicyValue().longValue());
 
@@ -43,9 +41,9 @@ public class ExperienceService {
                .collect(Collectors.toList()).size() == 1 ){
 
            Experience experience = repository.findById(toDoCard.getUser().getId()).get();
-           experience = experiencePointManager.addExperiencePoint(
+           experience = experiencePointManager.countExperience(
                    experience,
-                   Long.valueOf(200));
+                   200L);
            repository.save(experience);
        }
 
@@ -54,40 +52,12 @@ public class ExperienceService {
     public void subtractExperiencePoint(InsuranceApplication insurance ){
 
         Experience experience = repository.findById(insurance.getSeller().getId()).get();
-        experience = experiencePointManager.subtractExperiencePoint(
+        experience = experiencePointManager.countExperience(
                 experience,
-                insurance.getTotalPolicyValue().longValue());
+                (insurance.getTotalPolicyValue().longValue()) * -1 );
 
        repository.save(experience);
     }
-
-
-
-    public Experience updatePointAttributes(Experience experience) throws NotFound, WrongTypeArguments {
-
-        Experience temp = this.getExperienceById(experience.getId());
-
-       if( (experience.getAttack() + experience.getDefence() + experience.getKnowledge() + experience.getPointsToAdd() + experience.getSpeedAttack()) >
-               (temp.getAttack() + temp.getDefence() + temp.getKnowledge() + temp.getPointsToAdd() + temp.getSpeedAttack() )) {
-           throw new WrongTypeArguments("To much point to add");
-       }else {
-           temp.setAttack(experience.getAttack());
-           temp.setDefence(experience.getDefence());
-           temp.setKnowledge(experience.getKnowledge());
-           temp.setSpeedAttack(experience.getSpeedAttack());
-           temp.setPointsToAdd(temp.getPointsToAdd() -
-                   (experience.getAttack() + experience.getDefence() + experience.getKnowledge() + experience.getSpeedAttack())
-           );
-           temp = repository.save(temp);
-       }
-
-        return temp;
-
-    }
-    public Experience getExperienceById(Long id) throws NotFound {
-
-        return repository.findById(id)
-                .orElseThrow(() ->  new NotFound("User not found by id " + id));
-    }
+    
 
 }
