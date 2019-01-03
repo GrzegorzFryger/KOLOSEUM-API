@@ -3,6 +3,7 @@ package workerboard.serivce;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import workerboard.evens.EventProducer;
+import workerboard.evens.TypeNotification;
 import workerboard.exception.NotFound;
 import workerboard.model.ApplicationUser;
 import workerboard.model.ToDoCard;
@@ -64,8 +65,10 @@ public class ToDoService {
         }
         if (toDoCardUpdateDto.getState() != null) {
             toDoCard.setState(toDoCardUpdateDto.getState());
+            //notification event
             if(toDoCardUpdateDto.getState() == ToDoCardState.DONE){
                 eventProducer.createToDoNewEvent(toDoCard);
+                eventProducer.createNotificationEvent(TypeNotification.POINT_FOR_TASK,toDoCard.getUser().getId());
             }
         }
 

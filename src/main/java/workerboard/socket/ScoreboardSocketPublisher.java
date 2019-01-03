@@ -28,8 +28,9 @@ public class ScoreboardSocketPublisher {
 
     public void publishData(){
 
-        this.simpMessagingTemplate.convertAndSend("/score", this.updateExperienceScore());
-        this.simpMessagingTemplate.convertAndSend("/score/policies", this.updateExperienceScore());
+        this.simpMessagingTemplate.convertAndSend("/score/experience", this.updateExperienceScore());
+        this.simpMessagingTemplate.convertAndSend("/score/policies", this.updatePoliciesScore());
+
 
     }
 
@@ -46,5 +47,8 @@ public class ScoreboardSocketPublisher {
                 currentDate,
                 SortType.DESC);
     }
+    
+
+
 
 }

@@ -28,7 +28,9 @@ public class EventProducer {
         publisher.publishEvent(new ToDoNewEvent(todo));
     }
 
-
+    public void createNotificationEvent(TypeNotification message, Long userId) {
+        publisher.publishEvent(new NotificationEvent(message.getMessage(), userId));
+    }
 
 
 }
