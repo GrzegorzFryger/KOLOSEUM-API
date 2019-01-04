@@ -86,7 +86,11 @@ public class InsuranceService {
         if(optionalApplication.isPresent()) {
             InsuranceApplication applicationFromDB = optionalApplication.get();
             applicationFromDB = insuranceApplication;
-            applicationFromDB.setState(InsuranceApplicationState.APPLICATION);
+
+            if(! (insuranceApplication.getState() == InsuranceApplicationState.CANCELED)) {
+                applicationFromDB.setState(InsuranceApplicationState.APPLICATION);
+            }
+
             return insuranceRepository.save(applicationFromDB);
         }
 
