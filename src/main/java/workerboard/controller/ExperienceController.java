@@ -1,11 +1,9 @@
 package workerboard.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import workerboard.exception.NotFound;
-import workerboard.exception.WrongTypeArguments;
-import workerboard.model.Experience;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import workerboard.serivce.ExperienceService;
 
 @RestController
@@ -21,13 +19,7 @@ public class ExperienceController {
     }
 
 
-    @PostMapping("/pointattributes")
-    public ResponseEntity<?> updatePointAttributes(@RequestBody Experience experience) throws NotFound, WrongTypeArguments {
 
-
-       return ResponseEntity.ok(experienceService.updatePointAttributes(experience));
-
-    }
 
 
 }
