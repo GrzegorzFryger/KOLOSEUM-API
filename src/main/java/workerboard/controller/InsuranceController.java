@@ -2,12 +2,14 @@ package workerboard.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import workerboard.exception.NotFound;
 import workerboard.model.InsuranceApplication;
 import workerboard.serivce.InsuranceService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin
@@ -48,6 +50,12 @@ public class InsuranceController {
         return ResponseEntity.ok(insuranceService.getInsuranceApplicationByUser(id));
     }
 
+    @GetMapping("/search")
+    ResponseEntity<List<InsuranceApplication>> findLike(@RequestParam Map<String,
+            String> allRequestParams, ModelMap model) {
+
+        return ResponseEntity.ok(insuranceService.findLike(allRequestParams));
+    }
 
 
 }

@@ -15,10 +15,11 @@ import workerboard.repository.InsuranceRepository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
-public class InsuranceService {
+public class InsuranceService extends BasicAbstractService<InsuranceApplication> {
 
 
 
@@ -32,6 +33,7 @@ public class InsuranceService {
    @Autowired
     public InsuranceService(InsuranceRepository insuranceRepository, InsuranceHistoryRepository insuranceHistoryRepository,
                             RisksService risksService, ApplicationUserCustomRepository applicationUserRepository, EventProducer eventProducer) {
+       super.setBasicRepository(insuranceRepository);
         this.insuranceRepository = insuranceRepository;
         this.insuranceHistoryRepository = insuranceHistoryRepository;
         this.risksService = risksService;
@@ -56,12 +58,14 @@ public class InsuranceService {
     }
 
     private String getCalculationNumber() {
-        return "" + LocalDate.now().getYear() + LocalDate.now().getMonthValue() + LocalDate.now().getDayOfMonth() + "00" + (insuranceRepository.countByRegisterDate(LocalDate.now()) + 1);
+        return "" + LocalDate.now().getYear() + LocalDate.now().getMonthValue() +
+                LocalDate.now().getDayOfMonth() + "00" + (insuranceRepository.countByRegisterDate(LocalDate.now()) + 1);
     }
 
     private boolean isApplicationValid(InsuranceApplication insuranceApplication) {
         if(insuranceApplication.getVehicle() == null) return false;
-        if(Integer.valueOf(insuranceApplication.getVehicle().getVehicleValue()) == 0 || insuranceApplication.getVehicle().getVehicleValue() == null) return false;
+        if(Integer.valueOf(insuranceApplication.getVehicle().getVehicleValue()) == 0 ||
+                insuranceApplication.getVehicle().getVehicleValue() == null) return false;
         if(insuranceApplication.getPersons().isEmpty() || insuranceApplication.getPersons() == null) return false;
         if(insuranceApplication.getPersons().get(0).getDayOfBirth() == null) return false;
 
@@ -120,6 +124,13 @@ public class InsuranceService {
         }
 
         throw new NotFound("User with ID: " + id + "not found");
+
+    }
+
+    public List<InsuranceApplication> findLike(Map<String,String> attribute) {
+
+       return super.findAllByCriteria(likeCriteria(), attribute);
+
 
     }
 

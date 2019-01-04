@@ -17,7 +17,6 @@ public class ClientService extends BasicAbstractService<Person> {
         this.clientRepository = clientRepository;
     }
 
-
     public List<Person> findAllByAttributeLike(Map<String,String> attribute) {
 
         return super.findAllByCriteria(likeCriteria(), attribute);
