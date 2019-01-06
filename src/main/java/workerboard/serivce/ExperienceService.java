@@ -2,6 +2,8 @@ package workerboard.serivce;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import workerboard.evens.EventProducer;
+import workerboard.evens.TypeNotification;
 import workerboard.exception.NotFound;
 import workerboard.model.ApplicationUser;
 import workerboard.model.Experience;
@@ -23,20 +25,29 @@ public class ExperienceService {
     private ExperiencePointManager experiencePointManager;
     private ExperienceRepository repository;
     private ApplicationUserCustomRepository applicationUserRepository;
+    private EventProducer eventProducer;
 
     @Autowired
-    public ExperienceService(ExperiencePointManager experiencePointManager, ExperienceRepository repository, ApplicationUserCustomRepository applicationUserRepository) {
+    public ExperienceService(ExperiencePointManager experiencePointManager, ExperienceRepository repository, ApplicationUserCustomRepository applicationUserRepository, EventProducer eventProducer) {
         this.experiencePointManager = experiencePointManager;
         this.repository = repository;
         this.applicationUserRepository = applicationUserRepository;
+        this.eventProducer = eventProducer;
     }
 
     public void setExperiencePoint(InsuranceApplication insurance) {
 
+
+        Experience experienceTemp = repository.findById(insurance.getSeller().getId()).get();
         Experience experience = repository.findById(insurance.getSeller().getId()).get();
         experience = experiencePointManager.countExperience(
                 experience,
                 insurance.getTotalPolicyValue().longValue(), insurance.getSeller().getId());
+
+        if(experience.getLevel() != experienceTemp.getLevel()) {
+            this.eventProducer.createLevelUpEvent(experience);
+            eventProducer.createNotificationEvent(TypeNotification.NEXT_LEVEL,insurance.getSeller().getId());
+        }
 
         repository.save(experience);
     }
