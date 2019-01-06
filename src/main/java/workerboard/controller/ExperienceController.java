@@ -1,9 +1,10 @@
 package workerboard.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import workerboard.exception.NotFound;
+import workerboard.model.Experience;
 import workerboard.serivce.ExperienceService;
 
 @RestController
@@ -19,6 +20,17 @@ public class ExperienceController {
     }
 
 
+    @GetMapping("/{userId}")
+    ResponseEntity<Experience> getInsuranceApplicationById(@PathVariable("userId") Long id ) throws NotFound {
+        return ResponseEntity.ok(experienceService.getExperienceByUserId(id));
+
+    }
+
+
+    @PutMapping
+    ResponseEntity<Experience> updateExperienceState(@RequestBody() Experience experience) throws NotFound {
+       return ResponseEntity.ok(experienceService.updateExperienceState(experience));
+    }
 
 
 

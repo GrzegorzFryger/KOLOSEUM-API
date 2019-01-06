@@ -3,6 +3,7 @@ package workerboard.serivce;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import workerboard.evens.EventProducer;
+import workerboard.evens.TypeNotification;
 import workerboard.exception.NotFound;
 import workerboard.model.ApplicationUser;
 import workerboard.model.InsuranceApplication;
@@ -28,7 +29,7 @@ public class InsuranceService extends BasicAbstractService<InsuranceApplication>
     private InsuranceHistoryRepository insuranceHistoryRepository;
     private RisksService risksService;
     private ApplicationUserCustomRepository applicationUserRepository;
-   private EventProducer eventProducer;
+    private EventProducer eventProducer;
 
    @Autowired
     public InsuranceService(InsuranceRepository insuranceRepository, InsuranceHistoryRepository insuranceHistoryRepository,
@@ -110,6 +111,7 @@ public class InsuranceService extends BasicAbstractService<InsuranceApplication>
             applicationFromDb = insuranceRepository.save(applicationFromDb);
 
             this.eventProducer.createInsuranceNewEvent(applicationFromDb);
+            eventProducer.createNotificationEvent(TypeNotification.POINT_FOR_POLICY,applicationFromDb.getSeller().getId());
             return applicationFromDb;
 
         }

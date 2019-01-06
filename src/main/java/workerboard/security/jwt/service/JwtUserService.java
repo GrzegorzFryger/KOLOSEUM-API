@@ -11,9 +11,13 @@ import workerboard.security.jwt.model.JwtUserPrincipal;
 @Service
 public class JwtUserService implements UserDetailsService {
 
+    ApplicationUserCustomRepository repository;
 
     @Autowired
-    ApplicationUserCustomRepository repository;
+    public JwtUserService(ApplicationUserCustomRepository repository) {
+        this.repository = repository;
+    }
+
 
 
     @Override

@@ -52,8 +52,11 @@ public class SignUpService {
         }
 
 
+        Experience experience = new Experience();
+        experience.setLevel(1);
+        experience.setExpToNextLevel(1000);
 
-        newApplicationUser.setExperience(new Experience());
+        newApplicationUser.setExperience(experience);
         return applicationUserRepository.save(newApplicationUser);
     }
 }

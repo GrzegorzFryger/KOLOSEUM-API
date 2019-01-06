@@ -1,16 +1,27 @@
 package workerboard.serivce;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import workerboard.evens.EventProducer;
 import workerboard.model.Experience;
 
-
+@Service
 public class BasicExperiencePointManager implements ExperiencePointManager {
 
 
+    private EventProducer eventProducer;
 
+    @Autowired
+    public BasicExperiencePointManager(EventProducer eventProducer) {
+        this.eventProducer = eventProducer;
+    }
 
+    public BasicExperiencePointManager() {
+    }
 
-    public Experience countExperience(Experience experience, Long policyValue){
+    public Experience countExperience(Experience experience, Long policyValue, Long userId){
         experience.setExpTotalEarned(experience.getExpTotalEarned() + policyValue);
+
 
         while(experience.getExpTotalEarned() <= countExpToNextLvl(experience.getLevel()) ) {
             experience.setLevel(experience.getLevel() - 1);
@@ -22,6 +33,8 @@ public class BasicExperiencePointManager implements ExperiencePointManager {
             experience.setLevel(experience.getLevel() + 1);
             experience.setPointsToAdd(experience.getPointsToAdd() + 4);
             experience.setExpToNextLevel(countExpToNextLvl(experience.getLevel() + 1));
+//            this.eventProducer.createLevelUpEvent(experience);
+//            eventProducer.createNotificationEvent(TypeNotification.NEXT_LEVEL,userId);
         }
 
         experience.setPercentToNextLvl(experienceToNextLvl(experience));
