@@ -100,4 +100,10 @@ public class JwtUserPrincipal implements UserDetails {
                 ", authorities=" + authorities +
                 '}';
     }
+
+    public Long getId() {
+        return id;
+    }
+
+
 }

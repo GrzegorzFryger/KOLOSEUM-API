@@ -6,6 +6,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import workerboard.exception.NotFound;
 import workerboard.model.InsuranceApplication;
+import workerboard.security.jwt.CurrentUser;
+import workerboard.security.jwt.model.JwtUserPrincipal;
 import workerboard.serivce.InsuranceService;
 
 import java.util.List;
@@ -51,10 +53,11 @@ public class InsuranceController {
     }
 
     @GetMapping("/search")
-    ResponseEntity<List<InsuranceApplication>> findLike(@RequestParam Map<String,
-            String> allRequestParams, ModelMap model) {
 
-        return ResponseEntity.ok(insuranceService.findLike(allRequestParams));
+    ResponseEntity<List<InsuranceApplication>> findLike(@RequestParam Map<String,
+            String> allRequestParams, ModelMap model, @CurrentUser JwtUserPrincipal userPrincipal) {
+
+        return ResponseEntity.ok(insuranceService.findLike(allRequestParams, userPrincipal.getId()));
     }
 
 

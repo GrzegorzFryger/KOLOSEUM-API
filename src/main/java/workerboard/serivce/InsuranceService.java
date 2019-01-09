@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class InsuranceService extends BasicAbstractService<InsuranceApplication> {
@@ -129,12 +130,15 @@ public class InsuranceService extends BasicAbstractService<InsuranceApplication>
 
     }
 
-    public List<InsuranceApplication> findLike(Map<String,String> attribute) {
+    public List<InsuranceApplication> findLike(Map<String, String> attribute, Long id) {
 
-       return super.findAllByCriteria(likeCriteria(), attribute);
+       return
+               super.findAllByCriteria(likeCriteria(), attribute)
+                       .stream()
+                       .filter( x-> x.getSeller().getId() == id)
+                       .collect(Collectors.toList());
 
-
-    }
+   }
 
 
 }
