@@ -6,8 +6,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import workerboard.exception.NotFound;
 import workerboard.model.InsuranceApplication;
+import workerboard.model.dto.ChartDataDto;
 import workerboard.security.jwt.CurrentUser;
 import workerboard.security.jwt.model.JwtUserPrincipal;
+import workerboard.serivce.ChartData;
 import workerboard.serivce.InsuranceService;
 
 import java.util.List;
@@ -58,6 +60,12 @@ public class InsuranceController {
             String> allRequestParams, ModelMap model, @CurrentUser JwtUserPrincipal userPrincipal) {
 
         return ResponseEntity.ok(insuranceService.findLike(allRequestParams, userPrincipal.getId()));
+    }
+
+    @PostMapping("/chart")
+    ResponseEntity<List<ChartData>> getChartData(@RequestBody ChartDataDto dataDto, @CurrentUser JwtUserPrincipal userPrincipal){
+
+        return ResponseEntity.ok( this.insuranceService.getChartData(userPrincipal.getId(),dataDto.getStart(),dataDto.getEnd()));
     }
 
 

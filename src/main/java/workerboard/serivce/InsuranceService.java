@@ -1,6 +1,7 @@
 package workerboard.serivce;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import workerboard.evens.EventProducer;
 import workerboard.evens.TypeNotification;
@@ -137,6 +138,32 @@ public class InsuranceService extends BasicAbstractService<InsuranceApplication>
                        .stream()
                        .filter( x-> x.getSeller().getId() == id)
                        .collect(Collectors.toList());
+
+   }
+
+
+   public List<ChartData> getChartData(Long id, LocalDate start, LocalDate end ){
+
+       System.out.print(start);
+       System.out.print(end);
+
+      List<InsuranceApplication>  temp = this.insuranceRepository
+              .findAll( (Specification<InsuranceApplication>) (root, criteriaQuery, criteriaBuilder) ->
+                      criteriaBuilder.between(root.get("registerDate"),start,end));
+
+
+      System.out.print(temp);
+
+     return temp.stream()
+              .filter( x-> x.getSeller().getId() == id)
+              .collect(Collectors.groupingBy(InsuranceApplication::getRegisterDate,
+              Collectors.summingInt(InsuranceApplication::getTotalPolicyValue)))
+              .entrySet()
+              .stream()
+              .map(t -> {
+                  return new ChartData(t.getKey().toString(),t.getKey(),t.getValue()); })
+              .collect(Collectors.toList());
+
 
    }
 

@@ -2,15 +2,11 @@ package workerboard.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import workerboard.model.dto.DatesDto;
 import workerboard.model.enums.UserRole;
 import workerboard.serivce.ToolsService;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,7 +29,7 @@ public class ToolsController {
         return ResponseEntity.ok(toolsService.getDates());
     }
 
-    @GetMapping("/roles")
+    @PostMapping("/roles")
     ResponseEntity<List<UserRole>> getAllRoles() {
         return ResponseEntity.ok(Arrays.asList(UserRole.values()));
     }

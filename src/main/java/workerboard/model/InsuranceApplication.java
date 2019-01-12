@@ -130,4 +130,22 @@ public class InsuranceApplication {
     public ApplicationUser getSeller() {
         return seller;
     }
+
+    @Override
+    public String toString() {
+        return "InsuranceApplication{" +
+                "id=" + id +
+                ", vehicle=" + vehicle +
+                ", persons=" + persons +
+                ", risks=" + risks +
+                ", number='" + number + '\'' +
+                ", messages=" + messages +
+                ", state=" + state +
+                ", riskVariants=" + riskVariants +
+                ", registerDate=" + registerDate +
+                ", installmentAmount=" + installmentAmount +
+                ", totalPolicyValue=" + totalPolicyValue +
+                ", seller=" + seller +
+                '}';
+    }
 }
