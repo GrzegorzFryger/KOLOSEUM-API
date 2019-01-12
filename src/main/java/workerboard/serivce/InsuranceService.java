@@ -7,6 +7,7 @@ import workerboard.evens.EventProducer;
 import workerboard.evens.TypeNotification;
 import workerboard.exception.NotFound;
 import workerboard.model.ApplicationUser;
+import workerboard.model.ChartData;
 import workerboard.model.InsuranceApplication;
 import workerboard.model.ServiceMessage;
 import workerboard.model.enums.InsuranceApplicationState;
@@ -16,6 +17,7 @@ import workerboard.repository.InsuranceHistoryRepository;
 import workerboard.repository.InsuranceRepository;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -142,30 +144,29 @@ public class InsuranceService extends BasicAbstractService<InsuranceApplication>
    }
 
 
-   public List<ChartData> getChartData(Long id, LocalDate start, LocalDate end ){
-
-       System.out.print(start);
-       System.out.print(end);
-
-      List<InsuranceApplication>  temp = this.insuranceRepository
-              .findAll( (Specification<InsuranceApplication>) (root, criteriaQuery, criteriaBuilder) ->
-                      criteriaBuilder.between(root.get("registerDate"),start,end));
+   public List<ChartData> getChartData(Long id, LocalDate start, LocalDate end ) {
 
 
-      System.out.print(temp);
+       List<InsuranceApplication> temp = this.insuranceRepository
+               .findAll((Specification<InsuranceApplication>) (root, criteriaQuery, criteriaBuilder) ->
+                       criteriaBuilder.between(root.get("registerDate"), start, end));
 
-     return temp.stream()
-              .filter( x-> x.getSeller().getId() == id)
-              .collect(Collectors.groupingBy(InsuranceApplication::getRegisterDate,
-              Collectors.summingInt(InsuranceApplication::getTotalPolicyValue)))
-              .entrySet()
-              .stream()
-              .map(t -> {
-                  return new ChartData(t.getKey().toString(),t.getKey(),t.getValue()); })
-              .collect(Collectors.toList());
 
+       return temp.stream()
+               .filter(x -> x.getSeller().getId() == id)
+               .collect(Collectors.groupingBy(InsuranceApplication::getRegisterDate))
+               .entrySet()
+               .stream()
+               .map(t -> {
+                   return new ChartData(t.getKey().toString(),
+                           t.getKey(),
+                           t.getValue().stream().mapToInt(c -> c.getTotalPolicyValue()).sum(),
+                           t.getValue().stream().count()
+                   );
+               }).sorted(Comparator
+                       .comparing(data -> data.getDate()))
+               .collect(Collectors.toList());
 
    }
 
-
-}
+   }
