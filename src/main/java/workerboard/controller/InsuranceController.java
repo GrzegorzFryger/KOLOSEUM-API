@@ -9,7 +9,7 @@ import workerboard.model.InsuranceApplication;
 import workerboard.model.dto.ChartDataDto;
 import workerboard.security.jwt.CurrentUser;
 import workerboard.security.jwt.model.JwtUserPrincipal;
-import workerboard.serivce.ChartData;
+import workerboard.model.ChartData;
 import workerboard.serivce.InsuranceService;
 
 import java.util.List;
