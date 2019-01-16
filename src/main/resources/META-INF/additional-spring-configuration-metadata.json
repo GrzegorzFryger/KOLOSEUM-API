@@ -1,0 +1,21 @@
+{
+  "properties": [
+    {
+      "name": "jwt.secretPass",
+      "type": "java.lang.String",
+      "description": "Description for jwt.secretPass."
+    },
+    {
+      "name": "jwt.expirationTime",
+      "type": "java.lang.String",
+      "description": "Description for jwt.expirationTime."
+    },
+    {
+      "name": "websocket.scoreBoard.allowedOrigins",
+      "type": "java.lang.String",
+      "description": "Description for websocket.scoreBoard.allowedOrigins."
+    }
+
+  ]
+
+}
